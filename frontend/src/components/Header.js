@@ -22,21 +22,18 @@ const Header = () => {
       <Navbar bg='dark' variant='dark' expand='lg' collapseonselect='true'>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>Gfatha Consoles</Navbar.Brand>
+            <Navbar.Brand>Dynalife Form</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
-            <Route render={({ history }) => <SearchBox history={history} />} />
             <Nav className='ml-auto'>
-              <LinkContainer to='/cart'>
-                <Nav.Link href='/cart'>
-                  <FontAwesomeIcon icon='shopping-cart' /> {""} Cart
-                </Nav.Link>
-              </LinkContainer>
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Forms</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
@@ -53,13 +50,10 @@ const Header = () => {
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Admin' id='adminmenu'>
                   <LinkContainer to='/admin/userlist'>
-                    <NavDropdown.Item>Users</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/productlist'>
-                    <NavDropdown.Item>Products</NavDropdown.Item>
+                    <NavDropdown.Item>My Team</NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to='/admin/orderlist'>
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                    <NavDropdown.Item>Forms</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}

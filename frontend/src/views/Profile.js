@@ -73,6 +73,7 @@ const Profile = ({ history }) => {
               placeholder='Enter name'
               value={name}
               onChange={(e) => setName(e.target.value)}
+              disabled
             ></Form.Control>
           </Form.Group>
           <Form.Group controlId='email'>
@@ -82,6 +83,7 @@ const Profile = ({ history }) => {
               placeholder='Enter email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled
             ></Form.Control>
           </Form.Group>{" "}
           <Form.Group controlId='password'>
@@ -108,7 +110,7 @@ const Profile = ({ history }) => {
         </Form>
       </Col>
       <Col md={9}>
-        <h2>My Orders</h2>
+        <h2>My Forms</h2>
         {loadingOrders ? (
           <Loader />
         ) : errorOrders ? (
@@ -119,8 +121,8 @@ const Profile = ({ history }) => {
               <tr>
                 <th>ID</th>
                 <th>DATE</th>
-                <th>TOTAL</th>
-                <th>PAID</th>
+                <th>MANAGER</th>
+                <th>RESULT</th>
                 <th>DELIVERED</th>
                 <th></th>
               </tr>
