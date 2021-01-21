@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:kedwards/gfconsole-frontend.git
+[submodule "backend"]
+	path = backend
+	url = git@github.com:kedwards/gfconsole-backend.git

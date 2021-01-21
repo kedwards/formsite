@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  frontend:
+    image: node
+    container_name: frontend
+    working_dir: /home/node/frontend/
+    ports:
+      - "3002:3002"
+    env_file:
+      - ./env/.env-frontend
+    volumes:
+      - ../../frontend:/home/node/frontend
+      - ./node/frontend/node_modules:/home/node/frontend/node_modules
+    command: npm run start
+    networks:
+      - gfatha
+
+  backend:
+    image: node
+    container_name: backend
+    working_dir: /home/node/backend/
+    ports:
+      - "3003:3003"
+    env_file:
+      - ./env/.env-backend
+    volumes:
+      - ../../backend:/home/node/backend
+      - ./node/backend/node_modules:/home/node/backend/node_modules
+    command: npm run watch
+    networks:
+      - gfatha
+
+networks:
+  gfatha:

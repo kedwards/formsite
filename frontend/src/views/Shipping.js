@@ -1,0 +1,104 @@
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import FormContainer from "../components/FormContainer";
+import { saveShippingAdddress } from "../redux/actions/cart";
+import CheckoutSteps from "../components/checkoutSteps";
+
+const Shipping = ({ history }) => {
+  const cart = useSelector((state) => state.cart);
+  const { shippingAddress } = cart;
+
+  const dispatch = useDispatch();
+
+  const [address, setAddress] = useState(
+    shippingAddress ? shippingAddress.address : ""
+  );
+  const [city, setCity] = useState(shippingAddress ? shippingAddress.city : "");
+  const [postalZipCode, setPostalZipCode] = useState(
+    shippingAddress ? shippingAddress.postalZipCode : ""
+  );
+  const [provinceState, setProvinceState] = useState(
+    shippingAddress ? shippingAddress.provinceState : ""
+  );
+  const [country, setCountry] = useState(
+    shippingAddress ? shippingAddress.country : ""
+  );
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(
+      saveShippingAdddress({
+        address,
+        city,
+        provinceState,
+        postalZipCode,
+        country,
+      })
+    );
+    history.push("/payment");
+  };
+
+  return (
+    <FormContainer>
+      <CheckoutSteps step1 step2 />
+      <h1>Shipping</h1>
+      <Form onSubmit={submitHandler}>
+        <Form.Group controlId='address'>
+          <Form.Label>Address</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter address'
+            value={address}
+            required
+            onChange={(e) => setAddress(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId='city'>
+          <Form.Label>City</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter city'
+            value={city}
+            required
+            onChange={(e) => setCity(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId='proviceState'>
+          <Form.Label>Province/State</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter province / state'
+            value={provinceState}
+            required
+            onChange={(e) => setProvinceState(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId='postalZipCode'>
+          <Form.Label>Postal/Zip Code</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter postal/zip code'
+            value={postalZipCode}
+            required
+            onChange={(e) => setPostalZipCode(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId='country'>
+          <Form.Label>Country</Form.Label>
+          <Form.Control
+            type='country'
+            placeholder='Enter country'
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+        <Button type='submit' variant='primary'>
+          Continue
+        </Button>
+      </Form>
+    </FormContainer>
+  );
+};
+
+export default Shipping;
