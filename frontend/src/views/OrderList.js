@@ -28,7 +28,7 @@ const OrderList = ({ history }) => {
     <>
       <Row className='align-items-center'>
         <Col>
-          <h1>Orders</h1>
+          <h1>Forms</h1>
         </Col>
       </Row>
       {error && <Message variant='danger'>{error}</Message>}
@@ -41,10 +41,9 @@ const OrderList = ({ history }) => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>NAME</th>
-              <th>TOTAL PRICE</th>
               <th>DATE</th>
-              <th>PAID</th>
+              <th>MANAGER</th>
+              <th>RESULT</th>
               <th>DELIVERED</th>
               <th></th>
             </tr>
