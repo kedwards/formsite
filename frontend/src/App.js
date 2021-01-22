@@ -17,6 +17,7 @@ import UserList from "./views/UserList";
 import UserEdit from "./views/UserEdit";
 import ProductList from "./views/ProductList";
 import ProductEdit from "./views/ProductEdit";
+import AttestationForm from "./views/AttestationForm";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -51,6 +52,7 @@ const App = () => (
       <main className='py-3'>
         <Container>
           <Route path='/login' component={Login} exact />
+          <Route path='/form' component={AttestationForm} exact />
           <Route path='/order/:id' component={Order} />
           <Route path='/admin/orderlist' component={OrderList} />
           <Route path='/placeorder' component={PlaceOrder} exact />
