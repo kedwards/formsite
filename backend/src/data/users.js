@@ -3,18 +3,18 @@ import bcrypt from "bcryptjs";
 const users = [
   {
     name: "Administrator",
-    email: "admin@kevinedwards.ca",
+    email: "admin@dynalife.com",
     password: bcrypt.hashSync("123456", 10),
     isAdmin: true,
   },
   {
-    name: "Alicia Edwards",
-    email: "alicia@kevinedwards.ca",
+    name: "Manager",
+    email: "manager@dynalife.com",
     password: bcrypt.hashSync("123456", 10),
   },
   {
-    name: "Robert Edwards",
-    email: "robert@kevinedwards.ca",
+    name: "Technician",
+    email: "tech@dynalife.com",
     password: bcrypt.hashSync("123456", 10),
   },
 ];
