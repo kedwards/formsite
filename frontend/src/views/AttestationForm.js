@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-// import { listProductDetails, updateProduct } from "../redux/actions/product";
+import { submitForm } from "../redux/actions/form";
 
 const AttestationForm = ({ match, history }) => {
   const productId = match.params.id;
@@ -16,12 +16,12 @@ const AttestationForm = ({ match, history }) => {
 
   const { userInfo } = userLogin;
 
-  const [working, setWorking] = useState("Yes");
-  const [traveled, setTraveled] = useState("No");
-  const [symptoms, setSymptoms] = useState("No");
-  const [contact, setContact] = useState("No");
-  const [exposure, setExposure] = useState("No");
-  const [test, setTest] = useState("No");
+  const [working, setWorking] = useState("yes");
+  const [traveled, setTraveled] = useState("no");
+  const [symptoms, setSymptoms] = useState("no");
+  const [contact, setContact] = useState("no");
+  const [exposure, setExposure] = useState("no");
+  const [test, setTest] = useState("no");
 
   // const formDetails = useSelector((state) => state.formDetails);
   // const { loading, error, form } = formDetails;
@@ -47,16 +47,17 @@ const AttestationForm = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch();
-    // submitForm({
-    //   name,
-    //   working,
-    //   traveled,
-    //   symptoms,
-    //   contact,
-    //   exposure,
-    //   test,
-    // })
+    dispatch(
+      submitForm({
+        email: userInfo.email,
+        working,
+        traveled,
+        symptoms,
+        contact,
+        exposure,
+        test,
+      })
+    );
   };
 
   return (
@@ -115,8 +116,8 @@ const AttestationForm = ({ match, history }) => {
               as='select'
               onChange={(e) => setTraveled(e.target.value)}
             >
-              <option>Yes</option>
-              <option>No</option>
+              <option>yes</option>
+              <option>no</option>
             </Form.Control>
           </Form.Group>
 
@@ -130,8 +131,8 @@ const AttestationForm = ({ match, history }) => {
               value={symptoms}
               onChange={(e) => setSymptoms(e.target.value)}
             >
-              <option>Yes</option>
-              <option>No</option>
+              <option>yes</option>
+              <option>no</option>
             </Form.Control>
           </Form.Group>
 
@@ -145,8 +146,8 @@ const AttestationForm = ({ match, history }) => {
               value={contact}
               onChange={(e) => setContact(e.target.value)}
             >
-              <option>Yes</option>
-              <option>No</option>
+              <option>yes</option>
+              <option>no</option>
             </Form.Control>
           </Form.Group>
 
@@ -160,8 +161,8 @@ const AttestationForm = ({ match, history }) => {
               value={exposure}
               onChange={(e) => setExposure(e.target.value)}
             >
-              <option>Yes</option>
-              <option>No</option>
+              <option>yes</option>
+              <option>no</option>
             </Form.Control>
           </Form.Group>
 
@@ -174,8 +175,8 @@ const AttestationForm = ({ match, history }) => {
               value={test}
               onChange={(e) => setContact(e.target.value)}
             >
-              <option>Yes</option>
-              <option>No</option>
+              <option>yes</option>
+              <option>no</option>
             </Form.Control>
           </Form.Group>
 

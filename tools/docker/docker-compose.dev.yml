@@ -14,7 +14,7 @@ services:
       - ./node/frontend/node_modules:/home/node/frontend/node_modules
     command: npm run start
     networks:
-      - gfatha
+      - dev
 
   backend:
     image: node
@@ -29,7 +29,8 @@ services:
       - ./node/backend/node_modules:/home/node/backend/node_modules
     command: npm run watch
     networks:
-      - gfatha
+      - dev
 
 networks:
-  gfatha:
+  dev:
+    external: true

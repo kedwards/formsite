@@ -1,56 +1,55 @@
 import mongoose from "mongoose";
+import { userSchema } from "./userModel.js";
 
-const orderSchema = mongoose.Schema(
+const formSchema = mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Form",
-      required: true,
-    },
-    department: {
-      type: String,
-      required: true,
-    },
+    // Opting to embed UserObject
+    // instead of lookups
+    //
+    // user: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User",
+    //   required: true,
+    // },
+    user: userSchema,
     formFields: [
       {
-        working_today: {
-          type: boolean,
+        working: {
+          type: String,
+          enum: ["yes", "no"],
           required: true,
         },
         symptoms: {
-          type: boolean,
+          type: String,
+          enum: ["yes", "no"],
           required: true,
         },
         traveled: {
-          type: boolean,
+          type: String,
+          enum: ["yes", "no"],
           required: true,
         },
-        closeContact: {
-          type: boolean,
+        contact: {
+          type: String,
+          enum: ["yes", "no"],
           required: true,
         },
-        labExposure: {
-          type: boolean,
+        exposure: {
+          type: String,
+          enum: ["yes", "no"],
           required: true,
         },
-        positiveTest: {
-          type: boolean,
+        test: {
+          type: String,
+          enum: ["yes", "no"],
           required: true,
         },
       },
     ],
-    isDelivered: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    deliveredAt: {
-      type: Date,
-    },
   },
   { timestamps: true }
 );
 
-const Form = mongoose.model("Form", orderSchema);
+const Form = mongoose.model("Form", formSchema);
 
 export default Form;
