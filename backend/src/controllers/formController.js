@@ -31,4 +31,32 @@ const submitAttestationForm = asyncHandler(async (req, res) => {
   }
 });
 
-export { submitAttestationForm };
+// @desc    Fetch all forms
+// @route   GET /api/forms
+// @access  Public
+const getForms = asyncHandler(async (req, res) => {
+  console.log("GET ALL FORMS CALLED !");
+
+  const pageSize = 5;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await Form.countDocuments();
+
+  const forms = await Form.find()
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({ forms, page, pages: Math.ceil(count / pageSize) });
+});
+
+// @desc    Get logged in user forms
+// @route   GET /api/forms/myforms
+// @access  Private
+const getMyForms = asyncHandler(async (req, res) => {
+  console.log("REQ USER ID FOR MY FORMS", req.user._id);
+  const forms = await Form.find({ user: req.user._id });
+  console.log("GET MY FORMS CALLED", forms);
+  res.json(forms);
+});
+
+export { submitAttestationForm, getForms , getMyForms};

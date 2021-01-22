@@ -10,11 +10,12 @@ import {
   updateUserProfile,
   userProfileReset,
 } from "../redux/actions/user";
-import { listMyOrders } from "../redux/actions/order";
+import { listMyForms } from "../redux/actions/form";
 
 const Profile = ({ history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [department, setDepartment] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
@@ -30,8 +31,8 @@ const Profile = ({ history }) => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
-  const orderListMy = useSelector((state) => state.orderListMy);
-  const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
+  const FormsListMy = useSelector((state) => state.FormsListMy);
+  const { loading: loadingForms, error: errorForms, forms } = FormsListMy;
 
   useEffect(() => {
     if (!userInfo) {
@@ -40,10 +41,13 @@ const Profile = ({ history }) => {
       if (!user || !user.name || success) {
         dispatch(userProfileReset());
         dispatch(getUserDetails("profile"));
-        dispatch(listMyOrders());
+        dispatch(listMyForms());
+        
       } else {
         setName(user.name);
         setEmail(user.email);
+        setDepartment(user.department);
+        console.log("REquested MY FORMS :", forms);
       }
     }
   }, [dispatch, history, userInfo, user, success]);
@@ -86,6 +90,16 @@ const Profile = ({ history }) => {
               disabled
             ></Form.Control>
           </Form.Group>{" "}
+          <Form.Group controlId='department'>
+            <Form.Label>Department</Form.Label>
+            <Form.Control
+              type='depatment'
+              placeholder='Enter employee department'
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              disabled
+            ></Form.Control>
+          </Form.Group>{" "}
           <Form.Group controlId='password'>
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -111,44 +125,46 @@ const Profile = ({ history }) => {
       </Col>
       <Col md={9}>
         <h2>My Forms</h2>
-        {loadingOrders ? (
+        {loadingForms ? (
           <Loader />
-        ) : errorOrders ? (
-          <Message variant='danger'>{errorOrders}</Message>
+        ) : errorForms ? (
+          <Message variant='danger'>{errorForms}</Message>
         ) : (
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
                 <th>ID</th>
-                <th>DATE</th>
+                <th>SUBMITTED DATE</th>
                 <th>MANAGER</th>
+                <th>DEPARTMENT</th>
                 <th>RESULT</th>
                 <th>DELIVERED</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
-                <tr key={order._id}>
-                  <td>{order._id}</td>
-                  <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>{order.totalPrice}</td>
+              {forms.map((form) => (
+                <tr key={form._id}>
+                  <td>{form._id}</td>
+                  <td>{form.createdAt.substring(0, 10)}</td>
+                  <td>{}</td>
+                  <td>{form.user.department}</td>
                   <td>
-                    {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
+                    {form.isValid ? (
+                      <FontAwesomeIcon icon='check' style={{ color: "green" }} />
                     ) : (
                       <FontAwesomeIcon icon='times' style={{ color: "red" }} />
                     )}
                   </td>
                   <td>
-                    {order.isDelivered ? (
-                      order.deliveredAt.substring(0, 10)
+                    {form.isDelivered ? (
+                      form.deliveredAt.substring(0, 10)
                     ) : (
                       <FontAwesomeIcon icon='times' style={{ color: "red" }} />
                     )}
                   </td>
                   <td>
-                    <LinkContainer to={`/order/${order._id}`}>
+                    <LinkContainer to={`/forms/${form._id}`}>
                       <Button className='btn-sm' variant='light'>
                         Details
                       </Button>

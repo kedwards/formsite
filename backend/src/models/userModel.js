@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import { admin } from "../middleware/authMiddleware.js";
 
 export const userSchema = mongoose.Schema(
   {
@@ -15,6 +16,15 @@ export const userSchema = mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    department: {
+      type: String,
+      required: true,
+    },
+    manager: {
+      type: String,
+      required: true,
+      default: "Administrator",
     },
     isAdmin: {
       type: Boolean,

@@ -17,14 +17,14 @@ const AttestationForm = ({ match, history }) => {
   const { userInfo } = userLogin;
 
   const [working, setWorking] = useState("yes");
-  const [traveled, setTraveled] = useState("no");
-  const [symptoms, setSymptoms] = useState("no");
-  const [contact, setContact] = useState("no");
-  const [exposure, setExposure] = useState("no");
-  const [test, setTest] = useState("no");
+  const [traveled, setTraveled] = useState("yes");
+  const [symptoms, setSymptoms] = useState("yes");
+  const [contact, setContact] = useState("yes");
+  const [exposure, setExposure] = useState("yes");
+  const [test, setTest] = useState("yes");
 
-  // const formDetails = useSelector((state) => state.formDetails);
-  // const { loading, error, form } = formDetails;
+  const formDetails = useSelector((state) => state.formDetails);
+  const { loading, error, formInfo } = formDetails;
 
   // useEffect(() => {
   //   if (successUpdate) {
@@ -44,6 +44,10 @@ const AttestationForm = ({ match, history }) => {
   //     }
   //   }
   // }, [dispatch, history, productId, product, successUpdate]);
+
+  var today = new Date();
+  let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -66,12 +70,12 @@ const AttestationForm = ({ match, history }) => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Attestation Form</h1>
-        {/* {loading ? (
+        <h1>Attestation Form {date}</h1>
+        {loading ? (
           <Loader />
         ) : error ? (
           <Message variant='danger'>{error}</Message>
-        ) : ( */}
+        ) : (
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>
             <Form.Label>Name</Form.Label>
@@ -91,8 +95,8 @@ const AttestationForm = ({ match, history }) => {
               value={working}
               onChange={(e) => setWorking(e.target.value)}
             >
-              <option>Yes</option>
-              <option>No</option>
+              <option>yes</option>
+              <option>no</option>
             </Form.Control>
           </Form.Group>
 
@@ -173,7 +177,7 @@ const AttestationForm = ({ match, history }) => {
             <Form.Control
               as='select'
               value={test}
-              onChange={(e) => setContact(e.target.value)}
+              onChange={(e) => setTest(e.target.value)}
             >
               <option>yes</option>
               <option>no</option>
@@ -184,7 +188,7 @@ const AttestationForm = ({ match, history }) => {
             Submit
           </Button>
         </Form>
-        {/* )} */}
+         )} 
       </FormContainer>
     </>
   );

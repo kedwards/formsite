@@ -6,12 +6,12 @@ const formSchema = mongoose.Schema(
     // Opting to embed UserObject
     // instead of lookups
     //
-    // user: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
-    user: userSchema,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    // user: userSchema,
     formFields: [
       {
         working: {

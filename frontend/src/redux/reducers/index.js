@@ -27,7 +27,7 @@ import {
   orderListReducer,
 } from "../reducers/order";
 
-import { formSubmitReducer } from "../reducers/form";
+import { formSubmitReducer, formListReducer } from "../reducers/form";
 
 export default combineReducers({
   productList: productListReducer,
@@ -44,6 +44,7 @@ export default combineReducers({
   orderPay: orderPayReducer,
   orderDeliver: orderDeliverReducer,
   orderListMy: orderListMyReducer,
+  FormsListMy: formListReducer,
   orderList: orderListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
@@ -51,5 +52,5 @@ export default combineReducers({
   productUpdate: productUpdateReducer,
   productReviewCreate: productReviewCreateReducer,
   productTopRated: productTopRatedReducer,
-  formSubmit: formSubmitReducer,
+  formDetails: formSubmitReducer,
 });
