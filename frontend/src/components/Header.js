@@ -1,11 +1,17 @@
 import React from "react";
-import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
+import {
+  Nav,
+  Navbar,
+  Container,
+  NavDropdown,
+  Jumbotron,
+} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SearchBox from "./SearchBox";
 import { logout } from "../redux/actions/user";
+
+import logo from "../images/DLLogo450.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -19,10 +25,18 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg='dark' variant='dark' expand='lg' collapseonselect='true'>
+      <Navbar bg='light' expand='lg' collapseonselect='true'>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>Dynalife Form</Navbar.Brand>
+            <Navbar.Brand>
+              <img
+                src={logo}
+                width='113'
+                height='30'
+                className='d-inline-block align-top'
+                alt='Dynalife Medical Labs'
+              />
+            </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
@@ -61,6 +75,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <Jumbotron id='banner'></Jumbotron>
     </header>
   );
 };

@@ -35,8 +35,6 @@ const submitAttestationForm = asyncHandler(async (req, res) => {
 // @route   GET /api/forms
 // @access  Public
 const getForms = asyncHandler(async (req, res) => {
-  console.log("GET ALL FORMS CALLED !");
-
   const pageSize = 5;
   const page = Number(req.query.pageNumber) || 1;
 
@@ -53,10 +51,8 @@ const getForms = asyncHandler(async (req, res) => {
 // @route   GET /api/forms/myforms
 // @access  Private
 const getMyForms = asyncHandler(async (req, res) => {
-  console.log("REQ USER ID FOR MY FORMS", req.user._id);
   const forms = await Form.find({ user: req.user._id });
-  console.log("GET MY FORMS CALLED", forms);
   res.json(forms);
 });
 
-export { submitAttestationForm, getForms , getMyForms};
+export { submitAttestationForm, getForms, getMyForms };

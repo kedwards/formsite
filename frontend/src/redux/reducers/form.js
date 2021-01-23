@@ -11,7 +11,6 @@ import {
   FORM_SUBMITTED_FAIL,
 } from "../../constants/form.js";
 
-
 const formListReducer = (state = { forms: [] }, action) => {
   switch (action.type) {
     case FORM_LIST_REQUEST:
@@ -19,7 +18,7 @@ const formListReducer = (state = { forms: [] }, action) => {
     case FORM_LIST_SUCCESS:
       return {
         loading: false,
-        forms: action.payload.forms
+        forms: action.payload.forms,
       };
     case FORM_LIST_FAIL:
       return { loading: false, error: action.payload };
@@ -48,7 +47,7 @@ const formSubmitReducer = (state = {}, action) => {
     case FORM_SUBMITTED_REQUEST:
       return { loading: true };
     case FORM_SUBMITTED_SUCCESS:
-      return { loading: false, formInfo: action.payload };
+      return { loading: false, formInfo: action.payload, formSuccess: true };
     case FORM_SUBMITTED_FAIL:
       return { loading: false, error: action.payload };
     default:

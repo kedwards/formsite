@@ -12,9 +12,9 @@ const Meta = ({ title, description, keywords }) => {
 };
 
 Meta.defaultProps = {
-  title: "Welcome To Gfatha's",
-  description: "We sell the best console titles for cheap",
-  keywords: "gaming, buy console games, cheap consoles",
+  title: "DynaLife",
+  description: "Your health is our focus",
+  keywords: "Diagnostic, Laboratory, Services, Western Canada",
 };
 
 export default Meta;
