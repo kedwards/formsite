@@ -1,6 +1,5 @@
 import users from "../src/data/users.js";
 import User from "../src/models/userModel.js";
-import User from "../src/models/userModel.js";
 import connectDB from "../src/config/db.js";
 
 connectDB();
@@ -8,9 +7,20 @@ connectDB();
 const importData = async () => {
   try {
     await User.deleteMany({});
+    await User.insertMany(users.admins);
+    const createdManagers = await User.insertMany(users.managers);
 
-    const createdUsers = await User.insertMany(users);
-    const adminUser = createdUsers[0]._id;
+    const departmentUsers = [];
+
+    users.techs.map((t) => {
+      createdManagers.find((mngr) => {
+        if (mngr.department === t.department) {
+          departmentUsers.push({ ...t, manager: mngr._id });
+        }
+      });
+    });
+
+    await User.insertMany(departmentUsers);
     console.log("Data Imported.");
     process.exit();
   } catch (error) {

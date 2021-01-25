@@ -7,7 +7,7 @@ import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import { submitForm } from "../redux/actions/form";
 
-const AttestationForm = ({ history }) => {
+const AttestationForm = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
 
@@ -20,12 +20,19 @@ const AttestationForm = ({ history }) => {
   const [exposure, setExposure] = useState("yes");
   const [test, setTest] = useState("yes");
 
-  const formDetails = useSelector((state) => state.formDetails);
+  const formDetails = useSelector((state) => state.formSubmit);
   const { loading, error, formSuccess } = formDetails;
 
   const today = new Date();
   const date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+
+  // useEffect(() => {
+  //   effect;
+  //   return () => {
+  //     cleanup;
+  //   };
+  // }, [input]);
 
   const submitHandler = (e) => {
     e.preventDefault();

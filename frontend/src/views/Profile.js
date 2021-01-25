@@ -31,8 +31,8 @@ const Profile = ({ history }) => {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
 
-  const FormsListMy = useSelector((state) => state.FormsListMy);
-  const { loading: loadingForms, error: errorForms, forms } = FormsListMy;
+  const formListMy = useSelector((state) => state.formListMy);
+  const { loading: loadingForms, error: errorForms, forms } = formListMy;
 
   useEffect(() => {
     if (!userInfo) {
@@ -42,12 +42,10 @@ const Profile = ({ history }) => {
         dispatch(userProfileReset());
         dispatch(getUserDetails("profile"));
         dispatch(listMyForms());
-        
       } else {
         setName(user.name);
         setEmail(user.email);
         setDepartment(user.department);
-        console.log("REquested MY FORMS :", forms);
       }
     }
   }, [dispatch, history, userInfo, user, success]);
@@ -151,20 +149,23 @@ const Profile = ({ history }) => {
                   <td>{form.user.department}</td>
                   <td>
                     {form.isValid ? (
-                      <FontAwesomeIcon icon='check' style={{ color: "green" }} />
+                      <FontAwesomeIcon
+                        icon='check'
+                        style={{ color: "green" }}
+                      />
                     ) : (
                       <FontAwesomeIcon icon='times' style={{ color: "red" }} />
                     )}
                   </td>
-                  <td>
+                  {/* <td>
                     {form.isDelivered ? (
                       form.deliveredAt.substring(0, 10)
                     ) : (
                       <FontAwesomeIcon icon='times' style={{ color: "red" }} />
                     )}
-                  </td>
+                  </td> */}
                   <td>
-                    <LinkContainer to={`/forms/${form._id}`}>
+                    <LinkContainer to={`/form/${form._id}`}>
                       <Button className='btn-sm' variant='light'>
                         Details
                       </Button>

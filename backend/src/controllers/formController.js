@@ -31,20 +31,29 @@ const submitAttestationForm = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get form by id
+// @route   GET /api/forms/:id
+// @access  Private
+const getFormById = asyncHandler(async (req, res) => {
+  const form = await Form.findById(req.params.id).populate(
+    "user",
+    "name email"
+  );
+
+  if (form) {
+    res.json(form);
+  } else {
+    res.status(404);
+    throw new Error("Form not found");
+  }
+});
+
 // @desc    Fetch all forms
 // @route   GET /api/forms
 // @access  Public
 const getForms = asyncHandler(async (req, res) => {
-  const pageSize = 5;
-  const page = Number(req.query.pageNumber) || 1;
-
-  const count = await Form.countDocuments();
-
-  const forms = await Form.find()
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
-
-  res.json({ forms, page, pages: Math.ceil(count / pageSize) });
+  const forms = await Form.find({}).populate("user", "id name");
+  res.json(forms);
 });
 
 // @desc    Get logged in user forms
@@ -55,4 +64,4 @@ const getMyForms = asyncHandler(async (req, res) => {
   res.json(forms);
 });
 
-export { submitAttestationForm, getForms, getMyForms };
+export { submitAttestationForm, getForms, getMyForms, getFormById };

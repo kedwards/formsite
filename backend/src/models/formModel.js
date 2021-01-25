@@ -3,15 +3,11 @@ import { userSchema } from "./userModel.js";
 
 const formSchema = mongoose.Schema(
   {
-    // Opting to embed UserObject
-    // instead of lookups
-    //
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    // user: userSchema,
     formFields: [
       {
         working: {
@@ -46,6 +42,14 @@ const formSchema = mongoose.Schema(
         },
       },
     ],
+    isDelivered: {
+      type: String,
+      required: false,
+      default: false,
+    },
+    deliveredAt: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );

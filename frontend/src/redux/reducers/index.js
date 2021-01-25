@@ -8,7 +8,13 @@ import {
   userDeleteReducer,
   userUpdateReducer,
 } from "./user";
-import { formSubmitReducer, formListReducer } from "../reducers/form";
+import {
+  formSubmitReducer,
+  formListReducer,
+  formDeliverReducer,
+  formDetailsReducer,
+  formListMyReducer,
+} from "../reducers/form";
 
 export default combineReducers({
   userLogin: userLoginReducer,
@@ -16,8 +22,11 @@ export default combineReducers({
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
   userList: userListReducer,
-  FormsListMy: formListReducer,
+  formSubmit: formSubmitReducer,
+  formDetails: formDetailsReducer,
+  formList: formListReducer,
+  formDeliver: formDeliverReducer,
+  formListMy: formListMyReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
-  formDetails: formSubmitReducer,
 });

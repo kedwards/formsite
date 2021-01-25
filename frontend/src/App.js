@@ -9,6 +9,8 @@ import Profile from "./views/Profile";
 import UserList from "./views/UserList";
 import UserEdit from "./views/UserEdit";
 import AttestationForm from "./views/AttestationForm";
+import Form from "./views/Form";
+import FormList from "./views/FormList";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -29,10 +31,12 @@ const App = () => (
       <main className='py-3'>
         <Container>
           <Route path='/login' component={Login} exact />
+          <Route path='/form/:id' component={Form} />
           <Route path='/form' component={AttestationForm} exact />
           <Route path='/profile' component={Profile} exact />
           <Route path='/register' component={Register} exact />
           <Route path='/admin/userlist' component={UserList} exact />
+          <Route path='/admin/formList' component={FormList} exact />
           <Route path='/admin/user/:id/edit' component={UserEdit} />
           <Route path='/' component={Home} exact />
         </Container>

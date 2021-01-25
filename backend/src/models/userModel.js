@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { admin } from "../middleware/authMiddleware.js";
 
 export const userSchema = mongoose.Schema(
   {
@@ -23,10 +22,17 @@ export const userSchema = mongoose.Schema(
     },
     manager: {
       type: String,
-      required: true,
       default: "Administrator",
     },
     isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    isOhs: {
+      type: Boolean,
+      default: false,
+    },
+    isManager: {
       type: Boolean,
       default: false,
     },
