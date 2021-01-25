@@ -52,7 +52,10 @@ const getFormById = asyncHandler(async (req, res) => {
 // @route   GET /api/forms
 // @access  Public
 const getForms = asyncHandler(async (req, res) => {
-  const forms = await Form.find({}).populate("user", "id name");
+  const forms = await Form.find({}).populate(
+    "user",
+    "id name manager department"
+  );
   res.json(forms);
 });
 
@@ -60,7 +63,11 @@ const getForms = asyncHandler(async (req, res) => {
 // @route   GET /api/forms/myforms
 // @access  Private
 const getMyForms = asyncHandler(async (req, res) => {
-  const forms = await Form.find({ user: req.user._id });
+  const forms = await Form.find({ user: req.user._id }).populate(
+    "user",
+    "manager"
+  );
+  console.log(forms);
   res.json(forms);
 });
 

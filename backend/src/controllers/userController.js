@@ -8,7 +8,7 @@ import generateToken from "../utils/generateToken.js";
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).populate("manager", "name email");
 
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -16,7 +16,10 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      isOhs: user.isOhs,
+      isManager: user.isManager,
       department: user.department,
+      manager: user.manager,
       token: generateToken(user._id),
     });
   } else {
@@ -29,7 +32,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { email, password, name, department, manager} = req.body;
+  const { email, password, name, department, manager } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -43,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     department,
-    manager
+    manager,
   });
 
   if (user) {
@@ -53,7 +56,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       department: user.department,
-      manager:user.manager,
+      manager: user.manager,
       token: generateToken(user._id),
     });
   } else {
@@ -66,16 +69,21 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id).populate(
+    "manager",
+    "name email"
+  );
 
   if (user) {
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      department:user.department,
-      manager:user.manager,
+      department: user.department,
+      manager: user.manager.email,
       isAdmin: user.isAdmin,
+      isManager: user.isManager,
+      isOhs: user.isOhs,
     });
   } else {
     res.status(404);
@@ -116,7 +124,7 @@ const updateProfile = asyncHandler(async (req, res) => {
 // @route   GET /api/users
 // @access  Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
+  const users = await User.find({}).populate("User", "manager");
   res.json(users);
 });
 
@@ -139,7 +147,9 @@ const deleteUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/:id
 // @access  Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select("-password");
+  const user = await User.findById(req.params.id)
+    .select("-password")
+    .populate("manager", "name email");
 
   if (user) {
     res.json(user);

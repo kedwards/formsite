@@ -16,6 +16,7 @@ const Profile = ({ history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
+  const [manager, setManager] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
@@ -46,6 +47,7 @@ const Profile = ({ history }) => {
         setName(user.name);
         setEmail(user.email);
         setDepartment(user.department);
+        setManager(user.manager);
       }
     }
   }, [dispatch, history, userInfo, user, success]);
@@ -74,7 +76,6 @@ const Profile = ({ history }) => {
               type='text'
               placeholder='Enter name'
               value={name}
-              onChange={(e) => setName(e.target.value)}
               disabled
             ></Form.Control>
           </Form.Group>
@@ -84,14 +85,17 @@ const Profile = ({ history }) => {
               type='email'
               placeholder='Enter email'
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
               disabled
             ></Form.Control>
+          </Form.Group>{" "}
+          <Form.Group controlId='manager'>
+            <Form.Label>Manager</Form.Label>
+            <Form.Control type='text' value={manager} disabled></Form.Control>
           </Form.Group>{" "}
           <Form.Group controlId='department'>
             <Form.Label>Department</Form.Label>
             <Form.Control
-              type='depatment'
+              type='text'
               placeholder='Enter employee department'
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
@@ -135,7 +139,7 @@ const Profile = ({ history }) => {
                 <th>SUBMITTED DATE</th>
                 <th>MANAGER</th>
                 <th>DEPARTMENT</th>
-                <th>RESULT</th>
+                <th>FLAGGED</th>
                 <th>DELIVERED</th>
                 <th></th>
               </tr>
@@ -145,9 +149,17 @@ const Profile = ({ history }) => {
                 <tr key={form._id}>
                   <td>{form._id}</td>
                   <td>{form.createdAt.substring(0, 10)}</td>
-                  <td>{}</td>
+                  <td>
+                    {form.isManager ? (
+                      <FontAwesomeIcon icon='times' style={{ color: "red" }} />
+                    ) : null}
+                  </td>
                   <td>{form.user.department}</td>
                   <td>
+                    {/* {console.log(
+                      form.formFields[0].filter((field) => field.test !== "yes")
+                    )} */}
+
                     {form.isValid ? (
                       <FontAwesomeIcon
                         icon='check'
@@ -157,15 +169,8 @@ const Profile = ({ history }) => {
                       <FontAwesomeIcon icon='times' style={{ color: "red" }} />
                     )}
                   </td>
-                  {/* <td>
-                    {form.isDelivered ? (
-                      form.deliveredAt.substring(0, 10)
-                    ) : (
-                      <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                    )}
-                  </td> */}
                   <td>
-                    <LinkContainer to={`/form/${form._id}`}>
+                    <LinkContainer to={`/form/1`}>
                       <Button className='btn-sm' variant='light'>
                         Details
                       </Button>

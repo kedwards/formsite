@@ -14,7 +14,7 @@ import {
   FORM_SUBMITTED_FAIL,
   FORM_DELIVER_FAIL,
   FORM_DELIVER_REQUEST,
-  FORM_DELIVER_SUCCESS
+  FORM_DELIVER_SUCCESS,
 } from "../../constants/form.js";
 
 export const listForms = () => async (dispatch, getState) => {
