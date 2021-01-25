@@ -48,6 +48,7 @@ const Profile = ({ history }) => {
         setEmail(user.email);
         setDepartment(user.department);
         setManager(user.manager);
+        
       }
     }
   }, [dispatch, history, userInfo, user, success]);
@@ -149,18 +150,10 @@ const Profile = ({ history }) => {
                 <tr key={form._id}>
                   <td>{form._id}</td>
                   <td>{form.createdAt.substring(0, 10)}</td>
+                  <td>{manager}</td>
+                  <td>{department}</td>
                   <td>
-                    {form.isManager ? (
-                      <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                    ) : null}
-                  </td>
-                  <td>{form.user.department}</td>
-                  <td>
-                    {/* {console.log(
-                      form.formFields[0].filter((field) => field.test !== "yes")
-                    )} */}
-
-                    {form.isValid ? (
+                    {Object.keys(form.formFields[0]).filter((field) =>  form.formFields[0][field] !== "yes").length > 2 ? (
                       <FontAwesomeIcon
                         icon='check'
                         style={{ color: "green" }}
