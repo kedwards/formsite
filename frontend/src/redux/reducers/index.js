@@ -14,6 +14,7 @@ import {
   formDeliverReducer,
   formDetailsReducer,
   formListMyReducer,
+  formMyDailyReducer,
 } from "../reducers/form";
 
 export default combineReducers({
@@ -27,6 +28,7 @@ export default combineReducers({
   formList: formListReducer,
   formDeliver: formDeliverReducer,
   formListMy: formListMyReducer,
+  formDailyMy: formMyDailyReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
 });

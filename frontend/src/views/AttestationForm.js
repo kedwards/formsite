@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { submitForm } from "../redux/actions/form";
+import { submitForm, getMyDailyForm } from "../redux/actions/form";
 
 const AttestationForm = () => {
   const dispatch = useDispatch();
@@ -23,27 +23,16 @@ const AttestationForm = () => {
   const formDetails = useSelector((state) => state.formSubmit);
   const { loading, error, formSuccess } = formDetails;
 
-  const formListMy = useSelector((state) => state.formListMy);
-  const { forms } = formListMy;
+  const formDailyMy = useSelector((state) => state.formDailyMy);
+  const { dailyForm } = formDailyMy;
 
   const today = new Date();
   const date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
-  const isSameDay = async (d1, d2) => {
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getDate() === d2.getDate() &&
-      d1.getMonth() === d2.getMonth()
-    );
-  };
-
-  // useEffect(() => {
-  //   effect;
-  //   return () => {
-  //     cleanup;
-  //   };
-  // }, [input]);
+  useEffect(() => {
+    dispatch(getMyDailyForm());
+  }, [dispatch]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -60,18 +49,14 @@ const AttestationForm = () => {
     );
   };
 
-  const formSubmission = forms.filter((form) =>
-    isSameDay(new Date(form.createdAt), new Date())
-  );
-
   return (
     <>
       <Link to='/profile' className='btn btn-light my-3'>
         Go Back
       </Link>
-      {formSubmission.length ? (
+      {dailyForm || formSuccess ? (
         <>
-          <Message variant='info'>Form Filled for today, Thanks</Message>
+          <Message variant='info'>Form filled for today, Thanks</Message>
         </>
       ) : (
         <FormContainer>

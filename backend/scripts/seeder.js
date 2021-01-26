@@ -1,5 +1,6 @@
 import users from "../src/data/users.js";
 import User from "../src/models/userModel.js";
+import Form from "../src/models/formModel.js";
 import connectDB from "../src/config/db.js";
 
 connectDB();

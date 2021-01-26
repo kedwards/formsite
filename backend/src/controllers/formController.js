@@ -66,8 +66,27 @@ const getMyForms = asyncHandler(async (req, res) => {
     "user",
     "manager"
   );
+  res.json(forms);
+});
+
+// @desc    Get logged in user daily forms
+// @route   GET /api/forms/myforms/:id
+// @access  Private
+const getMyDailyForms = asyncHandler(async (req, res) => {
+  const today = new Date().toString().substr(0, 10);
+
+  const forms = await Form.find({
+    user: req.user._id,
+    createdAt: { $gte: today },
+  }).populate("user", "manager");
   console.log(forms);
   res.json(forms);
 });
 
-export { submitAttestationForm, getForms, getMyForms, getFormById };
+export {
+  submitAttestationForm,
+  getForms,
+  getMyForms,
+  getFormById,
+  getMyDailyForms,
+};

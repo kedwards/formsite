@@ -14,8 +14,6 @@ const Form = ({ match: { params }, history }) => {
   const dispatch = useDispatch();
 
   const formDetails = useSelector((state) => state.formDetails);
-  console.log(formDetails);
-
   const { form, loading, error } = formDetails;
 
   const userLogin = useSelector((state) => state.userLogin);

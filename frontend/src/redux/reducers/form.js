@@ -17,6 +17,9 @@ import {
   FORM_DELIVER_REQUEST,
   FORM_DELIVER_SUCCESS,
   FORM_DELIVER_RESET,
+  FORM_DAILY_MY_REQUEST,
+  FORM_DAILY_MY_SUCCESS,
+  FORM_DAILY_MY_FAIL,
 } from "../../constants/form.js";
 
 export const formDetailsReducer = (
@@ -68,6 +71,19 @@ const formListMyReducer = (state = { forms: [] }, action) => {
   }
 };
 
+const formMyDailyReducer = (state = { dailyForm: {} }, action) => {
+  switch (action.type) {
+    case FORM_DAILY_MY_REQUEST:
+      return { loading: true };
+    case FORM_DAILY_MY_SUCCESS:
+      return { loading: false, dailyForm: action.payload };
+    case FORM_DAILY_MY_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 const formSubmitReducer = (state = {}, action) => {
   switch (action.type) {
     case FORM_SUBMITTED_REQUEST:
@@ -96,4 +112,9 @@ export const formDeliverReducer = (state = {}, action) => {
   }
 };
 
-export { formListReducer, formListMyReducer, formSubmitReducer };
+export {
+  formListReducer,
+  formListMyReducer,
+  formSubmitReducer,
+  formMyDailyReducer,
+};
