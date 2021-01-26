@@ -19,9 +19,8 @@ const importData = async () => {
         }
       });
     });
-    console.log(departmentUsers);
+
     await User.insertMany(departmentUsers);
-    console.log("Data Imported.");
     process.exit();
   } catch (error) {
     console.error(`${error}`);

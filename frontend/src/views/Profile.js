@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { isSafeToWork } from "../utils";
 import {
   getUserDetails,
   updateUserProfile,
@@ -48,7 +49,6 @@ const Profile = ({ history }) => {
         setEmail(user.email);
         setDepartment(user.department);
         setManager(user.manager);
-        
       }
     }
   }, [dispatch, history, userInfo, user, success]);
@@ -147,15 +147,12 @@ const Profile = ({ history }) => {
             <tbody>
               {forms.map((form, index) => (
                 <tr key={form._id}>
-                  <td>
-                    {index+1}
-                   </td>
+                  <td>{index + 1}</td>
                   <td>{form.createdAt.substring(0, 10)}</td>
                   <td>{manager}</td>
                   <td>{department}</td>
                   <td>
-                  {console.log(Object.keys(form.formFields).filter((field) =>  form.formFields[field] !== "yes"))}
-                    {Object.keys(form.formFields).filter((field) =>  form.formFields[field] !== "yes").length ? (
+                    {isSafeToWork(form) ? (
                       <FontAwesomeIcon
                         icon='check'
                         style={{ color: "green" }}

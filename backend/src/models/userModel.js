@@ -27,7 +27,6 @@ export const userSchema = mongoose.Schema(
     },
     manager: {
       type: String,
-      default: "Administrator",
     },
     isAdmin: {
       type: Boolean,

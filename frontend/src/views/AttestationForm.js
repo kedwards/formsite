@@ -30,13 +30,13 @@ const AttestationForm = () => {
   const date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
-
-  const isSameDay = async(d1,d2) => {
-      return d1.getFullYear() === d2.getFullYear() &&
-        d1.getDate() === d2.getDate() &&
-        d1.getMonth() === d2.getMonth();
-  }
-    
+  const isSameDay = async (d1, d2) => {
+    return (
+      d1.getFullYear() === d2.getFullYear() &&
+      d1.getDate() === d2.getDate() &&
+      d1.getMonth() === d2.getMonth()
+    );
+  };
 
   // useEffect(() => {
   //   effect;
@@ -60,8 +60,9 @@ const AttestationForm = () => {
     );
   };
 
-
-  const formSubmission = forms.filter(form => isSameDay(new Date(form.createdAt), new Date()));
+  const formSubmission = forms.filter((form) =>
+    isSameDay(new Date(form.createdAt), new Date())
+  );
 
   return (
     <>
@@ -70,8 +71,7 @@ const AttestationForm = () => {
       </Link>
       {formSubmission.length ? (
         <>
-          <Message variant='info'>Yeah!</Message>
-          <h1>Form Filled for today, Thanks</h1>
+          <Message variant='info'>Form Filled for today, Thanks</Message>
         </>
       ) : (
         <FormContainer>

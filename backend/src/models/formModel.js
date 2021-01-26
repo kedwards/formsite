@@ -13,34 +13,33 @@ const formSchema = mongoose.Schema(
       enum: ["yes", "no"],
       required: true,
     },
-    formFields:      
-     {
-        symptoms: {
-          type: String,
-          enum: ["yes", "no"],
-          required: true,
-        },
-        traveled: {
-          type: String,
-          enum: ["yes", "no"],
-          required: true,
-        },
-        contact: {
-          type: String,
-          enum: ["yes", "no"],
-          required: true,
-        },
-        exposure: {
-          type: String,
-          enum: ["yes", "no"],
-          required: true,
-        },
-        test: {
-          type: String,
-          enum: ["yes", "no"],
-          required: true,
-        },
+    formFields: {
+      symptoms: {
+        type: String,
+        enum: ["yes", "no"],
+        required: true,
       },
+      traveled: {
+        type: String,
+        enum: ["yes", "no"],
+        required: true,
+      },
+      contact: {
+        type: String,
+        enum: ["yes", "no"],
+        required: true,
+      },
+      exposure: {
+        type: String,
+        enum: ["yes", "no"],
+        required: true,
+      },
+      test: {
+        type: String,
+        enum: ["yes", "no"],
+        required: true,
+      },
+    },
     isDelivered: {
       type: String,
       required: false,

@@ -4,6 +4,7 @@ import { Row, Button, Col, ListGroup, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { isSafeToWork } from "../utils";
 import { getFormDetails, deliverForm } from "../redux/actions/form";
 import { FORM_DELIVER_RESET } from "../constants/form";
 
@@ -52,42 +53,75 @@ const Form = ({ match: { params }, history }) => {
         <Col md={8}>
           <ListGroup variant='flush'>
             <ListGroup.Item>
-              <h2>form</h2>
-              <p>
-                <strong>Name: </strong>
-                {form.user.name}
-              </p>
-              <p>
-                <strong>Email: </strong>
-                <a href={`mailto:${form.user.email}`}> {form.user.email}</a>
-              </p>
-              <p>
-                <strong>Been on close contact in the past 14 days: </strong>
-                {form.formFields.contact}
-              </p>
-              <p>
-                <strong>Exposed to COVID-19 patients: </strong>
-                {form.formFields.exposure}
-              </p>
-              <p>
-                <strong>Have any COVID-19 symptoms: </strong>
-                {form.formFields.symptoms}
-              </p>
-              <p>
-                <strong>Had a positive in COVID-19 test in the past 14 days: </strong>
-                {form.formFields.test}
-              </p>
-              <p>
-                <strong>Traveled outside of Canada in the past 14 days: </strong>
-                {form.formFields.traveled}
-              </p>
-              {form.isDelivered ? (
-                <Message variant='success'>
-                  Submitted On : {form.createdAt.split("T")[0]}
-                </Message>
-              ) : (
-                <Message variant='danger'>Not Delivered</Message>
-              )}
+              <h2>Details</h2>
+              <Row className='mt-2'>
+                <Col xs={6} md={6}>
+                  <strong>Work Date: </strong>
+                </Col>
+                <Col xs={6} md={4}>
+                  {form.createdAt}
+                </Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col xs={6} md={6}>
+                  <strong>Name: </strong>
+                </Col>
+                <Col xs={6} md={6}>
+                  {form.user.name}
+                </Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col xs={6} md={6}>
+                  <strong>Email: </strong>
+                </Col>
+                <Col xs={6} md={6}>
+                  <a href={`mailto:${form.user.email}`}> {form.user.email}</a>
+                </Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col xs={6} md={6}>
+                  <strong>Close contact in the past 14 days: </strong>
+                </Col>
+                <Col xs={6} md={6}>
+                  {form.formFields.contact ? form.formFields.contact : "no"}
+                </Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col xs={6} md={6}>
+                  <strong>Exposed to COVID-19 patients: </strong>
+                </Col>
+                <Col xs={6} md={6}>
+                  {form.formFields.exposure ? form.formFields.exposure : "no"}
+                </Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col xs={6} md={6}>
+                  <strong>Have any COVID-19 symptoms: </strong>
+                </Col>
+                <Col xs={6} md={6}>
+                  {form.formFields.symptoms ? form.formFields.symptoms : "no"}
+                </Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col xs={6} md={6}>
+                  <strong>
+                    Positive in COVID-19 test in the past 14 days:{" "}
+                  </strong>
+                </Col>
+                <Col xs={6} md={6}>
+                  {form.formFields.test ? form.formFields.test : "no"}
+                </Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col xs={6} md={6}>
+                  <strong>
+                    Traveled outside of Canada in the past 14 days:{" "}
+                  </strong>
+                </Col>
+                <Col xs={6} md={3}>
+                  {form.formFields.traveled ? form.formFields.traveled : "no"}
+                </Col>
+              </Row>
             </ListGroup.Item>
           </ListGroup>
         </Col>
@@ -96,6 +130,45 @@ const Form = ({ match: { params }, history }) => {
             <ListGroup>
               <ListGroup.Item variant='flush'>
                 <h2>Form Summary</h2>
+              </ListGroup.Item>
+              <ListGroup.Item variant='flush'>
+                <Row>
+                  <Col>Work Date:</Col>
+                  <Col>
+                    <strong>{form.createdAt.substring(0, 10)}</strong>
+                  </Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item variant='flush'>
+                <Row>
+                  <Col>Safe to work:</Col>
+                  {isSafeToWork(form) ? (
+                    <Col style={{ color: "green" }}>
+                      <strong>Yes</strong>
+                    </Col>
+                  ) : (
+                    <Col style={{ color: "red" }}>
+                      <strong>No</strong>
+                    </Col>
+                  )}
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item variant='flush'>
+                <Row>
+                  <Col>
+                    {form.isDelivered && isSafeToWork(form) ? (
+                      <Message variant='success'>
+                        Submitted On :{" "}
+                        <strong>{form.createdAt.split("T")[0]}</strong>
+                      </Message>
+                    ) : (
+                      <Message variant='danger'>
+                        Submitted On :{" "}
+                        <strong>{form.createdAt.split("T")[0]}</strong>
+                      </Message>
+                    )}
+                  </Col>
+                </Row>
               </ListGroup.Item>
             </ListGroup>
             {loadingDeliver && <Loader />}
