@@ -25,7 +25,7 @@ const Profile = ({ history }) => {
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
+  const { loading, error } = userDetails;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -40,25 +40,25 @@ const Profile = ({ history }) => {
     if (!userInfo) {
       history.push("/login");
     } else {
-      if (!user || !user.name || success) {
+      if (!userInfo || !userInfo.name || success) {
         dispatch(userProfileReset());
         dispatch(getUserDetails("profile"));
-        dispatch(listMyForms());
       } else {
-        setName(user.name);
-        setEmail(user.email);
-        setDepartment(user.department);
-        setManager(user.manager);
+        dispatch(listMyForms());
+        setName(userInfo.name);
+        setEmail(userInfo.email);
+        setDepartment(userInfo.department);
+        setManager(userInfo.manager.email);
       }
     }
-  }, [dispatch, history, userInfo, /* user,*/ success]);
+  }, [dispatch, history, userInfo, success]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      dispatch(updateUserProfile({ id: userInfo._id, name, email, password }));
     }
   };
 
@@ -76,7 +76,7 @@ const Profile = ({ history }) => {
             <Form.Control
               type='text'
               placeholder='Enter name'
-              value={name}
+              value={userInfo.name}
               disabled
             ></Form.Control>
           </Form.Group>

@@ -79,7 +79,6 @@ const getMyDailyForms = asyncHandler(async (req, res) => {
     user: req.user._id,
     createdAt: { $gte: today },
   }).populate("user", "manager");
-  console.log(forms);
   res.json(forms);
 });
 
