@@ -5,13 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listUsers, deleteUser } from "../redux/actions/user";
+import { listUsersByDepartment, deleteUser } from "../redux/actions/user";
 
 const UserList = ({ history }) => {
   const dispatch = useDispatch();
 
-  const userList = useSelector((state) => state.userList);
-  const { users, loading, error } = userList;
+  const userListDept = useSelector((state) => state.userListDept);
+  const { users, loading, error } = userListDept;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -20,8 +20,11 @@ const UserList = ({ history }) => {
   const { success: successDelete } = userDelete;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listUsers());
+    if (
+      userInfo &&
+      (userInfo.isAdmin || userInfo.isManager || userInfo.isOhs)
+    ) {
+      dispatch(listUsersByDepartment(userInfo.department));
     } else {
       history.push("/login");
     }
@@ -52,9 +55,9 @@ const UserList = ({ history }) => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {users.map((user, index) => (
               <tr key={user._id}>
-                <td>{user._id}</td>
+                <td>{index + 1}</td>
                 <td>{user.name}</td>
                 <td>
                   <a href={`mailto:${user.email}`}>{user.email}</a>

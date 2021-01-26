@@ -10,8 +10,13 @@ const importData = async () => {
     await User.deleteMany({});
     await Form.deleteMany({});
 
-    await User.insertMany(users.admins);
-    const createdManagers = await User.insertMany(users.managers);
+    const globalAdmin = await User.insertMany(users.admins);
+
+    const managers = users.managers.map((mngr) => {
+      return { ...mngr, manager: globalAdmin[0]._id };
+    });
+
+    const createdManagers = await User.insertMany(managers);
 
     const departmentUsers = [];
 

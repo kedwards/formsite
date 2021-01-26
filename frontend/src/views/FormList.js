@@ -39,16 +39,13 @@ const FormList = ({ history }) => {
               <th>SUBMITTED DATE</th>
               <th>MANAGER</th>
               <th>DEPARTMENT</th>
-              <th>RESULT</th>
-              <th>Manager?</th>
-              <th>DELIVERED</th>
-              <th></th>
+              <th>SAFE TO WORK</th>><th></th>
             </tr>
           </thead>
           <tbody>
-            {forms.map((form) => (
+            {forms.map((form, index) => (
               <tr key={form._id}>
-                <td>{form._id}</td>
+                <td>{index + 1}</td>
                 <td>{form.user.name}</td>
                 <td>{form.createdAt}</td>
                 <td>{form.user.manager}</td>

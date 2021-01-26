@@ -18,6 +18,9 @@ import {
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
+  USER_LIST_DEPT_REQUEST,
+  USER_LIST_DEPT_SUCCESS,
+  USER_LIST_DEPT_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
@@ -226,6 +229,41 @@ export const listUsers = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+export const listUsersByDepartment = (dept) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_DEPT_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    console.log(dept);
+
+    const { data } = await axios.get(`/api/users/${dept}`, config);
+
+    dispatch({
+      type: USER_LIST_DEPT_SUCCESS,
+      payload: data,
+    });
+
+    // localStorage.setItem("userDepatmentList", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_DEPT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

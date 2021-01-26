@@ -128,6 +128,18 @@ const getUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private/Admin
+const getUsersByDepartment = asyncHandler(async (req, res) => {
+  const dept = req.params.dept;
+  const users = await User.find({ department: dept }).populate(
+    "User",
+    "manager"
+  );
+  res.json(users);
+});
+
 // @desc    Delete user
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
@@ -193,4 +205,5 @@ export {
   deleteUser,
   getUserById,
   updateUser,
+  getUsersByDepartment,
 };

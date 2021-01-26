@@ -51,7 +51,7 @@ const Profile = ({ history }) => {
         setManager(user.manager);
       }
     }
-  }, [dispatch, history, userInfo, user, success, forms]);
+  }, [dispatch, history, userInfo, /* user,*/ success]);
 
   const submitHandler = (e) => {
     e.preventDefault();

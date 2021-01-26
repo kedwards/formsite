@@ -61,16 +61,17 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
-              {userInfo && (userInfo.isAdmin || userInfo.isOhs) && (
-                <NavDropdown title='Admin' id='adminmenu'>
-                  <LinkContainer to='/admin/userlist'>
-                    <NavDropdown.Item>My Team</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/formlist'>
-                    <NavDropdown.Item>Forms</NavDropdown.Item>
-                  </LinkContainer>
-                </NavDropdown>
-              )}
+              {userInfo &&
+                (userInfo.isAdmin || userInfo.isManager || userInfo.isOhs) && (
+                  <NavDropdown title='Admin' id='adminmenu'>
+                    <LinkContainer to='/admin/userlist'>
+                      <NavDropdown.Item>My Team</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to='/admin/formlist'>
+                      <NavDropdown.Item>Forms</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                )}
             </Nav>
           </Navbar.Collapse>
         </Container>
