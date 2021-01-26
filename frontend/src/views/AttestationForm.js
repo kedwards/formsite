@@ -23,9 +23,20 @@ const AttestationForm = () => {
   const formDetails = useSelector((state) => state.formSubmit);
   const { loading, error, formSuccess } = formDetails;
 
+  const formListMy = useSelector((state) => state.formListMy);
+  const { forms } = formListMy;
+
   const today = new Date();
   const date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+
+
+  const isSameDay = async(d1,d2) => {
+      return d1.getFullYear() === d2.getFullYear() &&
+        d1.getDate() === d2.getDate() &&
+        d1.getMonth() === d2.getMonth();
+  }
+    
 
   // useEffect(() => {
   //   effect;
@@ -49,12 +60,15 @@ const AttestationForm = () => {
     );
   };
 
+
+  const formSubmission = forms.filter(form => isSameDay(new Date(form.createdAt), new Date()));
+
   return (
     <>
       <Link to='/profile' className='btn btn-light my-3'>
         Go Back
       </Link>
-      {formSuccess ? (
+      {formSubmission.length ? (
         <>
           <Message variant='info'>Yeah!</Message>
           <h1>Form Filled for today, Thanks</h1>

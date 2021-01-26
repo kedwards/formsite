@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Row, Button, Col, ListGroup, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
@@ -43,7 +44,10 @@ const Form = ({ match: { params }, history }) => {
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
-      <h1>Form: {form._id}</h1>
+      <Link to='/profile' className='btn btn-light my-3'>
+        Go Back
+      </Link>
+      <h1>Form Id: {form._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
@@ -58,12 +62,28 @@ const Form = ({ match: { params }, history }) => {
                 <a href={`mailto:${form.user.email}`}> {form.user.email}</a>
               </p>
               <p>
-                <strong>Manager: </strong>
-                {form.manager}
+                <strong>Been on close contact in the past 14 days: </strong>
+                {form.formFields.contact}
+              </p>
+              <p>
+                <strong>Exposed to COVID-19 patients: </strong>
+                {form.formFields.exposure}
+              </p>
+              <p>
+                <strong>Have any COVID-19 symptoms: </strong>
+                {form.formFields.symptoms}
+              </p>
+              <p>
+                <strong>Had a positive in COVID-19 test in the past 14 days: </strong>
+                {form.formFields.test}
+              </p>
+              <p>
+                <strong>Traveled outside of Canada in the past 14 days: </strong>
+                {form.formFields.traveled}
               </p>
               {form.isDelivered ? (
                 <Message variant='success'>
-                  Delivered on {form.deliveredAt}
+                  Submitted On : {form.createdAt.split("T")[0]}
                 </Message>
               ) : (
                 <Message variant='danger'>Not Delivered</Message>

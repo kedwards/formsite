@@ -140,20 +140,22 @@ const Profile = ({ history }) => {
                 <th>SUBMITTED DATE</th>
                 <th>MANAGER</th>
                 <th>DEPARTMENT</th>
-                <th>FLAGGED</th>
-                <th>DELIVERED</th>
+                <th>SAFE TO WORK</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {forms.map((form) => (
+              {forms.map((form, index) => (
                 <tr key={form._id}>
-                  <td>{form._id}</td>
+                  <td>
+                    {index+1}
+                   </td>
                   <td>{form.createdAt.substring(0, 10)}</td>
                   <td>{manager}</td>
                   <td>{department}</td>
                   <td>
-                    {Object.keys(form.formFields[0]).filter((field) =>  form.formFields[0][field] !== "yes").length > 2 ? (
+                  {console.log(Object.keys(form.formFields).filter((field) =>  form.formFields[field] !== "yes"))}
+                    {Object.keys(form.formFields).filter((field) =>  form.formFields[field] !== "yes").length ? (
                       <FontAwesomeIcon
                         icon='check'
                         style={{ color: "green" }}
@@ -163,7 +165,7 @@ const Profile = ({ history }) => {
                     )}
                   </td>
                   <td>
-                    <LinkContainer to={`/form/1`}>
+                    <LinkContainer to={`/form/${form._id}`}>
                       <Button className='btn-sm' variant='light'>
                         Details
                       </Button>

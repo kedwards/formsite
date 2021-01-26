@@ -13,9 +13,10 @@ const submitAttestationForm = asyncHandler(async (req, res) => {
   if (user) {
     const form = await Form.create({
       user,
-      formFields: [
-        { user, working, traveled, symptoms, contact, exposure, test },
-      ],
+      working,
+      formFields: 
+        { user, traveled, symptoms, contact, exposure, test },
+      
     });
 
     if (form) {

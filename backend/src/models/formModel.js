@@ -8,13 +8,13 @@ const formSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
-    formFields: [
-      {
-        working: {
-          type: String,
-          enum: ["yes", "no"],
-          required: true,
-        },
+    working: {
+      type: String,
+      enum: ["yes", "no"],
+      required: true,
+    },
+    formFields:      
+     {
         symptoms: {
           type: String,
           enum: ["yes", "no"],
@@ -41,7 +41,6 @@ const formSchema = mongoose.Schema(
           required: true,
         },
       },
-    ],
     isDelivered: {
       type: String,
       required: false,
