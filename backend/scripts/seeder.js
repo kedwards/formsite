@@ -7,6 +7,8 @@ connectDB();
 const importData = async () => {
   try {
     await User.deleteMany({});
+    await Form.deleteMany({});
+
     await User.insertMany(users.admins);
     const createdManagers = await User.insertMany(users.managers);
 

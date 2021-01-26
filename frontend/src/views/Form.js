@@ -59,7 +59,7 @@ const Form = ({ match: { params }, history }) => {
                   <strong>Work Date: </strong>
                 </Col>
                 <Col xs={6} md={4}>
-                  {form.createdAt}
+                  {form.createdAt.substring(0, 10)}
                 </Col>
               </Row>
               <Row className='mt-2'>
