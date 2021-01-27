@@ -40,6 +40,10 @@ export const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    roleId: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

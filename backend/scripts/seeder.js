@@ -1,14 +1,19 @@
-import users from "../src/data/users.js";
 import User from "../src/models/userModel.js";
+import users from "../src/data/users.js";
 import Form from "../src/models/formModel.js";
+import Role from "../src/models/roleModel.js";
+import roles from "../src/data/roles.js";
 import connectDB from "../src/config/db.js";
 
 connectDB();
 
 const importData = async () => {
   try {
+    await Role.deleteMany({});
     await User.deleteMany({});
     await Form.deleteMany({});
+
+    const createdRoles = await Role.insertMany(roles);
 
     const globalAdmin = await User.insertMany(users.admins);
 
