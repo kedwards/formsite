@@ -2,6 +2,8 @@ import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import Form from "../models/formModel.js";
 
+import { queryDate } from "../utils/index.js";
+
 // @desc    Submit a filled form
 // @route   POST /api/form/submit
 // @access  Private
@@ -74,10 +76,10 @@ const getMyForms = asyncHandler(async (req, res) => {
 // @access  Private
 const getMyDailyForms = asyncHandler(async (req, res) => {
   const today = new Date().toString().substr(0, 10);
-
-  const forms = await Form.find({
+  const {start, end} = queryDate(); 
+  const forms = await Form.findOne({
     user: req.user._id,
-    createdAt: { $gte: today },
+    createdAt: { $gte: start, $lte: end},
   }).populate("user", "manager");
   res.json(forms);
 });

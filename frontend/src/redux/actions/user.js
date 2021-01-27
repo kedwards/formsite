@@ -66,9 +66,6 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
-  localStorage.removeItem("cartItems");
-  localStorage.removeItem("shippingAddress");
-  localStorage.removeItem("paymentMethod");
 
   dispatch({
     type: USER_LOGOUT,
@@ -137,9 +134,8 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-
+    
     const { data } = await axios.get(`/api/users/${id}`, config);
-
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data,
@@ -251,7 +247,6 @@ export const listUsersByDepartment = (dept) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    console.log(dept);
 
     const { data } = await axios.get(`/api/users/${dept}`, config);
 
@@ -260,7 +255,6 @@ export const listUsersByDepartment = (dept) => async (dispatch, getState) => {
       payload: data,
     });
 
-    // localStorage.setItem("userDepatmentList", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LIST_DEPT_FAIL,
