@@ -71,7 +71,7 @@ const AttestationForm = () => {
                 <Form.Label>Name</Form.Label>
                 <Form.Control
                   type='name'
-                  value={userInfo.email}
+                  value={userInfo.name}
                   disabled
                 ></Form.Control>
               </Form.Group>
