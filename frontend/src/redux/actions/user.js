@@ -134,7 +134,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    
+
     const { data } = await axios.get(`/api/users/${id}`, config);
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -225,39 +225,6 @@ export const listUsers = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
-export const listUsersByDepartment = (dept) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: USER_LIST_DEPT_REQUEST,
-    });
-
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(`/api/users/${dept}`, config);
-
-    dispatch({
-      type: USER_LIST_DEPT_SUCCESS,
-      payload: data,
-    });
-
-  } catch (error) {
-    dispatch({
-      type: USER_LIST_DEPT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

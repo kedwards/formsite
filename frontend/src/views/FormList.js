@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { localDateTime, isSafeToWork } from "../utils/index";
 import { listForms } from "../redux/actions/form";
 
 const FormList = ({ history }) => {
@@ -23,8 +25,15 @@ const FormList = ({ history }) => {
     }
   }, [dispatch, history, userInfo]);
 
+  const goBack = () => {
+    history.goBack();
+  };
+
   return (
     <>
+      <Button type='button' className='btn btn-light my-3' onClick={goBack}>
+        Go Back
+      </Button>
       <h1>Forms</h1>
       {loading ? (
         <Loader />
@@ -39,7 +48,8 @@ const FormList = ({ history }) => {
               <th>SUBMITTED DATE</th>
               <th>MANAGER</th>
               <th>DEPARTMENT</th>
-              <th>SAFE TO WORK</th>><th></th>
+              <th>SAFE TO WORK</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -47,23 +57,22 @@ const FormList = ({ history }) => {
               <tr key={form._id}>
                 <td>{index + 1}</td>
                 <td>{form.user.name}</td>
-                <td>{form.createdAt}</td>
+                <td>{localDateTime(form.createdAt)}</td>
                 <td>{form.user.manager}</td>
                 <td>{form.user.department}</td>
-                <td>{form.result}</td>
                 <td>
-                  {form.user.isManager ? (
+                  {isSafeToWork(form) ? (
                     <FontAwesomeIcon icon='check' style={{ color: "green" }} />
                   ) : (
                     <FontAwesomeIcon icon='times' style={{ color: "red" }} />
                   )}
                 </td>
                 <td>
-                  {form.isDelivered ? (
-                    <FontAwesomeIcon icon='check' style={{ color: "green" }} />
-                  ) : (
-                    <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                  )}
+                  <LinkContainer to={`/form/${form._id}`}>
+                    <Button className='btn-sm' variant='light'>
+                      Details
+                    </Button>
+                  </LinkContainer>
                 </td>
               </tr>
             ))}

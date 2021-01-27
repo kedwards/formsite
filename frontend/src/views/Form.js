@@ -37,15 +37,19 @@ const Form = ({ match: { params }, history }) => {
     dispatch(deliverForm(form));
   };
 
+  const goBack = () => {
+    history.goBack();
+  };
+
   return loading ? (
     <Loader />
   ) : error ? (
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
-      <Link to='/profile' className='btn btn-light my-3'>
+      <Button type='button' className='btn btn-light my-3' onClick={goBack}>
         Go Back
-      </Link>
+      </Button>
       <h1>Form Id: {form._id}</h1>
       <Row>
         <Col md={8}>

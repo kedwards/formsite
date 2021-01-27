@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { getUserDetails, updateUser } from "../redux/actions/user";
+import { getUserDetails, updateUser, deleteUser } from "../redux/actions/user";
 import { USER_UPDATE_RESET } from "../constants/user";
 
 const UserEdit = ({ match: { params }, history }) => {
@@ -13,7 +14,10 @@ const UserEdit = ({ match: { params }, history }) => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [department, setDepartment] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isManager, setIsManager] = useState(false);
+  const [isOHS, setIsOHS] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -26,6 +30,12 @@ const UserEdit = ({ match: { params }, history }) => {
     error: errorUpdate,
     success: successUpdate,
   } = userUpdate;
+
+  const deleteHandler = (id) => {
+    if (window.confirm("Are you sure")) {
+      dispatch(deleteUser(id));
+    }
+  };
 
   useEffect(() => {
     if (successUpdate) {
@@ -69,9 +79,9 @@ const UserEdit = ({ match: { params }, history }) => {
                 placeholder='Enter name'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                disabled
               ></Form.Control>
             </Form.Group>
-
             <Form.Group controlId='email'>
               <Form.Label>Email Address</Form.Label>
               <Form.Control
@@ -79,9 +89,21 @@ const UserEdit = ({ match: { params }, history }) => {
                 placeholder='Enter email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled
               ></Form.Control>
             </Form.Group>
-
+            <Form.Group controlId='department'>
+              <Form.Label>Department</Form.Label>
+              <Form.Control
+                as='Select'
+                placeholder='Enter employee department'
+                value={department}
+                onChange={(e) => setDepartment(e.target.value)}
+              >
+                <option>Accounting</option>
+                <option>Business</option>
+              </Form.Control>
+            </Form.Group>{" "}
             <Form.Group controlId='isadmin'>
               <Form.Check
                 type='checkbox'
@@ -89,10 +111,28 @@ const UserEdit = ({ match: { params }, history }) => {
                 checked={isAdmin}
                 onChange={(e) => setIsAdmin(e.target.checked)}
               ></Form.Check>
+              <Form.Check
+                type='checkbox'
+                label='Is Manager'
+                checked={isManager}
+                onChange={(e) => setIsManager(e.target.checked)}
+              ></Form.Check>
+              <Form.Check
+                type='checkbox'
+                label='Is OHS'
+                checked={isOHS}
+                onChange={(e) => setIsOHS(e.target.checked)}
+              ></Form.Check>
             </Form.Group>
-
             <Button type='submit' variant='primary'>
               Update
+            </Button>
+            <Button
+              type='submit'
+              variant='danger'
+              onClick={() => deleteHandler(user._id)}
+            >
+              Delete
             </Button>
           </Form>
         )}

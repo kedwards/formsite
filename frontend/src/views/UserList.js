@@ -5,13 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listUsersByDepartment, deleteUser } from "../redux/actions/user";
+import { listUsers, deleteUser } from "../redux/actions/user";
 
 const UserList = ({ history }) => {
   const dispatch = useDispatch();
 
-  const userListDept = useSelector((state) => state.userListDept);
-  const { users, loading, error } = userListDept;
+  const userList = useSelector((state) => state.userList);
+  const { users, loading, error } = userList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -24,20 +24,21 @@ const UserList = ({ history }) => {
       userInfo &&
       (userInfo.isAdmin || userInfo.isManager || userInfo.isOhs)
     ) {
-      dispatch(listUsersByDepartment(userInfo.department));
+      dispatch(listUsers(userInfo.department));
     } else {
       history.push("/login");
     }
   }, [dispatch, history, userInfo, successDelete]);
 
-  const deleteHandler = (id) => {
-    if (window.confirm("Are you sure")) {
-      dispatch(deleteUser(id));
-    }
+  const goBack = () => {
+    history.goBack();
   };
 
   return (
     <>
+      <Button type='button' className='btn btn-light my-3' onClick={goBack}>
+        Go Back
+      </Button>
       <h1>Users</h1>
       {loading ? (
         <Loader />
@@ -51,6 +52,8 @@ const UserList = ({ history }) => {
               <th>NAME</th>
               <th>EMAIL</th>
               <th>ADMIN</th>
+              <th>MANAGER</th>
+              <th>OHS</th>
               <th></th>
             </tr>
           </thead>
@@ -70,18 +73,25 @@ const UserList = ({ history }) => {
                   )}
                 </td>
                 <td>
+                  {user.isManager ? (
+                    <FontAwesomeIcon icon='check' style={{ color: "green" }} />
+                  ) : (
+                    <FontAwesomeIcon icon='times' style={{ color: "red" }} />
+                  )}
+                </td>
+                <td>
+                  {user.isOHS ? (
+                    <FontAwesomeIcon icon='check' style={{ color: "green" }} />
+                  ) : (
+                    <FontAwesomeIcon icon='times' style={{ color: "red" }} />
+                  )}
+                </td>
+                <td>
                   <LinkContainer to={`/admin/user/${user._id}/edit`}>
                     <Button variant='light' className='btn-sm'>
                       <FontAwesomeIcon icon='edit' />
                     </Button>
                   </LinkContainer>
-                  <Button
-                    variant='danger'
-                    className='btn-sm'
-                    onClick={() => deleteHandler(user._id)}
-                  >
-                    <FontAwesomeIcon icon='trash' />
-                  </Button>
                 </td>
               </tr>
             ))}

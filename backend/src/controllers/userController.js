@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
-import {generateToken} from "../utils/index.js";
+import { generateToken } from "../utils/index.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -14,6 +14,9 @@ const authUser = asyncHandler(async (req, res) => {
     res.json({
       _id: user._id,
       name: user.name,
+      isAdmin: user.isAdmin,
+      isManager: user.isManager,
+      isOhs: user.isOhs,
       token: generateToken(user._id),
     });
   } else {
@@ -63,7 +66,6 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-
   const user = await User.findById(req.user._id).populate(
     "manager",
     "name email"
