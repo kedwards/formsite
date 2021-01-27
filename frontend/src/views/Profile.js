@@ -44,7 +44,7 @@ const Profile = ({ history }) => {
         dispatch(userProfileReset());
         dispatch(getUserDetails("profile"));
         dispatch(listMyForms());
-      } else {       
+      } else {
         setName(user.name);
         setEmail(user.email);
         setDepartment(user.department);
@@ -166,7 +166,8 @@ const Profile = ({ history }) => {
                   <td>
                     <LinkContainer to={`/form/${form._id}`}>
                       <Button className='btn-sm' variant='light'>
-                        Details
+                        {/* Details */}
+                        <FontAwesomeIcon icon='eye' />
                       </Button>
                     </LinkContainer>
                   </td>
