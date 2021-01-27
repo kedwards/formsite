@@ -24,8 +24,8 @@ frontend/.eslintcache
 .env.production.local
 
 #
-tools/docker/.env-backend
-tools/docker/.env-frontend
+tools/docker/env/.env-backend
+tools/docker/env/.env-frontend
 frontend/src/bootstrap.min.css
 
 npm-debug.log*
