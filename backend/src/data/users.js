@@ -4,19 +4,18 @@ const users = {
   admins: [
     {
       name: "Administrator",
-      email: "admin@dynalife.com",
+      email: "administrator@dynalife.com",
       password: bcrypt.hashSync("123456", 10),
       department: "system",
-      manager: null,
       isAdmin: true,
     },
+  ],
+  ohs: [
     {
       name: "OHS",
       email: "ohs@dynalife.com",
       password: bcrypt.hashSync("123456", 10),
-      department: "system",
-      manager: null,
-      isAdmin: true,
+      department: "OHS",
       isOhs: true,
     },
   ],
