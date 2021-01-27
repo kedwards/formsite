@@ -23,6 +23,11 @@ frontend/.eslintcache
 .env.test.local
 .env.production.local
 
+#
+tools/docker/.env-backend
+tools/docker/.env-frontend
+frontend/src/bootstrap.min.css
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
