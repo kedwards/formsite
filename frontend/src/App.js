@@ -14,15 +14,27 @@ import FormList from "./views/FormList";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import {
-  faUser,
-  faTrash,
-  faTimes,
+  faCaretSquareLeft,
   faCheck,
   faEdit,
+  faEye,
   faPlus,
+  faTimes,
+  faTrash,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(far, faUser, faTrash, faTimes, faCheck, faEdit, faPlus);
+library.add(
+  far,
+  faCaretSquareLeft,
+  faCheck,
+  faEdit,
+  faEye,
+  faPlus,
+  faTimes,
+  faTrash,
+  faUser
+);
 
 const App = () => (
   <Router>

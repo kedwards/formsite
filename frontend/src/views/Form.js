@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Row, Button, Col, ListGroup, Card } from "react-bootstrap";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -48,6 +48,7 @@ const Form = ({ match: { params }, history }) => {
   ) : (
     <>
       <Button type='button' className='btn btn-light my-3' onClick={goBack}>
+        {/* <FontAwesomeIcon icon='caret-square-left' /> */}
         Go Back
       </Button>
       <h1>Form Id: {form._id}</h1>

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listUsers, deleteUser } from "../redux/actions/user";
+import { listUsers } from "../redux/actions/user";
 
 const UserList = ({ history }) => {
   const dispatch = useDispatch();

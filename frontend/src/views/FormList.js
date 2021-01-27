@@ -70,7 +70,8 @@ const FormList = ({ history }) => {
                 <td>
                   <LinkContainer to={`/form/${form._id}`}>
                     <Button className='btn-sm' variant='light'>
-                      Details
+                      {/* Details */}
+                      <FontAwesomeIcon icon='eye' />
                     </Button>
                   </LinkContainer>
                 </td>
