@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { isSafeToWork } from "../utils";
+import { isSafeToWork, localDateTime } from "../utils";
 import {
   getUserDetails,
   updateUserProfile,
@@ -148,7 +148,7 @@ const Profile = ({ history }) => {
               {forms.map((form, index) => (
                 <tr key={form._id}>
                   <td>{index + 1}</td>
-                  <td>{form.createdAt.substring(0, 10)}</td>
+                  <td>{localDateTime(form.createdAt)}</td>
                   <td>{manager}</td>
                   <td>{department}</td>
                   <td>

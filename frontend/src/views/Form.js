@@ -4,7 +4,7 @@ import { Row, Button, Col, ListGroup, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { isSafeToWork } from "../utils";
+import { isSafeToWork, localDateTime } from "../utils";
 import { getFormDetails, deliverForm } from "../redux/actions/form";
 import { FORM_DELIVER_RESET } from "../constants/form";
 
@@ -57,7 +57,7 @@ const Form = ({ match: { params }, history }) => {
                   <strong>Work Date: </strong>
                 </Col>
                 <Col xs={6} md={4}>
-                  {form.createdAt.substring(0, 10)}
+                  {localDateTime(form.createdAt)}
                 </Col>
               </Row>
               <Row className='mt-2'>
@@ -133,7 +133,9 @@ const Form = ({ match: { params }, history }) => {
                 <Row>
                   <Col>Work Date:</Col>
                   <Col>
-                    <strong>{form.createdAt.substring(0, 10)}</strong>
+                    <strong>
+                      {localDateTime(form.createdAt).substring(0, 10)}
+                    </strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
