@@ -6,7 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { localDateTime, isSafeToWork } from "../utils/index";
-import { listForms } from "../redux/actions/form";
+import { listForms, listUserForms } from "../redux/actions/form";
 
 const FormList = ({ history }) => {
   const dispatch = useDispatch();
@@ -14,6 +14,10 @@ const FormList = ({ history }) => {
   const formList = useSelector((state) => state.formList);
   const { forms, loading, error } = formList;
 
+  const userFormList = useSelector((state) => state.userFormsList);
+  const { userForms} = userFormList;
+
+  console.log("USER FORMS :", userForms);
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -22,6 +26,7 @@ const FormList = ({ history }) => {
       history.push("/login");
     } else {
       dispatch(listForms());
+      dispatch(listUserForms());
     }
   }, [dispatch, history, userInfo]);
 

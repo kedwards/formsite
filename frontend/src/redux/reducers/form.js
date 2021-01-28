@@ -10,6 +10,10 @@ import {
   FORM_LIST_MY_SUCCESS,
   FORM_LIST_MY_FAIL,
   FORM_LIST_MY_RESET,
+  FORM_LIST_USER_REQUEST,
+  FORM_LIST_USER_SUCCESS,
+  FORM_LIST_USER_FAIL,
+  FORM_LIST_USER_RESET,
   FORM_SUBMITTED_REQUEST,
   FORM_SUBMITTED_SUCCESS,
   FORM_SUBMITTED_FAIL,
@@ -71,6 +75,21 @@ const formListMyReducer = (state = { forms: [] }, action) => {
   }
 };
 
+const formListUserReducer = (state = { forms: [] }, action) => {
+  switch (action.type) {
+    case FORM_LIST_USER_REQUEST:
+      return { loading: true };
+    case FORM_LIST_USER_SUCCESS:
+      return { loading: false, forms: action.payload };
+    case FORM_LIST_USER_FAIL:
+      return { loading: false, error: action.payload };
+    case FORM_LIST_USER_RESET:
+      return { forms: [] };
+    default:
+      return state;
+  }
+};
+
 const formMyDailyReducer = (state = { dailyForm: {} }, action) => {
   switch (action.type) {
     case FORM_DAILY_MY_REQUEST:
@@ -115,6 +134,7 @@ export const formDeliverReducer = (state = {}, action) => {
 export {
   formListReducer,
   formListMyReducer,
+  formListUserReducer,
   formSubmitReducer,
   formMyDailyReducer,
 };
