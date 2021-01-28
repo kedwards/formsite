@@ -1,27 +1,20 @@
-import bcrypt from "bcryptjs";
 import users from "../src/data/users.js";
+// import system from "../src/data/system.js";
 import User from "../src/models/userModel.js";
 import Form from "../src/models/formModel.js";
 import connectDB from "../src/config/db.js";
 
-const sysAdmin = {
-  name: "sysadmin",
-  email: "sysadmin@dynalife.com",
-  password: bcrypt.hashSync("123456", 10),
-  department: "system",
-  isAdmin: true,
-};
 
 connectDB();
 
-const importData = async () => {
+const importData = async () => {  
   try {
     await User.deleteMany({});
     await Form.deleteMany({});
 
-    const sysadmin = await User.create(sysAdmin);
+    const sysadmin = await User.insertMany(users.sysAdmin);
     sysadmin.manager = sysadmin._id;
-    await sysadmin.save();
+    await sysadmin[0].save();
 
     const admins = users.admins.map((admin) => {
       return { ...admin, manager: sysadmin._id };

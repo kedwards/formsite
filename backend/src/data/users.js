@@ -1,6 +1,15 @@
 import bcrypt from "bcryptjs";
 
 const users = {
+  sysAdmin: [
+    {
+      name: "sysAdmin",
+      email: "sysAdmin@dynalife.com",
+      password: bcrypt.hashSync("123456", 10),
+      department: "system",
+      isAdmin: true,
+    },
+  ],
   admins: [
     {
       name: "Administrator",
