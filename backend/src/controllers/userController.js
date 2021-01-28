@@ -77,7 +77,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       department: user.department,
-      manager: user.manager.email,
+      manager: user.manager ? user.manager.email : "SytemAdmin",
       isAdmin: user.isAdmin,
       isManager: user.isManager,
       isOhs: user.isOhs,

@@ -214,7 +214,7 @@ export const getMyDailyForm = () => async (dispatch, getState) => {
 
     dispatch({
       type: FORM_DAILY_MY_SUCCESS,
-      payload: data[0],
+      payload: data,
     });
   } catch (error) {
     const message =

@@ -13,12 +13,22 @@ const importData = async () => {
     await User.deleteMany({});
     await Form.deleteMany({});
 
-    const createdRoles = await Role.insertMany(roles);
+    const sysadmin = await User.insertMany(users.sysAdmin);
+    sysadmin.manager = sysadmin._id;
+    await sysadmin[0].save();
 
-    const globalAdmin = await User.insertMany(users.admins);
+    const admins = users.admins.map((admin) => {
+      return { ...admin, manager: sysadmin._id };
+    });
+    await User.insertMany(admins);
+
+    const ohss = users.ohs.map((ohsAdmin) => {
+      return { ...ohsAdmin, manager: sysadmin._id };
+    });
+    await User.insertMany(ohss);
 
     const managers = users.managers.map((mngr) => {
-      return { ...mngr, manager: globalAdmin[0]._id };
+      return { ...mngr, manager: admins[0]._id };
     });
 
     const createdManagers = await User.insertMany(managers);
