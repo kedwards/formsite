@@ -11,7 +11,6 @@ const Register = ({ history, location }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
-  const manager = "Administrator";
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
@@ -34,7 +33,7 @@ const Register = ({ history, location }) => {
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      dispatch(register(name, email, password, department, manager));
+      dispatch(register(name, email, password, department));
     }
   };
 
@@ -64,13 +63,17 @@ const Register = ({ history, location }) => {
           ></Form.Control>
         </Form.Group>{" "}
         <Form.Group controlId='department'>
-          <Form.Label>Employee Department</Form.Label>
+          <Form.Label>Department</Form.Label>
           <Form.Control
-            type='text'
-            placeholder='Enter Employee Deparment'
+            as='Select'
+            placeholder='Enter employee department'
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
-          ></Form.Control>
+          >
+            <option>Select A Department</option>
+            <option>Accounting</option>
+            <option>Business</option>
+          </Form.Control>
         </Form.Group>{" "}
         <Form.Group controlId='password'>
           <Form.Label>Password</Form.Label>
@@ -97,7 +100,7 @@ const Register = ({ history, location }) => {
       <Row className='py-3'>
         <Col>
           Have an Account?{" "}
-          <Link to={redirect ? `/register?redirect=${redirect}` : "/login"}>
+          <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>
             Login
           </Link>
         </Col>

@@ -7,40 +7,47 @@ const formSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
-    working: {
+    userId: {
       type: String,
-      enum: ["yes", "no"],
+      required: true,
+    },
+    userDepartment: {
+      type: String,
+      required: true,
+    },
+    isSafe: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    working: {
+      type: Boolean,
       required: true,
     },
     formFields: {
       symptoms: {
-        type: String,
-        enum: ["yes", "no"],
+        type: Boolean,
         required: true,
       },
       traveled: {
-        type: String,
-        enum: ["yes", "no"],
+        type: Boolean,
         required: true,
       },
       contact: {
-        type: String,
-        enum: ["yes", "no"],
+        type: Boolean,
         required: true,
       },
       exposure: {
-        type: String,
-        enum: ["yes", "no"],
+        type: Boolean,
         required: true,
       },
       test: {
-        type: String,
-        enum: ["yes", "no"],
+        type: Boolean,
         required: true,
       },
     },
     isDelivered: {
-      type: String,
+      type: Boolean,
       required: false,
       default: false,
     },

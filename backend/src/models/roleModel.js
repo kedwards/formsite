@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import mongooseSequence from "mongoose-sequence";
-
-const AutoIncrement = mongooseSequence(mongoose);
+import { AutoIncrement } from "../config/db.js";
 
 export const roleSchema = mongoose.Schema(
   {

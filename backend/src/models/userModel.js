@@ -42,7 +42,6 @@ export const userSchema = mongoose.Schema(
     },
     roleId: {
       type: Number,
-      required: true,
     },
   },
   { timestamps: true }

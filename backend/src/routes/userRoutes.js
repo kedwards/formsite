@@ -8,9 +8,12 @@ import {
   getUserById,
   deleteUser,
   updateUser,
-  getUsersByDepartment,
 } from "../controllers/userController.js";
-import { protect, admin } from "../middleware/authMiddleware.js";
+import {
+  protect,
+  admin,
+  createAbilities,
+} from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -20,7 +23,8 @@ router
   .put(protect, updateProfile);
 
 router.route("/login").post(authUser);
-// router.route("/:dept").get(protect, getUsersByDepartment);
+
+router.route("/register").post(createAbilities, registerUser);
 
 router
   .route("/:id")
@@ -29,4 +33,5 @@ router
   .put(protect, admin, updateUser);
 
 router.route("/").post(registerUser).get(protect, admin, getUsers);
+
 export default router;

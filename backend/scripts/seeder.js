@@ -13,6 +13,8 @@ const importData = async () => {
     await User.deleteMany({});
     await Form.deleteMany({});
 
+    const createdRoles = await Role.create(roles);
+
     const sysadmin = await User.insertMany(users.sysAdmin);
     sysadmin.manager = sysadmin._id;
     await sysadmin[0].save();

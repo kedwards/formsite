@@ -1,4 +1,9 @@
+// import { accessibleRecordsPlugin } from "@casl/mongoose";
 import mongoose from "mongoose";
+import mongooseSequence from "mongoose-sequence";
+
+// mongoose.plugin(accessibleRecordsPlugin);
+export const AutoIncrement = mongooseSequence(mongoose);
 
 const connectDB = async () => {
   try {

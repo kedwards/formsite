@@ -1,8 +1,9 @@
 import asyncHandler from "express-async-handler";
+import { subject } from "@casl/ability";
 import User from "../models/userModel.js";
 import Form from "../models/formModel.js";
 
-import { queryDate } from "../utils/index.js";
+import { isSafeToWork, queryDate } from "../utils/index.js";
 
 // @desc    Submit a filled form
 // @route   POST /api/form/submit
@@ -11,12 +12,16 @@ const submitAttestationForm = asyncHandler(async (req, res) => {
   const { working, traveled, symptoms, contact, exposure, test } = req.body;
 
   const user = await User.findById(req.user._id);
+  console.log(user);
 
   if (user) {
     const form = await Form.create({
       user,
+      userId: user._id,
+      userDepartment: user.department,
+      isSafe: isSafeToWork({ traveled, symptoms, contact, exposure, test }),
       working,
-      formFields: { user, traveled, symptoms, contact, exposure, test },
+      formFields: { traveled, symptoms, contact, exposure, test },
     });
 
     if (form) {
@@ -42,6 +47,10 @@ const getFormById = asyncHandler(async (req, res) => {
   );
 
   if (form) {
+    if (!req.ability.can("read", subject("Form", form))) {
+      throw new Error("No access to this form");
+    }
+
     res.json(form);
   } else {
     res.status(404);
@@ -76,10 +85,10 @@ const getMyForms = asyncHandler(async (req, res) => {
 // @access  Private
 const getMyDailyForms = asyncHandler(async (req, res) => {
   const today = new Date().toString().substr(0, 10);
-  const {start, end} = queryDate(); 
+  const { start, end } = queryDate();
   const forms = await Form.findOne({
     user: req.user._id,
-    createdAt: { $gte: start, $lte: end},
+    createdAt: { $gte: start, $lte: end },
   }).populate("user", "manager");
   res.json(forms);
 });

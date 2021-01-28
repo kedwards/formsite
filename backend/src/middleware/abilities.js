@@ -1,17 +1,24 @@
-import { defineAbility } from "@casl/ability";
+import { AbilityBuilder, Ability } from "@casl/ability";
 
-// export default defineAbility((can, cannot) => {
-//   can("manage", "all");
-//   cannot("delete", "User");
-// });
+const defineAbilitiesFor = (user) => {
+  const { can, cannot, build } = new AbilityBuilder(Ability);
 
-export default (user) =>
-  defineAbility((can) => {
-    can("read", "Article");
+  cannot("create", "User");
 
-    if (user.isLoggedIn) {
-      can("update", "Article", { authorId: user.id });
-      can("create", "Comment");
-      can("update", "Comment", { authorId: user.id });
-    }
-  });
+  if (user) {
+    can("read", "Form", { userId: user._id });
+  }
+
+  if (user && user.isOhs) {
+    can("read", "Form");
+  }
+  console.log("what", user);
+
+  if (user && user.isManager) {
+    can("read", "Form", { userDepartment: user.department });
+  }
+
+  return build();
+};
+
+export default defineAbilitiesFor;

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
+import defineAbilitiesFor from "./abilities.js";
 import User from "../models/userModel.js";
 
 const protect = asyncHandler(async (req, res, next) => {
@@ -36,4 +37,11 @@ const admin = (req, res, next) => {
   }
 };
 
-export { protect, admin };
+const ANONYMOUS_ABILITY = defineAbilitiesFor(null);
+
+const createAbilities = (req, res, next) => {
+  req.ability = defineAbilitiesFor(req.user ?? null);
+  next();
+};
+
+export { protect, admin, createAbilities };

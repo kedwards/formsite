@@ -2,35 +2,11 @@ import path from "path";
 import express from "express";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
-import ability from "./middleware/abilities.js";
 import userRoutes from "./routes/userRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import formRoutes from "./routes/formRoutes.js";
 
-import { Article } from "./entities/index.js";
-
 connectDB();
-
-// console.log(ability.can("read", "Form")); // true
-// console.log(ability.can("read", "User")); // true
-// console.log(ability.can("update", "User")); // true
-// console.log(ability.can("delete", "User")); // false
-// console.log(ability.cannot("delete", "User")); // true
-
-const user = { id: 1 };
-const abilities = ability(user);
-const article = new Article(); /* intentionally not defined */
-console.log(abilities.can("read", article));
-
-const user1 = { id: 1, isLoggedIn: true };
-const ownArticle = new Article({ authorId: user.id });
-const anotherArticle = new Article({ authorId: 2 });
-const ability1 = ability(user1);
-
-console.log(ability1.can("read", "Article")); // true
-console.log(ability1.can("update", "Article")); // true
-console.log(ability1.can("update", ownArticle)); // true
-console.log(ability1.can("update", anotherArticle)); // false, we can't update articles which were not written by us
 
 const app = express();
 app.use(express.json());

@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import { subject } from "@casl/ability";
 import User from "../models/userModel.js";
 import { generateToken } from "../utils/index.js";
 
@@ -38,12 +39,19 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User allready exists");
   }
 
+  const managerExists = await User.findOne({ department, isManager: true });
+
+  if (!managerExists) {
+    res.status(400);
+    throw new Error("Manager for this department does not exist");
+  }
+
   const user = await User.create({
     name,
     email,
     password,
     department,
-    manager,
+    manager: managerExists._id,
   });
 
   if (user) {
