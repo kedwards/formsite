@@ -49,6 +49,7 @@ const App = () => (
           <Route path='/register' component={Register} exact />
           <Route path='/admin/userlist' component={UserList} exact />
           <Route path='/admin/formList' component={FormList} exact />
+          <Route path='/admin/formList/:id' component={FormList} />
           <Route path='/admin/user/:id/edit' component={UserEdit} />
           <Route path='/' component={Home} exact />
         </Container>

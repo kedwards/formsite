@@ -2,6 +2,7 @@ import express from "express";
 import {
   submitAttestationForm,
   getForms,
+  getUserForms,
   getMyForms,
   getFormById,
   getMyDailyForms,
@@ -12,6 +13,7 @@ const router = express.Router();
 
 router.route("/").post(protect, submitAttestationForm);
 router.route("/").get(getForms);
+router.route("/userforms/:id").get(protect, getUserForms);
 router.route("/myforms").get(protect, getMyForms);
 router.route("/mydailyforms").get(protect, getMyDailyForms);
 router.route("/:id").get(protect, getFormById);

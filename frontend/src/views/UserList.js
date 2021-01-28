@@ -61,7 +61,11 @@ const UserList = ({ history }) => {
             {users.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
-                <td>{user.name}</td>
+                <td>
+                <a href={`/admin/formList/${user._id}`}>
+                  {user.name}
+                </a>
+                </td>
                 <td>
                   <a href={`mailto:${user.email}`}>{user.email}</a>
                 </td>
