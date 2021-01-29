@@ -1,0 +1,402 @@
+[
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f23"
+    },
+    "isSafe": true,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081150"
+    },
+    "userId": "60133a128636490013081150",
+    "userDepartment": "system",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": false,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f24"
+    },
+    "isSafe": false,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081150"
+    },
+    "userId": "60133a128636490013081150",
+    "userDepartment": "system",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": true,
+      "contact": false,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f25"
+    },
+    "isSafe": true,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081151"
+    },
+    "userId": "60133a128636490013081151",
+    "userDepartment": "ohs",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": false,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f26"
+    },
+    "isSafe": false,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081151"
+    },
+    "userId": "60133a128636490013081151",
+    "userDepartment": "ohs",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": true,
+      "contact": false,
+      "exposure": true,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f27"
+    },
+    "isSafe": true,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081152"
+    },
+    "userId": "60133a128636490013081152",
+    "userDepartment": "Accounting",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": false,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f28"
+    },
+    "isSafe": false,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081152"
+    },
+    "userId": "60133a128636490013081152",
+    "userDepartment": "Accounting",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": true,
+      "contact": true,
+      "exposure": true,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f29"
+    },
+    "isSafe": true,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081153"
+    },
+    "userId": "60133a128636490013081153",
+    "userDepartment": "Business",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": false,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f30"
+    },
+    "isSafe": false,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081153"
+    },
+    "userId": "60133a128636490013081153",
+    "userDepartment": "Business",
+    "createdAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f31"
+    },
+    "isSafe": true,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081154"
+    },
+    "userId": "60133a128636490013081154",
+    "userDepartment": "Business",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": false,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f32"
+    },
+    "isSafe": false,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081154"
+    },
+    "userId": "60133a128636490013081154",
+    "userDepartment": "Business",
+    "createdAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f33"
+    },
+    "isSafe": true,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081155"
+    },
+    "userId": "60133a128636490013081155",
+    "userDepartment": "Business",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": false,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f34"
+    },
+    "isSafe": false,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081155"
+    },
+    "userId": "60133a128636490013081155",
+    "userDepartment": "Business",
+    "createdAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f35"
+    },
+    "isSafe": true,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081156"
+    },
+    "userId": "60133a128636490013081156",
+    "userDepartment": "Accounting",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": false,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f36"
+    },
+    "isSafe": false,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081156"
+    },
+    "userId": "60133a128636490013081156",
+    "userDepartment": "Accounting",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": true,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f37"
+    },
+    "isSafe": true,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081157"
+    },
+    "userId": "60133a128636490013081157",
+    "userDepartment": "Accounting",
+    "working": true,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": false,
+      "exposure": false,
+      "test": false
+    },
+    "createdAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-28T22:29:16.592Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "60133abcce3410090d1b9f38"
+    },
+    "isSafe": false,
+    "isDelivered": false,
+    "user": {
+      "$oid": "60133a128636490013081157"
+    },
+    "userId": "60133a128636490013081157",
+    "userDepartment": "Accounting",
+    "createdAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "updatedAt": {
+      "$date": "2021-01-27T22:29:16.592Z"
+    },
+    "__v": 0
+  }
+]
