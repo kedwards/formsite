@@ -59,7 +59,7 @@ const UsersFormList = ({ match: { params }, history }) => {
                 <td>{index + 1}</td>
                 <td>{form.user.name}</td>
                 <td>{localDateTime(form.createdAt)}</td>
-                <td>{form.user.manager.name}</td>
+                <td>{form.user.manager? form.user.manager.name : null}</td>
                 <td>{form.user.department}</td>
                 <td>
                   {form.isSafe ? (
