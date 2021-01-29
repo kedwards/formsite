@@ -45,7 +45,6 @@ const getFormById = asyncHandler(async (req, res) => {
     "user",
     "name email"
   );
-
   if (form) {
     if (!req.ability.can("read", subject("Form", form))) {
       throw new Error("No access to this form");
@@ -66,6 +65,14 @@ const getForms = asyncHandler(async (req, res) => {
     "user",
     "id name manager department"
   );
+  res.json(forms);
+});
+
+// @desc    Get user forms with user ID
+// @route   GET /api/forms/userforms
+// @access  Private
+const getUserForms = asyncHandler(async (req, res) => {
+  const forms = await Form.find({ user: req.params.id }).populate({path:'user', populate : {path:'manager'}});
   res.json(forms);
 });
 
@@ -96,6 +103,7 @@ const getMyDailyForms = asyncHandler(async (req, res) => {
 export {
   submitAttestationForm,
   getForms,
+  getUserForms,
   getMyForms,
   getFormById,
   getMyDailyForms,

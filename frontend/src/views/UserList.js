@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { LinkContainer } from "react-router-bootstrap";
+import { LinkContainer} from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
@@ -61,7 +62,11 @@ const UserList = ({ history }) => {
             {users.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
-                <td>{user.name}</td>
+                <td>
+                <Link to={`/admin/formList/${user._id}`}>
+                  {user.name}
+                </Link>
+                </td>
                 <td>
                   <a href={`mailto:${user.email}`}>{user.email}</a>
                 </td>
@@ -80,7 +85,7 @@ const UserList = ({ history }) => {
                   )}
                 </td>
                 <td>
-                  {user.isOHS ? (
+                  {user.isOhs ? (
                     <FontAwesomeIcon icon='check' style={{ color: "green" }} />
                   ) : (
                     <FontAwesomeIcon icon='times' style={{ color: "red" }} />

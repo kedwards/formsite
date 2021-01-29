@@ -6,6 +6,9 @@ import {
   FORM_LIST_MY_REQUEST,
   FORM_LIST_MY_SUCCESS,
   FORM_LIST_MY_FAIL,
+  FORM_LIST_USER_REQUEST,
+  FORM_LIST_USER_SUCCESS,
+  FORM_LIST_USER_FAIL,
   FORM_DETAILS_REQUEST,
   FORM_DETAILS_SUCCESS,
   FORM_DETAILS_FAIL,
@@ -87,6 +90,41 @@ export const deliverForm = (form) => async (dispatch, getState) => {
         : error.message;
     dispatch({
       type: FORM_DELIVER_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const listUserForms = (userId) => async (dispatch, getState) => {
+  console.log("List USER FORMS :", userId)
+  try {
+    dispatch({
+      type: FORM_LIST_USER_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/forms/userforms/${userId}`, config);
+
+    dispatch({
+      type: FORM_LIST_USER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: FORM_LIST_USER_FAIL,
       payload: message,
     });
   }
