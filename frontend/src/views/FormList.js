@@ -58,7 +58,7 @@ const FormList = ({ history }) => {
                 <td>{index + 1}</td>
                 <td>{form.user.name}</td>
                 <td>{localDateTime(form.createdAt)}</td>
-                <td>{form.user.manager}</td>
+                <td>{form.user.manager? form.user.manager.name : null}</td>
                 <td>{form.user.department}</td>
                 <td>
                   {isSafeToWork(form) ? (

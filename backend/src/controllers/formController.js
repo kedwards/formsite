@@ -61,10 +61,7 @@ const getFormById = asyncHandler(async (req, res) => {
 // @route   GET /api/forms
 // @access  Public
 const getForms = asyncHandler(async (req, res) => {
-  const forms = await Form.find({}).populate(
-    "user",
-    "id name manager department"
-  );
+  const forms = await Form.find({}).populate({path:'user', populate : {path:'manager'}});
   res.json(forms);
 });
 

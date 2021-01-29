@@ -86,7 +86,7 @@ const Form = ({ match: { params }, history }) => {
                   <strong>Close contact in the past 14 days: </strong>
                 </Col>
                 <Col xs={6} md={6}>
-                  {form.formFields.contact ? form.formFields.contact : "no"}
+                  {form.formFields.contact ? "yes" : "no"}
                 </Col>
               </Row>
               <Row className='mt-2'>
@@ -94,7 +94,7 @@ const Form = ({ match: { params }, history }) => {
                   <strong>Exposed to COVID-19 patients: </strong>
                 </Col>
                 <Col xs={6} md={6}>
-                  {form.formFields.exposure ? form.formFields.exposure : "no"}
+                  {form.formFields.exposure ? "yes"  : "no"}
                 </Col>
               </Row>
               <Row className='mt-2'>
@@ -102,7 +102,7 @@ const Form = ({ match: { params }, history }) => {
                   <strong>Have any COVID-19 symptoms: </strong>
                 </Col>
                 <Col xs={6} md={6}>
-                  {form.formFields.symptoms ? form.formFields.symptoms : "no"}
+                  {form.formFields.symptoms ? "yes"  : "no"}
                 </Col>
               </Row>
               <Row className='mt-2'>
@@ -112,7 +112,7 @@ const Form = ({ match: { params }, history }) => {
                   </strong>
                 </Col>
                 <Col xs={6} md={6}>
-                  {form.formFields.test ? form.formFields.test : "no"}
+                  {form.formFields.test ? "yes" : "no"}
                 </Col>
               </Row>
               <Row className='mt-2'>
@@ -122,7 +122,7 @@ const Form = ({ match: { params }, history }) => {
                   </strong>
                 </Col>
                 <Col xs={6} md={3}>
-                  {form.formFields.traveled ? form.formFields.traveled : "no"}
+                  {form.formFields.traveled ? "yes" : "no"}
                 </Col>
               </Row>
             </ListGroup.Item>
@@ -147,7 +147,7 @@ const Form = ({ match: { params }, history }) => {
               <ListGroup.Item variant='flush'>
                 <Row>
                   <Col>Safe to work:</Col>
-                  {isSafeToWork(form) ? (
+                  {isSafeToWork(form.formFields) ? (
                     <Col style={{ color: "green" }}>
                       <strong>Yes</strong>
                     </Col>
