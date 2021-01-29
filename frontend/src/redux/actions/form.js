@@ -96,6 +96,7 @@ export const deliverForm = (form) => async (dispatch, getState) => {
 };
 
 export const listUserForms = (userId) => async (dispatch, getState) => {
+  console.log("List USER FORMS :", userId)
   try {
     dispatch({
       type: FORM_LIST_USER_REQUEST,

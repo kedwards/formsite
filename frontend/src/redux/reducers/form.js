@@ -75,16 +75,16 @@ const formListMyReducer = (state = { forms: [] }, action) => {
   }
 };
 
-const formListUserReducer = (state = { forms: [] }, action) => {
+const formListUserReducer = (state = { userForms: [] }, action) => {
   switch (action.type) {
     case FORM_LIST_USER_REQUEST:
       return { loading: true };
     case FORM_LIST_USER_SUCCESS:
-      return { loading: false, forms: action.payload };
+      return { loading: false, userForms: action.payload };
     case FORM_LIST_USER_FAIL:
       return { loading: false, error: action.payload };
     case FORM_LIST_USER_RESET:
-      return { forms: [] };
+      return { userForms: [] };
     default:
       return state;
   }

@@ -11,6 +11,7 @@ import UserEdit from "./views/UserEdit";
 import AttestationForm from "./views/AttestationForm";
 import Form from "./views/Form";
 import FormList from "./views/FormList";
+import UsersFormList from "./views/UsersFormList";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -49,7 +50,7 @@ const App = () => (
           <Route path='/register' component={Register} exact />
           <Route path='/admin/userlist' component={UserList} exact />
           <Route path='/admin/formList' component={FormList} exact />
-          <Route path='/admin/formList/:id' component={FormList} />
+          <Route path='/admin/formList/:id' component={UsersFormList} />
           <Route path='/admin/user/:id/edit' component={UserEdit} />
           <Route path='/' component={Home} exact />
         </Container>

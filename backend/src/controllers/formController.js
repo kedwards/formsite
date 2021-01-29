@@ -72,11 +72,7 @@ const getForms = asyncHandler(async (req, res) => {
 // @route   GET /api/forms/userforms
 // @access  Private
 const getUserForms = asyncHandler(async (req, res) => {
-  const forms = await Form.find({ user: req.params.id }).populate(
-    "user",
-    "manager"
-  );
-  console.log("FORM USER FORMS :",forms)
+  const forms = await Form.find({ user: req.params.id }).populate({path:'user', populate : {path:'manager'}});
   res.json(forms);
 });
 

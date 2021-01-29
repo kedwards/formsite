@@ -6,13 +6,14 @@ import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { localDateTime, isSafeToWork } from "../utils/index";
-import { listForms } from "../redux/actions/form";
+import { listUserForms } from "../redux/actions/form";
 
-const FormList = ({ history }) => {
+const UsersFormList = ({ match: { params }, history }) => {
+  const userId = params.id;
   const dispatch = useDispatch();
 
-  const formList = useSelector((state) => state.formList);
-  const { forms, loading, error } = formList;
+  const userFormList = useSelector((state) => state.userFormsList);
+  const { userForms , loading, error} = userFormList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -21,7 +22,7 @@ const FormList = ({ history }) => {
     if (!userInfo && (!userInfo.isAdmin || !userInfo.isOhs)) {
       history.push("/login");
     } else {
-      dispatch(listForms());
+      dispatch(listUserForms(userId));
     }
   }, [dispatch, history, userInfo]);
 
@@ -53,15 +54,15 @@ const FormList = ({ history }) => {
             </tr>
           </thead>
           <tbody>
-            {forms.map((form, index) => (
+            {userForms.map((form, index) => (
               <tr key={form._id}>
                 <td>{index + 1}</td>
                 <td>{form.user.name}</td>
                 <td>{localDateTime(form.createdAt)}</td>
-                <td>{form.user.manager}</td>
+                <td>{form.user.manager.name}</td>
                 <td>{form.user.department}</td>
                 <td>
-                  {isSafeToWork(form) ? (
+                  {form.isSafe ? (
                     <FontAwesomeIcon icon='check' style={{ color: "green" }} />
                   ) : (
                     <FontAwesomeIcon icon='times' style={{ color: "red" }} />
@@ -84,4 +85,4 @@ const FormList = ({ history }) => {
   );
 };
 
-export default FormList;
+export default UsersFormList;
