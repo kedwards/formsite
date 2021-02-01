@@ -18,7 +18,10 @@ const Register = ({ history, location }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { loading: loadingLogin, error: errorLogin, userInfo } = userLogin;
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error } = userRegister;
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -42,7 +45,8 @@ const Register = ({ history, location }) => {
       <h1>Register</h1>
       {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
-      {loading && <Loader />}
+      {errorLogin && <Message variant='danger'>{errorLogin}</Message>}
+      {(loading || loadingLogin) && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId='name'>
           <Form.Label>Name</Form.Label>

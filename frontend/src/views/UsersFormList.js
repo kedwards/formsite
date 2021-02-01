@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { localDateTime, isSafeToWork } from "../utils/index";
+import { localDateTime } from "../utils/index";
 import { listUserForms } from "../redux/actions/form";
 
 const UsersFormList = ({ match: { params }, history }) => {
@@ -13,7 +13,7 @@ const UsersFormList = ({ match: { params }, history }) => {
   const dispatch = useDispatch();
 
   const userFormList = useSelector((state) => state.userFormsList);
-  const { userForms , loading, error} = userFormList;
+  const { userForms, loading, error } = userFormList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -24,7 +24,7 @@ const UsersFormList = ({ match: { params }, history }) => {
     } else {
       dispatch(listUserForms(userId));
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, userId]);
 
   const goBack = () => {
     history.goBack();
@@ -59,7 +59,7 @@ const UsersFormList = ({ match: { params }, history }) => {
                 <td>{index + 1}</td>
                 <td>{form.user.name}</td>
                 <td>{localDateTime(form.createdAt)}</td>
-                <td>{form.user.manager? form.user.manager.name : null}</td>
+                <td>{form.user.manager ? form.user.manager.name : null}</td>
                 <td>{form.user.department}</td>
                 <td>
                   {form.isSafe ? (

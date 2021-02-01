@@ -6,11 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { isSafeToWork, localDateTime } from "../utils";
-import {
-  getUserDetails,
-  updateUserProfile,
-  userProfileReset,
-} from "../redux/actions/user";
+import { getUserDetails, updateUserProfile } from "../redux/actions/user";
 import { listMyForms } from "../redux/actions/form";
 
 const Profile = ({ history }) => {
@@ -21,6 +17,7 @@ const Profile = ({ history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const [show, setShow] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -36,12 +33,15 @@ const Profile = ({ history }) => {
   const formListMy = useSelector((state) => state.formListMy);
   const { loading: loadingForms, error: errorForms, forms } = formListMy;
 
+  const setShowMessage = (value) => {
+    setShow(value);
+  };
+
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
     } else {
-      if (!user || !user.name || success) {
-        dispatch(userProfileReset());
+      if (!user || !user.name) {
         dispatch(getUserDetails("profile"));
         dispatch(listMyForms());
       } else {
@@ -51,7 +51,7 @@ const Profile = ({ history }) => {
         setManager(user.manager);
       }
     }
-  }, [dispatch, history, userInfo, user, success]);
+  }, [dispatch, history, userInfo, user, success, show]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -64,15 +64,17 @@ const Profile = ({ history }) => {
     }
   };
 
-  const formss = [];
-
   return (
     <Row>
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant='danger'>{message}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
-        {success && <Message variant='success'>Profile Updated</Message>}
+        {success && show && (
+          <Message variant='success' setShowMessage={setShowMessage}>
+            Profile Updated
+          </Message>
+        )}
         {loading && <Loader />}
         <Form className='update-profile' onSubmit={submitHandler}>
           <Form.Group controlId='name'>
@@ -168,7 +170,6 @@ const Profile = ({ history }) => {
                   <td>
                     <LinkContainer to={`/form/${form._id}`}>
                       <Button className='btn-sm' variant='light'>
-                        {/* Details */}
                         <FontAwesomeIcon icon='eye' />
                       </Button>
                     </LinkContainer>

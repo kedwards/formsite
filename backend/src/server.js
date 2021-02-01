@@ -1,23 +1,13 @@
 import path from "path";
 import express from "express";
-import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import router from "./routes/index.js";
 import connectDB from "./config/db.js";
-import userRoutes from "./routes/userRoutes.js";
-import uploadRoutes from "./routes/uploadRoutes.js";
-import formRoutes from "./routes/formRoutes.js";
 
 connectDB();
 
 const app = express();
 app.use(express.json());
-
-app.use("/api/users", userRoutes);
-app.use("/api/upload", uploadRoutes);
-app.use("/api/forms", formRoutes);
-
-app.get("/api/config/paypal", (req, res) =>
-  res.send(process.env.PAYPAL_CLIENT_ID)
-);
+app.use(router);
 
 // required as we are using es modules
 // mimic common js and create a variable __dirname
@@ -38,9 +28,6 @@ if (process.env.NODE_ENV === "production") {
     res.send("API is running....");
   });
 }
-
-app.use(notFound);
-app.use(errorHandler);
 
 const port = process.env.PORT || 5555;
 

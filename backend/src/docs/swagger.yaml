@@ -1,0 +1,110 @@
+openapi: 3.0.1
+info:
+  title: Dynalife API Documentation
+  description: Dynalife API docuentation
+  version: 1.0.0
+servers:
+  - url: http://localhost:3002
+    description: Local development server
+tags:
+  - name: users
+    description: Everything about users
+    externalDocs:
+      description: Find out more
+      url: "http://localhost/users/docs"
+paths:
+  /api/v1/users:
+    post:
+      tags:
+        - users
+      summary: Register a new user
+      description: Avaliable to all
+      operationId: createUser
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Mr"
+                email:
+                  type: string
+                  example: "kedwards@dynalife.com"
+                department:
+                  type: string
+                  example: "Accounting"
+                password:
+                  type: string
+                  example: "123456"
+                confirmPassword:
+                  type: string
+                  example: "pass123"
+              required:
+                - name
+                - email
+                - password
+                - confirmPassword
+      responses:
+        "200":
+          description: User account created successfully, verification is not required for accounts created with this endpoint. The details of the new account are returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "5eb12e197e06a76ccdefc121"
+                  title:
+                    type: string
+                    example: "Mr"
+                  email:
+                    type: string
+                    example: "kedwards@dynalife.com"
+                  created:
+                    type: string
+                    example: "2020-05-05T09:12:57.848Z"
+        "400":
+          description: Email is already registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Email 'kedwards@dynalife.com' is already registered"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid, or the user does not have access to perform the action
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Unauthorized"
+    NotFoundError:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Not Found"

@@ -16,7 +16,7 @@ const UserEdit = ({ match: { params }, history }) => {
   const [department, setDepartment] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isManager, setIsManager] = useState(false);
-  const [isOHS, setIsOHS] = useState(false);
+  const [isOhs, setIsOhs] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -48,14 +48,16 @@ const UserEdit = ({ match: { params }, history }) => {
         setEmail(user.email);
         setIsAdmin(user.isAdmin);
         setIsManager(user.isManager);
-        setIsOHS(user.isOhs);
+        setIsOhs(user.isOhs);
       }
     }
   }, [dispatch, history, userId, user, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateUser({ _id: userId, name, email, isAdmin }));
+    dispatch(
+      updateUser({ _id: userId, name, email, isAdmin, isManager, isOhs })
+    );
   };
 
   return (
@@ -121,8 +123,8 @@ const UserEdit = ({ match: { params }, history }) => {
               <Form.Check
                 type='checkbox'
                 label='Is OHS'
-                checked={isOHS}
-                onChange={(e) => setIsOHS(e.target.checked)}
+                checked={isOhs}
+                onChange={(e) => setIsOhs(e.target.checked)}
               ></Form.Check>
             </Form.Group>
             <Button type='submit' variant='primary'>

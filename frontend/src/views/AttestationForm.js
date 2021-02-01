@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { submitForm, getMyDailyForm } from "../redux/actions/form";
+import { submitForm /*getMyDailyForm*/ } from "../redux/actions/form";
 
 const AttestationForm = () => {
   const dispatch = useDispatch();
@@ -23,15 +23,15 @@ const AttestationForm = () => {
   const formDetails = useSelector((state) => state.formSubmit);
   const { loading, error, formSuccess } = formDetails;
 
-  const formDailyMy = useSelector((state) => state.formDailyMy);
-  const { dailyForm } = formDailyMy;
+  // const formDailyMy = useSelector((state) => state.formDailyMy);
+  // const { dailyForm } = formDailyMy;
 
   const today = new Date();
   const date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
   useEffect(() => {
-    dispatch(getMyDailyForm());
+    // dispatch(getMyDailyForm());
   }, [dispatch]);
 
   const submitHandler = (e) => {
@@ -54,7 +54,7 @@ const AttestationForm = () => {
       <Link to='/profile' className='btn btn-light my-3'>
         Go Back
       </Link>
-      {dailyForm || formSuccess ? (
+      {formSuccess ? (
         <>
           <Message variant='info'>Form filled for today, Thanks</Message>
         </>

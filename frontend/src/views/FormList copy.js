@@ -20,16 +20,18 @@ const FormList = ({ history, match: { params } }) => {
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (!userInfo) {
-      history.push("/login");
-    } else {
-      dispatch(listForms(pageNumber));
-    }
+    // if (!userInfo) {
+    //   history.push("/login");
+    // } else {
+    dispatch(listForms(pageNumber));
+    // }
   }, [dispatch, history, userInfo, pageNumber]);
 
   const goBack = () => {
     history.goBack();
   };
+
+  console.log(forms);
 
   return (
     <>

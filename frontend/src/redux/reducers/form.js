@@ -51,7 +51,9 @@ const formListReducer = (state = { forms: [] }, action) => {
     case FORM_LIST_SUCCESS:
       return {
         loading: false,
-        forms: action.payload,
+        forms: action.payload.forms,
+        page: action.payload.page,
+        pages: action.payload.pages,
       };
     case FORM_LIST_FAIL:
       return { loading: false, error: action.payload };

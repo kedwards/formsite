@@ -13,13 +13,30 @@ import {
   createAbilities,
 } from "../middleware/authMiddleware.js";
 
-const router = express.Router();
+// const router = express.Router();
 
-router.route("/").post(protect, submitAttestationForm);
-router.route("/").get(getForms);
-router.route("/userforms/:id").get(protect, getUserForms);
-router.route("/myforms").get(protect, getMyForms);
-router.route("/mydailyforms").get(protect, getMyDailyForms);
-router.route("/:id").get(protect, createAbilities, getFormById);
+// router.route("/").post(protect, submitAttestationForm);
+// router.route("/").get(getForms);
+// router.route("/userforms/:id").get(protect, getUserForms);
+// router.route("/myforms").get(protect, getMyForms);
+// router.route("/mydailyforms").get(protect, getMyDailyForms);
+// router.route("/:id").get(protect, createAbilities, getFormById);
 
-export default router;
+// export default router;
+
+const formRoutes = {
+  v1: {
+    active: true,
+    deprecated: false,
+    endpoints: [
+      {
+        route: "/",
+        method: "GET",
+        middleware: [protect, createAbilities],
+        implementation: getForms,
+      },
+    ],
+  },
+};
+
+export default formRoutes;
