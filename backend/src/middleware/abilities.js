@@ -29,7 +29,7 @@ const defineAbilitiesFor = (user) => {
 
   if (user && user.isManager) {
     can("read", "Form", { userDepartment: user.department });
-    can("update", "User", { userDepartment: user.department });
+    can(["read", "update"], "User", { userDepartment: user.department });
   }
 
   return build();

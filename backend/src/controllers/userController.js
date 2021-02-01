@@ -134,7 +134,22 @@ const updateProfile = asyncHandler(async (apiVersion, req, res) => {
 // @route   GET /api/users
 // @access  Private/Admin
 const getUsers = asyncHandler(async (apiVersion, req, res) => {
-  const users = await User.find({}).populate("User", "manager");
+  let users = [];
+  const requester = await User.findById(req.user._id);
+
+  if (requester.isAdmin || requester.isOhs) {
+    users = await User.find({
+      $and: [{ isAdmin: { $ne: true } }, { isOhs: { $ne: true } }],
+    }).populate("User", "manager");
+  } else if (requester.isManager) {
+    users = await User.find({
+      $and: [
+        { department: requester.department },
+        { isManager: { $ne: true } },
+      ],
+    }).populate("User", "manager");
+  }
+
   successResponseWithData(res, "succesful", users);
 });
 

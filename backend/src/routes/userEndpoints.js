@@ -36,7 +36,7 @@ const userEndpoints = [
   {
     route: "/users/profile",
     method: "GET",
-    middleware: [protect, createAbilities],
+    middleware: [protect],
     implementation: getUserProfile,
   },
   {

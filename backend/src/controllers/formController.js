@@ -5,6 +5,7 @@ import Form from "../models/formModel.js";
 import {
   successResponseWithData,
   notFoundResponse,
+  unauthorizedResponse,
 } from "../utils/apiResponse.js";
 
 import { isSafeToWork, queryDate } from "../utils/index.js";
@@ -50,9 +51,9 @@ const getFormById = asyncHandler(async (apiVersion, req, res) => {
     "name email"
   );
   if (form) {
-    // if (!req.ability.can("read", subject("Form", form))) {
-    //   throw new Error("No access to this form");
-    // }
+    if (!req.ability.can("read", subject("Form", form))) {
+      unauthorizedResponse(res, "No access to this form");
+    }
 
     successResponseWithData(res, "success", form);
   } else {
@@ -64,16 +65,32 @@ const getFormById = asyncHandler(async (apiVersion, req, res) => {
 // @route   GET /api/forms
 // @access  Public
 const getForms = asyncHandler(async (apiVersion, req, res) => {
-  const pageSize = 15;
+  let forms = [];
+  const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
 
-  const count = await Form.countDocuments({});
+  const requester = await User.findById(req.user._id);
 
-  const forms = await Form.find({})
-    .populate({ path: "user", populate: { path: "manager" } })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
+  if (requester.isAdmin || requester.isOhs) {
+    forms = await Form.find({
+      $and: [{ isAdmin: { $ne: true } }, { isOhs: { $ne: true } }],
+    })
+      .populate({ path: "user", populate: { path: "manager" } })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+  } else if (requester.isManager) {
+    forms = await Form.find({
+      $and: [
+        { userDepartment: requester.department },
+        { userId: { $ne: requester._id } },
+      ],
+    })
+      .populate({ path: "user", populate: { path: "manager" } })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+  }
 
+  const count = forms.length;
   const resData = { forms, page, pages: Math.ceil(count / pageSize) };
 
   successResponseWithData(res, "success", resData);
