@@ -158,14 +158,14 @@ const Profile = ({ history }) => {
                   <td>{manager}</td>
                   <td>{department}</td>
                   <td>
-                    {/* {isSafeToWork(form.formFields) ? (
+                    {isSafeToWork(form.formFields) ? (
                       <FontAwesomeIcon
                         icon='check'
                         style={{ color: "green" }}
                       />
                     ) : (
                       <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                    )} */}
+                    )}
                   </td>
                   <td>
                     <LinkContainer to={`/form/${form._id}`}>

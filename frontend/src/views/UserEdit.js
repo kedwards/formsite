@@ -23,6 +23,9 @@ const UserEdit = ({ match: { params }, history }) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const userUpdate = useSelector((state) => state.userUpdate);
   const {
     loading: loadingUpdate,
@@ -113,18 +116,20 @@ const UserEdit = ({ match: { params }, history }) => {
                 label='Is Admin'
                 checked={isAdmin}
                 onChange={(e) => setIsAdmin(e.target.checked)}
-              ></Form.Check>
-              <Form.Check
-                type='checkbox'
-                label='Is Manager'
-                checked={isManager}
-                onChange={(e) => setIsManager(e.target.checked)}
+                disabled={!(userInfo.isAdmin || userInfo.isOhs)}
               ></Form.Check>
               <Form.Check
                 type='checkbox'
                 label='Is OHS'
                 checked={isOhs}
                 onChange={(e) => setIsOhs(e.target.checked)}
+                disabled={!(userInfo.isAdmin || userInfo.isOhs)}
+              ></Form.Check>
+              <Form.Check
+                type='checkbox'
+                label='Is Manager'
+                checked={isManager}
+                onChange={(e) => setIsManager(e.target.checked)}
               ></Form.Check>
             </Form.Group>
             <Button type='submit' variant='primary'>

@@ -143,10 +143,7 @@ const getUsers = asyncHandler(async (apiVersion, req, res) => {
     }).populate("User", "manager");
   } else if (requester.isManager) {
     users = await User.find({
-      $and: [
-        { department: requester.department },
-        { isManager: { $ne: true } },
-      ],
+      $and: [{ department: requester.department }],
     }).populate("User", "manager");
   }
 
