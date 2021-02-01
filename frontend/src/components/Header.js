@@ -70,6 +70,9 @@ const Header = () => {
                     <LinkContainer to='/admin/formlist'>
                       <NavDropdown.Item>Forms</NavDropdown.Item>
                     </LinkContainer>
+                    <LinkContainer to='/admin/dashboard'>
+                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                    </LinkContainer>
                   </NavDropdown>
                 )}
             </Nav>

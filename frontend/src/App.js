@@ -11,6 +11,8 @@ import UserEdit from "./views/UserEdit";
 import AttestationForm from "./views/AttestationForm";
 import Form from "./views/Form";
 import FormList from "./views/FormList";
+import Dashboard from "./views/Dashboard";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import {
@@ -40,8 +42,8 @@ const App = () => (
   <Router>
     <Route>
       <Header />
-      <main className='py-3'>
-        <Container>
+      <main className='px-3'>
+        <Container style={{ overflow: "hidden" }}>
           <Route path='/login' component={Login} exact />
           <Route path='/form/:id' component={Form} />
           <Route path='/form' component={AttestationForm} exact />
@@ -54,12 +56,13 @@ const App = () => (
             component={FormList}
             exact
           />
+          <Route exact path='/admin/dashboard' component={Dashboard} />
           <Route path='/admin/formList/user/:id' component={FormList} />
           <Route path='/admin/user/:id/edit' component={UserEdit} />
           <Route path='/' component={Home} exact />
         </Container>
+        <Footer />
       </main>
-      <Footer />
     </Route>
   </Router>
 );
