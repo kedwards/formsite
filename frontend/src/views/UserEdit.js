@@ -130,6 +130,7 @@ const UserEdit = ({ match: { params }, history }) => {
                 label='Is Manager'
                 checked={isManager}
                 onChange={(e) => setIsManager(e.target.checked)}
+                disabled={!(userInfo._id !== userId) && userInfo.isManager}
               ></Form.Check>
             </Form.Group>
             <Button type='submit' variant='primary'>
