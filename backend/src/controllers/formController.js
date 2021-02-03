@@ -96,6 +96,22 @@ const getForms = asyncHandler(async (apiVersion, req, res) => {
   successResponseWithData(res, "success", resData);
 });
 
+// @desc    Fetch all forms
+// @route   GET /api/allforms
+// @access  Public
+const getAllForms = asyncHandler(async (apiVersion, req, res) => {
+  const count = await Form.countDocuments({});
+
+  const forms = await Form.find({}).populate({
+    path: "user",
+    populate: { path: "manager" },
+  });
+
+  const resData = { forms, count };
+
+  successResponseWithData(res, "success", resData);
+});
+
 // @desc    Get user forms with user ID
 // @route   GET /api/forms/userforms
 // @access  Private
@@ -135,6 +151,7 @@ const getMyDailyForms = asyncHandler(async (req, res) => {
 export {
   submitAttestationForm,
   getForms,
+  getAllForms,
   getUserForms,
   getMyForms,
   getFormById,

@@ -2,6 +2,9 @@ import {
   FORM_LIST_REQUEST,
   FORM_LIST_SUCCESS,
   FORM_LIST_FAIL,
+  FORM_ALL_LIST_REQUEST,
+  FORM_ALL_LIST_SUCCESS,
+  FORM_ALL_LIST_FAIL,
   FORM_DETAILS_RESET,
   FORM_DETAILS_REQUEST,
   FORM_DETAILS_SUCCESS,
@@ -53,9 +56,26 @@ const formListReducer = (state = { forms: [] }, action) => {
         loading: false,
         forms: action.payload.forms,
         page: action.payload.page,
-        pages: action.payload.pages,
+        pages: action.payload.pages
       };
     case FORM_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+const formAllListReducer = (state = { forms: [] }, action) => {
+  switch (action.type) {
+    case FORM_ALL_LIST_REQUEST:
+      return { loading: true };
+    case FORM_ALL_LIST_SUCCESS:
+      return {
+        loading: false,
+        forms: action.payload.forms,
+        count: action.payload.count
+      };
+    case FORM_ALL_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
@@ -135,6 +155,7 @@ export const formDeliverReducer = (state = {}, action) => {
 
 export {
   formListReducer,
+  formAllListReducer,
   formListMyReducer,
   formListUserReducer,
   formSubmitReducer,

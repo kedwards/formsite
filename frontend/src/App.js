@@ -11,7 +11,7 @@ import UserEdit from "./views/UserEdit";
 import AttestationForm from "./views/AttestationForm";
 import Form from "./views/Form";
 import FormList from "./views/FormList";
-import Dashboard from "./views/Dashboard";
+import Dashboard from "./views/DashboardOhs";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";

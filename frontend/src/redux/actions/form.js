@@ -3,6 +3,9 @@ import {
   FORM_LIST_REQUEST,
   FORM_LIST_SUCCESS,
   FORM_LIST_FAIL,
+  FORM_ALL_LIST_REQUEST,
+  FORM_ALL_LIST_SUCCESS,
+  FORM_ALL_LIST_FAIL,
   FORM_LIST_MY_REQUEST,
   FORM_LIST_MY_SUCCESS,
   FORM_LIST_MY_FAIL,
@@ -51,6 +54,43 @@ export const listForms = (pageNumber = "") => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: FORM_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
+export const listAllForms = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: FORM_ALL_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `/api/v1/forms/allforms`,
+      config
+    );
+
+    dispatch({
+      type: FORM_ALL_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FORM_ALL_LIST_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
