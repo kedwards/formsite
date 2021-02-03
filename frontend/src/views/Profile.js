@@ -158,7 +158,7 @@ const Profile = ({ history }) => {
                   <td>{manager}</td>
                   <td>{department}</td>
                   <td>
-                    {isSafeToWork(form.formFields) ? (
+                    {isSafeToWork(form) ? (
                       <FontAwesomeIcon
                         icon='check'
                         style={{ color: "green" }}

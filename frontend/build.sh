@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-opts=':p:t:v:h'
+opts=':p:t:h'
 
 # cli overrides
 TAG=
-VERSION=0.0.1
 BUILD_PATH=.
 
 # sys
@@ -22,11 +21,10 @@ show_help()
     cat << EOF
 ${title}
 Error: $1
-Usage: ${script_name}.sh [-p|-t|-v|-h]
+Usage: ${script_name}.sh [-p|-t|-h]
 options:
     -p  path to source files
-    -t  docker image tag
-    -v  symantec version number
+    -t  docker image tag, symantec version number
     -h  prints this help message
 EOF
 exit 1
@@ -39,9 +37,6 @@ do
           shift 2
           ;;
       t)  TAG="${2}"
-          shift 2
-          ;;
-      v)  VERSION="${2}"
           shift 2
           ;;
       h)  show_help
@@ -64,7 +59,7 @@ docker image build \
     --no-cache \
     --build-arg GIT_COMMIT=$(git log -1 --format=%h) \
     --build-arg BUILD_DATE=$(date +%FT%T%Z) \
-    --build-arg VERSION=${VERSION} \
-    -t kevinedwards/formsite-web:${VERSION} \
+    --build-arg VERSION=${TAG} \
+    -t kevinedwards/formsite-web:${TAG} \
     . && \
-    docker push kevinedwards/formsite-web:${VERSION}
+    docker push kevinedwards/formsite-web:${TAG}
