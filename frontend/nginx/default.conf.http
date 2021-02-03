@@ -5,7 +5,7 @@ map $http_upgrade $connection_upgrade {
 
 upstream api {
   ip_hash;
-  server backend:3001;
+  server backend:3003;
 }
 
 server {

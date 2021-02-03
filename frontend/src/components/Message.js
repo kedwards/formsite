@@ -3,12 +3,7 @@ import { Alert } from "react-bootstrap";
 
 const Message = ({ show, variant, children, setShowMessage }) => {
   return (
-    <Alert
-      show={show}
-      variant={variant}
-      dismissible
-      onClick={() => setShowMessage(false)}
-    >
+    <Alert show={show} variant={variant}>
       {children}
     </Alert>
   );
