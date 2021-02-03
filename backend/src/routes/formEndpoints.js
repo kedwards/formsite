@@ -7,6 +7,7 @@ import {
 import {
   submitAttestationForm,
   getForms,
+  getAllForms,
   getUserForms,
   getMyForms,
   getFormById,
@@ -19,6 +20,12 @@ const formEndpoints = [
     method: "GET",
     middleware: [protect, createAbilities],
     implementation: getForms,
+  },
+  {
+    route: "/forms/allforms",
+    method: "GET",
+    middleware: [protect, createAbilities],
+    implementation: getAllForms,
   },
   {
     route: "/forms/myforms",

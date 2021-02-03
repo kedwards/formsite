@@ -21,7 +21,18 @@ h1 {
   padding: 1rem 0;
   color: #0099cc;
 }
-
+.red {
+  color: #db4437;
+}
+.blue {
+  color: #4285f4;
+}
+.yellow {
+  color: #f4b400;
+}
+.green {
+  color: #0f9d58;
+}
 h2 {
   font-size: 1.4rem;
   padding: 0.5rem 0.5rem;
