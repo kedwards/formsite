@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { localDateTime, isSafeToWork, localDate } from "../utils/index";
+import { localDateTime, isSafeToWork } from "../utils/index";
 import { listAllForms } from "../redux/actions/form";
 
 import { Pie, Bar } from "react-chartjs-2";
@@ -22,12 +22,15 @@ const Dashboard = ({ history, match: { params } }) => {
 
   const [allForms, setAllForms] = useState([]);
   const [safeReports, setSafeReports] = useState([]);
+  const [notSafeReports, setNotSafeReports] = useState([]);
   const [safePercent, setSafePercent] = useState("0");
   const [notworkingReports, setNotworkingReports] = useState([]);
   const [notworkingPercent, setNotworkingPercent] = useState("0");
   const [dates, setDates] = useState([]);
   const [safeReportsWeekly, setSafeReportsWeekly] = useState([]);
   const [notsafeReportsWeekly, setNotsafeReportsWeekly] = useState([]);
+  const [filteredForms, setFilteredForms] = useState([]);
+  const [activeFilter, setActiveFilter] = useState("All Submitted");
 
   const pieOptions = {
     height: "300px",
@@ -35,7 +38,6 @@ const Dashboard = ({ history, match: { params } }) => {
       display: false,
       position: "right",
       legendCallback: function (chart) {
-        // Return the HTML string here.
         return [];
       },
     },
@@ -55,7 +57,7 @@ const Dashboard = ({ history, match: { params } }) => {
     },
   };
   const pieDatasets = () => {
-    let dataset = new Array();
+    let dataset = [];
     if (forms) {
       dataset.push(forms.length);
       dataset.push(safeReports.length);
@@ -96,23 +98,27 @@ const Dashboard = ({ history, match: { params } }) => {
   useEffect(() => {
     if (forms) {
       setAllForms(forms);
-      calculations();
+      setFilteredForms(forms);
+      formFilters();
       barCalculation();
     } else {
     }
   }, [forms]);
 
-  const calculations = () => {
-    const result = forms.filter((form) => form.isSafe === true);
-    setSafeReports(result);
+  const formFilters = () => {
+    const safeForms = forms.filter((form) => form.isSafe === true);
+    setSafeReports(safeForms);
+
+    const notSafeForms = forms.filter((form) => form.isSafe === false);
+    setNotSafeReports(notSafeForms);
 
     const safepercent = Math.floor((safeReports.length / forms.length) * 100);
     setSafePercent(safepercent);
 
-    const notworking = forms.filter((form) => form.working === false);
-    setNotworkingReports(notworking);
+    const notworkingForms = forms.filter((form) => form.working === false);
+    setNotworkingReports(notworkingForms);
 
-    const notworkingcount = notworking.length;
+    const notworkingcount = notworkingForms.length;
     const notworkingpercent = Math.floor(
       (notworkingcount / forms.length) * 100
     );
@@ -228,10 +234,29 @@ const Dashboard = ({ history, match: { params } }) => {
     },
   };
 
-  let chartInstance = null;
+
   const goBack = () => {
     history.goBack();
   };
+  const setActiveFilterElement = (e, selection) => {
+    const currentActiveEle = document.getElementsByClassName('active-card-item')[0];
+    currentActiveEle.classList.remove('active-card-item');
+    const activeEle = document.getElementById(selection);
+    activeEle.classList.toggle('active-card-item');
+    if(selection==="notWorking") {
+      setActiveFilter("Not Working")
+      setFilteredForms(notworkingReports);
+    } else if(selection === "isSafe") {
+      setActiveFilter("Safe To Work")
+      setFilteredForms(safeReports);
+    } else if(selection === "notSafe") {
+      setActiveFilter("Not Safe To Work")
+      setFilteredForms(notSafeReports);
+    } else {
+      setActiveFilter("All Submitted")
+      setFilteredForms(allForms);
+    }
+  }
 
   return (
     <>
@@ -250,7 +275,7 @@ const Dashboard = ({ history, match: { params } }) => {
               <div className="card">
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-xl-3 col-lg-6 col-sm-6 grid-margin-xl-0 grid-margin">
+                    <div className="col-xl-3 col-lg-6 col-sm-6 grid-margin-xl-0 grid-margin active-card-item" id="submitted" onClick={(e) => setActiveFilterElement(e, "submitted")}>
                       <div className="d-flex">
                         <div className="wrapper">
                           <h3 className="mb-0 font-weight-semibold">
@@ -263,7 +288,7 @@ const Dashboard = ({ history, match: { params } }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-xl-3 col-lg-6 col-sm-6 mt-md-0 mt-4 grid-margin-xl-0 grid-margin">
+                    <div className="col-xl-3 col-lg-6 col-sm-6 mt-md-0 mt-4 grid-margin-xl-0 grid-margin" id="isSafe" onClick={(e) => setActiveFilterElement(e,'isSafe')}>
                       <div className="d-flex">
                         <div className="wrapper">
                           <h3 className="mb-0 font-weight-semibold">
@@ -276,7 +301,7 @@ const Dashboard = ({ history, match: { params } }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-xl-3 col-lg-6 col-sm-6 mt-md-0 mt-4 grid-margin-xl-0 grid-margin">
+                    <div className="col-xl-3 col-lg-6 col-sm-6 mt-md-0 mt-4 grid-margin-xl-0 grid-margin" id="notSafe" onClick={(e) => setActiveFilterElement(e,'notSafe')}>
                       <div className="d-flex">
                         <div className="wrapper">
                           <h3 className="mb-0 font-weight-semibold">
@@ -291,7 +316,7 @@ const Dashboard = ({ history, match: { params } }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-xl-3 col-lg-6 col-sm-6 mt-md-0 mt-4 grid-margin-xl-0 grid-margin">
+                    <div className="col-xl-3 col-lg-6 col-sm-6 mt-md-0 mt-4 grid-margin-xl-0 grid-margin" id="notWorking" onClick={(e) => setActiveFilterElement(e,'notWorking')}>
                       <div className="d-flex">
                         <div className="wrapper">
                           <h3 className="mb-0 font-weight-semibold">
@@ -319,7 +344,6 @@ const Dashboard = ({ history, match: { params } }) => {
                   <Bar
                     data={marketingOverviewData}
                     options={marketingOverviewOptions}
-                    // datasetKeyProvider={this.datasetKeyProvider}
                     height={200}
                     id="marketingOverviewChart1"
                   />
@@ -333,15 +357,15 @@ const Dashboard = ({ history, match: { params } }) => {
                     data={data}
                     options={pieOptions}
                     height={200}
-                    ref={(input) => {
-                      chartInstance = input;
-                    }}
                   />
                 </div>
               </div>
             </div>
           </div>
           <br></br>
+          <h2 className="text-primary">
+            Showing {activeFilter} Forms :
+          </h2>
           <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
@@ -355,7 +379,7 @@ const Dashboard = ({ history, match: { params } }) => {
               </tr>
             </thead>
             <tbody>
-              {forms.map((form, index) => (
+              {filteredForms.map((form, index) => (
                 <tr key={form._id}>
                   <td>{index + 1}</td>
                   <td>{form.user.name}</td>
@@ -363,7 +387,7 @@ const Dashboard = ({ history, match: { params } }) => {
                   <td>{form.user.manager ? form.user.manager.name : null}</td>
                   <td>{form.user.department}</td>
                   <td>
-                    {isSafeToWork(form) ? (
+                    {form.isSafe ? (
                       <FontAwesomeIcon
                         icon="check"
                         style={{ color: "green" }}
