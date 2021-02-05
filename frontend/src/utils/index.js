@@ -4,7 +4,3 @@ export const isSafeToWork = (formFields) => {
 
 export const localDateTime = (UTCDateTime) =>
   new Date(UTCDateTime).toLocaleString();
-
-
-  export const localDate = (UTCDateTime) =>
-  new Date(UTCDateTime).toLocaleString()[0];

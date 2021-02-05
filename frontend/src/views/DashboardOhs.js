@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { localDateTime, isSafeToWork, localDate} from "../utils/index";
+import { localDateTime, isSafeToWork, localDate } from "../utils/index";
 import { listAllForms } from "../redux/actions/form";
 
 import { Pie, Bar } from "react-chartjs-2";
@@ -20,20 +20,22 @@ const Dashboard = ({ history, match: { params } }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const [allForms, setAllForms] = useState([]);
   const [safeReports, setSafeReports] = useState([]);
   const [safePercent, setSafePercent] = useState("0");
   const [notworkingReports, setNotworkingReports] = useState([]);
   const [notworkingPercent, setNotworkingPercent] = useState("0");
   const [dates, setDates] = useState([]);
+  const [safeReportsWeekly, setSafeReportsWeekly] = useState([]);
+  const [notsafeReportsWeekly, setNotsafeReportsWeekly] = useState([]);
 
   const pieOptions = {
-    height: '300px',
+    height: "300px",
     legend: {
       display: false,
       position: "right",
       legendCallback: function (chart) {
         // Return the HTML string here.
-        console.log("CHART :", chart);
         return [];
       },
     },
@@ -93,6 +95,7 @@ const Dashboard = ({ history, match: { params } }) => {
 
   useEffect(() => {
     if (forms) {
+      setAllForms(forms);
       calculations();
       barCalculation();
     } else {
@@ -102,10 +105,13 @@ const Dashboard = ({ history, match: { params } }) => {
   const calculations = () => {
     const result = forms.filter((form) => form.isSafe === true);
     setSafeReports(result);
+
     const safepercent = Math.floor((safeReports.length / forms.length) * 100);
     setSafePercent(safepercent);
+
     const notworking = forms.filter((form) => form.working === false);
     setNotworkingReports(notworking);
+
     const notworkingcount = notworking.length;
     const notworkingpercent = Math.floor(
       (notworkingcount / forms.length) * 100
@@ -113,70 +119,79 @@ const Dashboard = ({ history, match: { params } }) => {
     setNotworkingPercent(notworkingpercent);
   };
 
+  const weeklySafeCheck = (ordered_forms) => {
+    for (const [key, value] of Object.entries(ordered_forms)) {
+      const isSafeObj = { isSafeList: [], noSafeList: [] };
+      value.forEach((form) => {
+        if (form.isSafe) {
+          isSafeObj["isSafeList"].push(form);
+        } else {
+          isSafeObj["noSafeList"].push(form);
+        }
+      });
+      ordered_forms[key] = isSafeObj;
+    }
+
+    const safeReportsCurrentWeek = Object.keys(ordered_forms).map((key) => {
+      return ordered_forms[key].isSafeList
+        ? ordered_forms[key].isSafeList.length
+        : 0;
+    });
+    setSafeReportsWeekly(safeReportsCurrentWeek);
+    const notsafeReportsCurrentWeek = Object.keys(ordered_forms).map((key) => {
+      return ordered_forms[key].noSafeList
+        ? ordered_forms[key].noSafeList.length
+        : 0;
+    });
+    setNotsafeReportsWeekly(notsafeReportsCurrentWeek);
+  };
+
   const barCalculation = () => {
     if (forms) {
-      // console.log("Forms : ", forms);
-      // const obj = Object.fromEntries(
-      //   forms.map(form =>  [ localDateTime(form.createdAt).split("T")[0], {form}  ]
-      // ));
-      // console.log("OBJ :", obj)
       function groupBy(key) {
         return function group(forms) {
           return forms.reduce((acc, obj) => {
-            const property = localDateTime(obj[key]).split(',')[0];
+            const property = localDateTime(obj[key]).split(",")[0];
             acc[property] = acc[property] || [];
             acc[property].push(obj);
             return acc;
-          }, {});          
+          }, {});
         };
-      }      
+      }
       const groupByYear = groupBy("createdAt");
       const ordered_forms = groupByYear(forms);
-      console.log("FORMS ORDERED :", ordered_forms);
-      setDates(Object.keys(ordered_forms));
+      const dateArr = Object.keys(ordered_forms);
+      const sortedDates = dateArr.sort((a, b) => b - a);
+      const sorted = sortedDates.slice(Math.max(sortedDates.length - 7, 0));
+
+      setDates(sortedDates);
+      weeklySafeCheck(ordered_forms);
     }
   };
-
-
-
-
 
   const marketingOverviewData = {
     labels: dates,
     datasets: [
       {
-        label: "OVERDUE",
-        data: [145, 238, 148, 293, 242, 235, 256, 334],
+        label: "SAFE TO WORK",
+        data: safeReportsWeekly,
         backgroundColor: "#826af9",
         borderColor: "#826af9",
-        borderWidth: 0,
+        borderWidth: 1,
       },
       {
-        label: "SNOOZED",
-        data: [330, 380, 230, 400, 309, 430, 340, 310],
-        borderColor: "#9e86ff",
-        borderWidth: 0,
-      },
-      {
-        label: "COMPLETED",
-        data: [375, 440, 284, 450, 386, 480, 400, 365],
-        backgroundColor: "#d0aeff",
-        borderColor: "#d0aeff",
-        borderWidth: 0,
-      },
-      {
-        label: "PENDING",
-        data: [425, 480, 324, 490, 426, 520, 440, 405],
+        label: "NOT SAFE TO WORK",
+        data: notsafeReportsWeekly,
         backgroundColor: "#f7d2ff",
         borderColor: "#f7d2ff",
-        borderWidth: 0,
+        borderWidth: 1,
       },
     ],
   };
   const marketingOverviewOptions = {
     responsive: true,
     maintainAspectRatio: true,
-    height: '500px',
+    height: "500px",
     layout: {
       padding: {
         left: 0,
@@ -189,34 +204,17 @@ const Dashboard = ({ history, match: { params } }) => {
       yAxes: [
         {
           ticks: {
-            max: 400,
+            max: allForms.length,
             display: true,
             beginAtZero: true,
             fontColor: "#b9b8b8",
-            stepSize: 100,
+            stepSize: Math.ceil(allForms.length / 10),
           },
           gridLines: {
             display: false,
             color: "#dde4eb",
             zeroLineColor: "#dde4eb",
           },
-        },
-      ],
-      xAxes: [
-        {
-          stacked: true,
-          ticks: {
-            beginAtZero: true,
-            fontColor: "#b9b8b8",
-            color: "#dde4eb",
-            zeroLineColor: "#dde4eb",
-          },
-          gridLines: {
-            display: true,
-            color: "#dde4eb",
-            zeroLineColor: "#dde4eb",
-          },
-          barPercentage: 0.2,
         },
       ],
     },
