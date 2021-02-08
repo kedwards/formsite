@@ -18,6 +18,14 @@ else
   DOMAINS=$1
 fi
 
+if [ -z "$2" ]
+then
+  echo "You must confirm staging or production." 1>&2
+  exit 1
+else
+  STAGING=$2
+fi
+
 if ! [ -x "$(command -v docker-compose)" ]; then
   echo 'Error: docker-compose is not installed.' >&2
   exit 1
@@ -25,7 +33,7 @@ fi
 
 domains=${DOMAINS} #(example.org www.example.org)
 rsa_key_size=4096
-data_path="./nginx/certbot"
+data_path="./certbot"
 email="it@connectusglobal.com" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 
