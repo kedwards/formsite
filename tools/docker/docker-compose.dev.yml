@@ -8,13 +8,13 @@ services:
     ports:
       - "3002:3002"
     env_file:
-      - ./env/.env-frontend
+      - ./.env-frontend
     volumes:
       - ../../frontend:/home/node/frontend
       - ./node/frontend/node_modules:/home/node/frontend/node_modules
     command: npm run start
     networks:
-      - dev
+      - formsite
 
   backend:
     image: node
@@ -23,14 +23,17 @@ services:
     ports:
       - "3003:3003"
     env_file:
-      - ./env/.env-backend
+      - ./.env-backend
     volumes:
       - ../../backend:/home/node/backend
       - ./node/backend/node_modules:/home/node/backend/node_modules
     command: npm run watch
     networks:
-      - dev
+      - formsite
+      - admin
 
 networks:
-  dev:
+  formsite:
+    external: true
+  admin:
     external: true

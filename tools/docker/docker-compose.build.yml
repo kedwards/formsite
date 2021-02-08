@@ -38,9 +38,3 @@ services:
     env_file:
       - ./env/.env-backend
     command: ${CMD} ${PKG}
-    networks:
-      - dev
-
-networks:
-  dev:
-    external: true
