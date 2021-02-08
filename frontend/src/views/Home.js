@@ -11,10 +11,6 @@ const Home = () => {
       <img fluid src={banner} alt='Dynalife Edmonton map'></img>
       <h1>Dynalife</h1>
       <p>Dynalife Attestation form website</p>
-      <p>
-        This is a sample website showcasing the abilities of the form
-        applcation.
-      </p>
       <p>&nbsp;</p>
       <footer>
         <Container style={{ overflow: "hidden" }}>
