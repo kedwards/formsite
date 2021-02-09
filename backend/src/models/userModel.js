@@ -21,6 +21,18 @@ export const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    badgeId: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    employeeNumber: {
+      type: String,
+      required: true,
+    },
     department: {
       type: String,
       required: true,
@@ -39,9 +51,6 @@ export const userSchema = mongoose.Schema(
     isManager: {
       type: Boolean,
       default: false,
-    },
-    roleId: {
-      type: Number,
     },
   },
   { timestamps: true }

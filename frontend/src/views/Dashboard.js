@@ -167,15 +167,15 @@ const Dashboard = ({ history, match: { params } }) => {
       const ordered_forms = groupByYear(forms);
       const dateArr = Object.keys(ordered_forms);
       const sortedDates = dateArr.sort((a, b) => b - a);
-      // const sorted = sortedDates.slice(Math.max(sortedDates.length - 7, 0));
+      const sorted = sortedDates.slice(Math.max(sortedDates.length - 7, 0));
 
-      setDates(sortedDates);
+      setDates(sorted);
       weeklySafeCheck(ordered_forms);
     }
   }, [forms, weeklySafeCheck]);
 
   useEffect(() => {
-    if (!userInfo || !userInfo.isOhs) {
+    if (!userInfo || !userInfo.isOhs || !userInfo.isAdmin) {
       history.push("/login");
     }
 

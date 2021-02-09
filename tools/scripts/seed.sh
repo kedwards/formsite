@@ -15,11 +15,11 @@ _PASSWORD=localAdminPassword
 #    }
 # )
 
-docker exec -it mongodb \
-  mongo admin \
-  -u  ${_USER} \
-  -p ${_PASSWORD} \
-  --eval "db.getSiblingDB('dynalife').createUser({user: 'dynalifeAdminUser1', pwd: 'Df1I4Q&JlO8dMrD', roles: ['readWrite']})"
+# docker exec -it mongodb \
+#   mongo admin \
+#   -u  ${_USER} \
+#   -p ${_PASSWORD} \
+#   --eval "db.getSiblingDB('dynalife').createUser({user: 'dynalifeAdminUser1', pwd: 'Df1I4Q&JlO8dMrD', roles: ['readWrite']})"
 
 docker run -it --network=admin \
 -v $(pwd)/data:/mongostuff \

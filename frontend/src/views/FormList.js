@@ -6,7 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Paginate from "../components/Paginate";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { localDateTime, isSafeToWork } from "../utils/index";
+import { localDateTime } from "../utils/index";
 import { listForms } from "../redux/actions/form";
 
 const FormList = ({ history, match: { params } }) => {
@@ -64,7 +64,7 @@ const FormList = ({ history, match: { params } }) => {
                   <td>{form.user.manager ? form.user.manager.name : null}</td>
                   <td>{form.user.department}</td>
                   <td>
-                    {isSafeToWork(form) ? (
+                    {form.isSafe ? (
                       <FontAwesomeIcon
                         icon='check'
                         style={{ color: "green" }}
@@ -76,7 +76,6 @@ const FormList = ({ history, match: { params } }) => {
                   <td>
                     <LinkContainer to={`/form/${form._id}`}>
                       <Button className='btn-sm' variant='light'>
-                        {/* Details */}
                         <FontAwesomeIcon icon='eye' />
                       </Button>
                     </LinkContainer>

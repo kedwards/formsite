@@ -9,6 +9,7 @@ import reducer from "./reducers";
 const persistConfig = {
   key: "root",
   storage: storage,
+  blacklist: ["formSubmit"],
   stateReconciler: autoMergeLevel2,
 };
 

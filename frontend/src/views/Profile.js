@@ -12,7 +12,10 @@ import { listMyForms } from "../redux/actions/form";
 const Profile = ({ history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [title, setTitle] = useState("");
+  const [badgeId, setBadgeId] = useState("");
   const [department, setDepartment] = useState("");
+  const [employeeNumber, setEmployeeNumber] = useState("");
   const [manager, setManager] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -47,8 +50,11 @@ const Profile = ({ history }) => {
       } else {
         setName(user.name);
         setEmail(user.email);
+        setEmployeeNumber(user.employeeNumber);
         setDepartment(user.department);
         setManager(user.manager);
+        setTitle(user.title);
+        setBadgeId(user.badgeId);
       }
     }
   }, [dispatch, history, userInfo, user, success, show]);
@@ -95,9 +101,38 @@ const Profile = ({ history }) => {
               disabled
             ></Form.Control>
           </Form.Group>{" "}
+          <Form.Group controlId='title'>
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter title'
+              value={title}
+              disabled
+            ></Form.Control>
+          </Form.Group>{" "}
           <Form.Group controlId='manager'>
             <Form.Label>Manager</Form.Label>
             <Form.Control type='text' value={manager} disabled></Form.Control>
+          </Form.Group>{" "}
+          <Form.Group controlId='employeeNumber'>
+            <Form.Label>Employee Number</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter employee number'
+              value={employeeNumber}
+              onChange={(e) => setEmployeeNumber(e.target.value)}
+              disabled
+            ></Form.Control>
+          </Form.Group>{" "}
+          <Form.Group controlId='badgeId'>
+            <Form.Label>Badge ID</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter employee badge id'
+              value={badgeId}
+              onChange={(e) => setBadgeId(e.target.value)}
+              disabled
+            ></Form.Control>
           </Form.Group>{" "}
           <Form.Group controlId='department'>
             <Form.Label>Department</Form.Label>
