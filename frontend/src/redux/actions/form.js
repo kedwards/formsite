@@ -62,7 +62,6 @@ export const listForms = (pageNumber = "") => async (dispatch, getState) => {
   }
 };
 
-
 export const listAllForms = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -79,10 +78,7 @@ export const listAllForms = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `/api/v1/forms/allforms`,
-      config
-    );
+    const { data } = await axios.get(`/api/v1/forms/allforms`, config);
 
     dispatch({
       type: FORM_ALL_LIST_SUCCESS,

@@ -35,6 +35,4 @@ services:
 
   backend:
     <<: *backend_base
-    env_file:
-      - ./env/.env-backend
     command: ${CMD} ${PKG}

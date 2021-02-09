@@ -1,4 +1,5 @@
 import { Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -11,60 +12,45 @@ import UserEdit from "./views/UserEdit";
 import AttestationForm from "./views/AttestationForm";
 import Form from "./views/Form";
 import FormList from "./views/FormList";
-import Dashboard from "./views/DashboardOhs";
+import Dashboard from "./views/Dashboard";
+import defineAbilitiesFor from "./utils/can";
+import "./utils/fontawesome";
 
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { far } from "@fortawesome/free-regular-svg-icons";
-import {
-  faCaretSquareLeft,
-  faCheck,
-  faEdit,
-  faEye,
-  faPlus,
-  faTimes,
-  faTrash,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+const App = () => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  const ability = defineAbilitiesFor(userInfo);
 
-library.add(
-  far,
-  faCaretSquareLeft,
-  faCheck,
-  faEdit,
-  faEye,
-  faPlus,
-  faTimes,
-  faTrash,
-  faUser
-);
-
-const App = () => (
-  <Router>
-    <Route>
-      <Header />
-      <main className='px-3'>
-        <Container style={{ overflow: "hidden" }}>
-          <Route path='/login' component={Login} exact />
-          <Route path='/form/:id' component={Form} />
-          <Route path='/form' component={AttestationForm} exact />
-          <Route path='/profile' component={Profile} exact />
-          <Route path='/register' component={Register} exact />
-          <Route path='/admin/userlist' component={UserList} exact />
-          <Route path='/admin/formlist' component={FormList} exact />
-          <Route
-            path='/admin/formlist/:pageNumber'
-            component={FormList}
-            exact
-          />
-          <Route exact path='/admin/dashboard' component={Dashboard} />
-          <Route path='/admin/formList/user/:id' component={FormList} />
-          <Route path='/admin/user/:id/edit' component={UserEdit} />
-          <Route path='/' component={Home} exact />
-        </Container>
-        <Footer />
-      </main>
-    </Route>
-  </Router>
-);
+  return (
+    <Router>
+      <Route>
+        <Header />
+        <main className='px-3'>
+          <Container style={{ overflow: "hidden" }}>
+            <Route path='/login' component={Login} exact />
+            <Route path='/form/:id' component={Form} />
+            <Route path='/form' component={AttestationForm} exact />
+            <Route path='/profile' component={Profile} exact />
+            <Route path='/register' component={Register} exact />
+            <Route path='/admin/userlist' component={UserList} exact />
+            <Route path='/admin/formlist' component={FormList} exact />
+            <Route
+              path='/admin/formlist/:pageNumber'
+              component={FormList}
+              exact
+            />
+            {ability.can("read", "Dashboard") && (
+              <Route exact path='/admin/dashboard' component={Dashboard} />
+            )}
+            <Route path='/admin/formList/user/:id' component={FormList} />
+            <Route path='/admin/user/:id/edit' component={UserEdit} />
+            <Route path='/' component={Home} exact />
+          </Container>
+          <Footer />
+        </main>
+      </Route>
+    </Router>
+  );
+};
 
 export default App;

@@ -199,6 +199,14 @@
     },
     "userId": "60133a128636490013081153",
     "userDepartment": "Business",
+    "working": false,
+    "formFields": {
+      "traveled": false,
+      "symptoms": false,
+      "contact": false,
+      "exposure": true,
+      "test": false
+    },
     "createdAt": {
       "$date": "2021-01-27T22:29:16.592Z"
     },

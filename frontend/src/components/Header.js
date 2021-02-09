@@ -1,4 +1,5 @@
 import React from "react";
+import defineAbilitiesFor from "../utils/can";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Nav,
@@ -16,8 +17,8 @@ import logo from "../images/DLLogo450.png";
 const Header = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
-
   const { userInfo } = userLogin;
+  const ability = defineAbilitiesFor(userInfo);
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -81,9 +82,11 @@ const Header = () => {
                     <LinkContainer to='/admin/formlist'>
                       <NavDropdown.Item>Forms</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to='/admin/dashboard'>
-                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                    </LinkContainer>
+                    {ability.can("read", "Dashboard") && (
+                      <LinkContainer to='/admin/dashboard'>
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                    )}
                   </NavDropdown>
                 )}
             </Nav>

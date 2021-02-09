@@ -56,7 +56,7 @@ const formListReducer = (state = { forms: [] }, action) => {
         loading: false,
         forms: action.payload.forms,
         page: action.payload.page,
-        pages: action.payload.pages
+        pages: action.payload.pages,
       };
     case FORM_LIST_FAIL:
       return { loading: false, error: action.payload };
@@ -73,7 +73,7 @@ const formAllListReducer = (state = { forms: [] }, action) => {
       return {
         loading: false,
         forms: action.payload.forms,
-        count: action.payload.count
+        count: action.payload.count,
       };
     case FORM_ALL_LIST_FAIL:
       return { loading: false, error: action.payload };
