@@ -6,9 +6,11 @@ services:
     container_name: frontend
     working_dir: /home/node/frontend/
     ports:
-      - "3002:3002"
-    env_file:
-      - ./.env-frontend
+      - "${REACT_APP_PORT}:${REACT_APP_PORT}"
+    environment:
+      - PORT=${REACT_APP_PORT}
+      - REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
+      - REACT_APP_API_PORT=${REACT_APP_API_PORT}
     volumes:
       - ../../frontend:/home/node/frontend
       - ./node/frontend/node_modules:/home/node/frontend/node_modules
@@ -21,9 +23,14 @@ services:
     container_name: backend
     working_dir: /home/node/backend/
     ports:
-      - "3003:3003"
-    env_file:
-      - ./.env-backend
+      - "${NODE_PORT}:${NODE_PORT}"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${NODE_PORT}
+      - REGISTRATION_ENABLED=${REGISTRATION_ENABLED}
+      - LOGIN_ENABLED=${LOGIN_ENABLED}
+      - DB_URI=${DB_URI}
+      - JWT_SECRET=${JWT_SECRET}
     volumes:
       - ../../backend:/home/node/backend
       - ./node/backend/node_modules:/home/node/backend/node_modules

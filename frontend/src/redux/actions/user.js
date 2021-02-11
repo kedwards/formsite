@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sprintf } from "sprintf-js";
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -24,7 +25,8 @@ import {
   USER_UPDATE_FAIL,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
-} from "../../constants/user.js";
+} from "../../constants/user";
+import apiUri from "../../constants/api";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -39,7 +41,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "/api/v1/users/login",
+      apiUri.login,
       { email, password },
       config
     );
@@ -88,7 +90,7 @@ export const register = (name, email, password, department, manager) => async (
     };
 
     const { data } = await axios.post(
-      "/api/v1/users",
+      apiUri.users,
       { name, email, password, department, manager },
       config
     );
@@ -136,7 +138,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/v1/users/${id}`, config);
+    const { data } = await axios.get(sprintf(apiUri.usersId, id), config);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -170,7 +172,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/v1/users/profile`, user, config);
+    const { data } = await axios.put(apiUri.updateProfile, user, config);
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
@@ -216,7 +218,7 @@ export const listUsers = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/v1/users`, config);
+    const { data } = await axios.get(apiUri.users, config);
 
     dispatch({
       type: USER_LIST_SUCCESS,
@@ -251,7 +253,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/users/${id}`, config);
+    await axios.delete(sprintf(apiUri.userId, id), config);
 
     dispatch({ type: USER_DELETE_SUCCESS });
   } catch (error) {
@@ -283,7 +285,11 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/v1/users/${user._id}`, user, config);
+    const { data } = await axios.put(
+      sprintf(apiUri.usersId, user._id),
+      user,
+      config
+    );
 
     dispatch({ type: USER_UPDATE_SUCCESS });
 

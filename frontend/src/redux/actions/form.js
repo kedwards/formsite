@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sprintf } from "sprintf-js";
 import {
   FORM_LIST_REQUEST,
   FORM_LIST_SUCCESS,
@@ -25,6 +26,7 @@ import {
   FORM_DAILY_MY_SUCCESS,
   FORM_DAILY_MY_FAIL,
 } from "../../constants/form.js";
+import apiUri from "../../constants/api";
 
 export const listForms = (pageNumber = "") => async (dispatch, getState) => {
   try {
@@ -43,7 +45,7 @@ export const listForms = (pageNumber = "") => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `/api/v1/forms?pageNumber=${pageNumber}`,
+      sprintf(apiUri.listForms, pageNumber),
       config
     );
 
@@ -78,7 +80,7 @@ export const listAllForms = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/v1/forms/allforms`, config);
+    const { data } = await axios.get(apiUri.listAllForms, config);
 
     dispatch({
       type: FORM_ALL_LIST_SUCCESS,
@@ -113,7 +115,7 @@ export const deliverForm = (form) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/forms/${form._id}/deliver`,
+      sprintf(apiUri.deliverForm, form._id),
       {},
       config
     );
@@ -151,7 +153,10 @@ export const listUserForms = (userId) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/forms/userforms/${userId}`, config);
+    const { data } = await axios.get(
+      sprintf(apiUri.listUserForms, userId),
+      config
+    );
 
     dispatch({
       type: FORM_LIST_USER_SUCCESS,
@@ -185,7 +190,7 @@ export const listMyForms = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/v1/forms/myforms`, config);
+    const { data } = await axios.get(apiUri.listMyForms, config);
 
     dispatch({
       type: FORM_LIST_MY_SUCCESS,
@@ -219,7 +224,7 @@ export const submitForm = (formFields) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post("/api/v1/forms", formFields, config);
+    const { data } = await axios.post(apiUri.forms, formFields, config);
 
     dispatch({
       type: FORM_SUBMITTED_SUCCESS,
@@ -254,7 +259,7 @@ export const getFormDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/v1/forms/${id}`, config);
+    const { data } = await axios.get(sprintf(apiUri.formDetails, id), config);
 
     dispatch({
       type: FORM_DETAILS_SUCCESS,
@@ -287,7 +292,7 @@ export const getMyDailyForm = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/forms/mydailyforms`, config);
+    const { data } = await axios.get(apiUri.dailyForm, config);
 
     dispatch({
       type: FORM_DAILY_MY_SUCCESS,

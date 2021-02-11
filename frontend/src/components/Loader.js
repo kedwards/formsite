@@ -4,11 +4,10 @@ import { Spinner } from "react-bootstrap";
 const Loader = () => {
   return (
     <Spinner
-      animation='border'
+      animation='grow'
+      variant='primary'
       role='status'
       style={{
-        width: "100px",
-        heigh: "100px",
         margin: "auto",
         display: "block",
       }}

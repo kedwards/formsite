@@ -16,6 +16,7 @@
     "@casl/ability": "^5.2.2",
     "@casl/mongoose": "^3.2.2",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "js-yaml": "^4.0.0",
