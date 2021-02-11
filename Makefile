@@ -20,21 +20,20 @@ help:
 ##@ [Targets]
 .PHONY: clean_all
 clean_all: clean ## Removes all build files
-	@sudo rm -rf   $(DOCKER_COMPOSE_DIR)/node
+	@sudo rm -rf $(DOCKER_COMPOSE_DIR)/node
 
 .PHONY: clean
 clean: ## Removes the temp build files
-	@sudo rm -f $(DOCKER_COMPOSE_DIR)/.env-*
+	@sudo rm -f $(DOCKER_COMPOSE_DIR)/.env
 
 .PHONY: clean init
 init: ## Init the projects
-	@cp $(DOCKER_COMPOSE_DIR)/_sys/env/.env-frontend $(DOCKER_COMPOSE_DIR)/.env-frontend && \
-	cp $(DOCKER_COMPOSE_DIR)/_sys/env/.env-backend $(DOCKER_COMPOSE_DIR)/.env-backend
+	@cp $(DOCKER_COMPOSE_DIR)/_sys/env/.env $(DOCKER_COMPOSE_DIR)/.env
 
 .PHONY: build
 build: ## Build all docker images. Build a specific image by providing the service name via: make build CONTAINER=<service>
 	@cd $(SERVICE)/ && \
-	./build.sh -t $(TAG) -v $(VERSION)
+	./build.sh -t $(TAG)
 
 .PHONY: pull
 pull: ## Pull images (no-cache). Build a specific image: SERVICE=<service> make up
