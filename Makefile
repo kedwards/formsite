@@ -56,4 +56,4 @@ remove: ## Stop and remove a service, remove a specific service: SERVICE=<servic
 
 .PHONY: service
 service: ## install into container. install a specific package: PKG=<package> make install 
-	@$(DOCKER_COMPOSE) run --rm ${SERVICE}
+	@$(DOCKER_COMPOSE) run --rm $(SERVICE)
