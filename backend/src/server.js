@@ -4,12 +4,11 @@ import express from "express";
 import router from "./routes/index.js";
 import connectDB from "./config/db.js";
 
-const corsOption = {
-  origin: "*",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  // exposedHeaders: ["x-auth-token"],
-};
+// const corsOption = {
+//   origin: "*",
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true,
+// };
 // // allow cors requests from any origin and with credentials
 // app.use(
 //   cors({
@@ -23,7 +22,7 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors(corsOption));
+// app.use(cors(corsOption));
 app.use(router);
 
 // required as we are using es modules

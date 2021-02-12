@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <>
       <Meta />
-      <img fluid src={banner} alt='Dynalife Edmonton map'></img>
+      <img fluid={"true"} src={banner} alt='Dynalife Edmonton map'></img>
       <h1>Dynalife</h1>
       <p>Dynalife Attestation form website</p>
       <p>&nbsp;</p>
@@ -16,7 +16,11 @@ const Home = () => {
         <Container style={{ overflow: "hidden" }}>
           <Row>
             <Col>
-              <img fluid src={footer} alt='Dynalife Edmonton map'></img>
+              <img
+                fluid={"true"}
+                src={footer}
+                alt='Dynalife Edmonton map'
+              ></img>
             </Col>
           </Row>
         </Container>

@@ -1,6 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
+  "proxy": "http://backend:3003",
   "private": true,
   "dependencies": {
     "@casl/ability": "^5.2.2",

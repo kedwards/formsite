@@ -1,8 +1,3 @@
-# tell Docker to use BuildKit
-# tell Compose to use the CLI version of Docker and therefore BuildKit.
-# export DOCKER_BUILDKIT=1
-# export COMPOSE_DOCKER_CLI_BUILD=1
-
 ifdef COMPOSE
   DOCKER_COMPOSE_PATH=docker-compose.$(COMPOSE).yml
 else
@@ -12,6 +7,16 @@ endif
 DOCKER_COMPOSE_DIR=./tools/docker
 DOCKER_COMPOSE_FILE=$(DOCKER_COMPOSE_DIR)/$(DOCKER_COMPOSE_PATH)
 DOCKER_COMPOSE=docker-compose -f $(DOCKER_COMPOSE_FILE) --project-directory $(DOCKER_COMPOSE_DIR)
+
+NETWORK=formsite
+
+FLY_CI_PASS=admin
+FLY_CI_DIR=./tools/ci
+FLY_TASKS=e -c ${FLY_DIR}/tasks
+FLY_PIPELINES=sp -c ${FLY_DIR}/pipelines
+FLY_SCRIPTS=${FLY_DIR}/scripts
+FLY_TARGET=gfatha
+FLY=fly -t $(FLY_TARGET)
 
 DEFAULT_GOAL := help
 help:
@@ -23,24 +28,20 @@ clean_all: clean ## Removes all build files
 	@sudo rm -rf $(DOCKER_COMPOSE_DIR)/node
 
 .PHONY: clean
-clean: ## Removes the temp build files
-	@sudo rm -f $(DOCKER_COMPOSE_DIR)/.env
+clean: ## Removes the environment file and network
+	@rm -rf $(DOCKER_COMPOSE_DIR)/.env
 
-.PHONY: clean init
-init: ## Init the projects
-	@cp $(DOCKER_COMPOSE_DIR)/_sys/env/.env $(DOCKER_COMPOSE_DIR)/.env
-
+.PHONY: init
+init: clean ## Init the projects
+	@cp $(DOCKER_COMPOSE_DIR)/sys/env/.env $(DOCKER_COMPOSE_DIR)/.env 
+	
 .PHONY: build
 build: ## Build all docker images. Build a specific image by providing the service name via: make build CONTAINER=<service>
 	@cd $(SERVICE)/ && \
 	./build.sh -t $(TAG)
 
-.PHONY: pull
-pull: ## Pull images (no-cache). Build a specific image: SERVICE=<service> make up
-	@$(DOCKER_COMPOSE) pull $(SERVICE)
-
 .PHONY: up
-up: ## Rebuild images (no-cache). Build a specific image via: make build-clean SERVICE=<service>
+up: init ## Rebuild images (no-cache). Build a specific image via: make build-clean SERVICE=<service>
 	@$(DOCKER_COMPOSE) rm -fs $(SERVICE) && \
 	$(DOCKER_COMPOSE) build --pull --no-cache --parallel $(SERVICE) && \
 	$(DOCKER_COMPOSE) up -d --force-recreate $(SERVICE)

@@ -8,19 +8,33 @@ connectDB();
 const importData = async () => {
   try {
     await User.deleteMany({});
+    await Forms.deleteMany({});
 
-    const departmentUsers = [];
+    const sysAdmin = {
+      employeeNumber: "000000000",
+      name: "System Administrator",
+      password: bcrypt.hashSync("Password123?", 10),
+      badgeId: "000000000000",
+      title: "Sysyem Administrator",
+      department: "System",
+      email: "sysyadmin@forms.dynalife.ca",
+      isSysAdmin: "true",
+    };
 
-    users.map((t) => {
-      departmentUsers.push({
-        ...t,
-        password: bcrypt.hashSync(t.employeeNumber, 10),
+    const sysAdminUser = await User.insertMany(sysAdmin);
+    sysAdminUser.manager = sysAdminUser._id;
+    await sysAdminUser.save();
+
+    const dynalifeUsers = [];
+
+    users.map((user) => {
+      dynalifeUsers.push({
+        ...user,
+        password: bcrypt.hashSync(user.employeeNumber, 10),
       });
     });
 
-    // console.log(departmentUsers);
-
-    await User.insertMany(departmentUsers);
+    await User.insertMany(dynalifeUsers);
     process.exit();
   } catch (error) {
     console.error(`${error}`);

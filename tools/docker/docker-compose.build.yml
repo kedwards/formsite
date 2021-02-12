@@ -28,19 +28,11 @@ services:
 
   backend_base: &backend_base
     image: node
-    env_file:
-      - ./.env-backend
     volumes:
       - ../../backend:/home/node/backend
       - ./node/backend/node_modules:/home/node/backend/node_modules
     working_dir: /home/node/backend/
-    networks:
-      - admin
 
   backend:
     <<: *backend_base
     command: ${CMD} ${PKG}
-
-networks:
-  admin:
-    external: true
