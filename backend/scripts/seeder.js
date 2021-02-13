@@ -16,9 +16,9 @@ const importData = async () => {
       name: "System Administrator",
       password: bcrypt.hashSync("Password123?", 10),
       badgeId: "000000000000",
-      title: "Sysyem Administrator",
+      title: "System Administrator",
       department: "System",
-      email: "sysyadmin@forms.dynalife.ca",
+      email: "sysadmin@forms.dynalife.ca",
       isSysAdmin: true,
     };
     const sysAdminUser = await User.create(sysAdmin);

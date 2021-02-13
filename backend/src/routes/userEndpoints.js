@@ -18,6 +18,8 @@ import {
   getUserById,
   deleteUser,
   updateUser,
+  logoutUser,
+  logoutUserFromAll,
 } from "../controllers/userController.js";
 
 const userEndpoints = [
@@ -32,6 +34,18 @@ const userEndpoints = [
     method: "POST",
     middleware: [createAbilities, checkLoginAbility],
     implementation: authUser,
+  },
+  {
+    route: "/users/me/logout",
+    method: "POST",
+    middleware: [protect],
+    implementation: logoutUser,
+  },
+  {
+    route: "/users/me/logoutall",
+    method: "POST",
+    middleware: [protect],
+    implementation: logoutUserFromAll,
   },
   {
     route: "/users/profile",

@@ -1,10 +1,14 @@
 import axios from "axios";
+import localforage from "localforage";
 import { sprintf } from "sprintf-js";
+// import yn from "yn";
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
-  USER_LOGOUT,
+  USER_LOGOUT_REQUEST,
+  USER_LOGOUT_SUCCESS,
+  USER_LOGOUT_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
@@ -28,7 +32,7 @@ import {
 } from "../../constants/user";
 import apiUri from "../../constants/api";
 
-export const login = (email, password) => async (dispatch) => {
+const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
@@ -51,7 +55,7 @@ export const login = (email, password) => async (dispatch) => {
       payload: data,
     });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    await localforage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -63,36 +67,43 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
-  localStorage.removeItem("userInfo");
+const logout = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_LOGOUT_REQUEST,
+    });
 
-  dispatch({
-    type: USER_LOGOUT,
-  });
-  dispatch({
-    type: USER_DETAILS_RESET,
-  });
-  localStorage.clear();
-  document.location.href = "/login";
+    dispatch({
+      type: USER_LOGOUT_SUCCESS,
+    });
+
+    // failing request to remove JWT token
+    // await axios.post("/api/v1/users/me/logout", config);
+
+    await localforage.clear();
+    document.location.href = "/";
+  } catch (error) {
+    dispatch({
+      type: USER_LOGOUT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
 };
 
-export const register = (name, email, password, department, manager) => async (
-  dispatch,
-  getState
+const register = (name, email, password, department, manager) => async (
+  dispatch
 ) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST,
     });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
@@ -113,7 +124,7 @@ export const register = (name, email, password, department, manager) => async (
         payload: data,
       });
 
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      await localforage.setItem("userInfo", JSON.stringify(data));
     }
 
     throw new Error(data.message);
@@ -128,7 +139,7 @@ export const register = (name, email, password, department, manager) => async (
   }
 };
 
-export const getUserDetails = (id) => async (dispatch, getState) => {
+const getUserDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_DETAILS_REQUEST,
@@ -162,7 +173,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
   }
 };
 
-export const updateUserProfile = (user) => async (dispatch, getState) => {
+const updateUserProfile = (user) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_UPDATE_PROFILE_REQUEST,
@@ -191,7 +202,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       payload: data,
     });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    await localforage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
@@ -203,13 +214,13 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   }
 };
 
-export const userProfileReset = () => async (dispatch) => {
+const userProfileReset = () => async (dispatch) => {
   dispatch({
     type: USER_UPDATE_RESET,
   });
 };
 
-export const listUsers = () => async (dispatch, getState) => {
+const listUsers = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_LIST_REQUEST,
@@ -232,7 +243,7 @@ export const listUsers = () => async (dispatch, getState) => {
       payload: data,
     });
 
-    localStorage.setItem("userList", JSON.stringify(data));
+    await localforage.setItem("userList", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LIST_FAIL,
@@ -244,7 +255,7 @@ export const listUsers = () => async (dispatch, getState) => {
   }
 };
 
-export const deleteUser = (id) => async (dispatch, getState) => {
+const deleteUser = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_DELETE_REQUEST,
@@ -275,7 +286,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
   }
 };
 
-export const updateUser = (user) => async (dispatch, getState) => {
+const updateUser = (user) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_UPDATE_REQUEST,
@@ -313,4 +324,16 @@ export const updateUser = (user) => async (dispatch, getState) => {
       payload: message,
     });
   }
+};
+
+export {
+  login,
+  logout,
+  register,
+  getUserDetails,
+  updateUserProfile,
+  userProfileReset,
+  listUsers,
+  deleteUser,
+  updateUser,
 };

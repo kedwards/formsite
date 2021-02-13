@@ -28,7 +28,7 @@ import {
 } from "../../constants/form.js";
 import apiUri from "../../constants/api";
 
-export const listForms = (pageNumber = "") => async (dispatch, getState) => {
+const listForms = (pageNumber = "") => async (dispatch, getState) => {
   try {
     dispatch({
       type: FORM_LIST_REQUEST,
@@ -64,7 +64,7 @@ export const listForms = (pageNumber = "") => async (dispatch, getState) => {
   }
 };
 
-export const listAllForms = () => async (dispatch, getState) => {
+const listAllForms = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: FORM_ALL_LIST_REQUEST,
@@ -97,7 +97,7 @@ export const listAllForms = () => async (dispatch, getState) => {
   }
 };
 
-export const deliverForm = (form) => async (dispatch, getState) => {
+const deliverForm = (form) => async (dispatch, getState) => {
   try {
     dispatch({
       type: FORM_DELIVER_REQUEST,
@@ -136,7 +136,7 @@ export const deliverForm = (form) => async (dispatch, getState) => {
   }
 };
 
-export const listUserForms = (userId) => async (dispatch, getState) => {
+const listUserForms = (userId) => async (dispatch, getState) => {
   console.log("List USER FORMS :", userId);
   try {
     dispatch({
@@ -174,7 +174,7 @@ export const listUserForms = (userId) => async (dispatch, getState) => {
   }
 };
 
-export const listMyForms = () => async (dispatch, getState) => {
+const listMyForms = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: FORM_LIST_MY_REQUEST,
@@ -208,7 +208,7 @@ export const listMyForms = () => async (dispatch, getState) => {
   }
 };
 
-export const submitForm = (formFields) => async (dispatch, getState) => {
+const submitForm = (formFields) => async (dispatch, getState) => {
   try {
     dispatch({
       type: FORM_SUBMITTED_REQUEST,
@@ -242,7 +242,7 @@ export const submitForm = (formFields) => async (dispatch, getState) => {
   }
 };
 
-export const getFormDetails = (id) => async (dispatch, getState) => {
+const getFormDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: FORM_DETAILS_REQUEST,
@@ -275,8 +275,7 @@ export const getFormDetails = (id) => async (dispatch, getState) => {
     });
   }
 };
-
-export const getMyDailyForm = () => async (dispatch, getState) => {
+const getMyDailyForm = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: FORM_DAILY_MY_REQUEST,
@@ -308,4 +307,15 @@ export const getMyDailyForm = () => async (dispatch, getState) => {
       payload: message,
     });
   }
+};
+
+export {
+  listForms,
+  listAllForms,
+  listMyForms,
+  deliverForm,
+  listUserForms,
+  submitForm,
+  getFormDetails,
+  getMyDailyForm,
 };

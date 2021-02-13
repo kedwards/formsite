@@ -39,9 +39,10 @@ const App = () => {
               component={FormList}
               exact
             />
-            {ability.can("read", "Dashboard") && (
-              <Route exact path='/admin/dashboard' component={Dashboard} />
-            )}
+            {ability.can("read", "Dashboard") ||
+              (userInfo && userInfo.isSysAdmin && (
+                <Route exact path='/admin/dashboard' component={Dashboard} />
+              ))}
             <Route path='/admin/formList/user/:id' component={FormList} />
             <Route path='/admin/user/:id/edit' component={UserEdit} />
             <Route path='/' component={Home} exact />

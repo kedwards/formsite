@@ -4,6 +4,7 @@ const apiBase = "";
 const apiUri = {
   users: `${apiBase}/api/v1/users`,
   login: `${apiBase}/api/v1/users/login`,
+  logout: `${apiBase}/api/v1/users/me/logout`,
   usersId: `${apiBase}/api/v1/users/%s`,
   updateProfile: `${apiBase}/api/v1/users/profile`,
 

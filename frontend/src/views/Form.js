@@ -4,8 +4,8 @@ import { Row, Button, Col, ListGroup, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { isSafeToWork, localDateTime } from "../utils";
-import { getFormDetails, deliverForm } from "../redux/actions/form";
+import { localDateTime } from "../utils";
+import { getFormDetails } from "../redux/actions/form";
 import { FORM_DELIVER_RESET } from "../constants/form";
 
 const Form = ({ match: { params }, history }) => {
@@ -19,23 +19,16 @@ const Form = ({ match: { params }, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const formDeliver = useSelector((state) => state.formDeliver);
-  const { success: successDeliver, loading: loadingDeliver } = formDeliver;
-
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
     }
 
-    if (!form || successDeliver || form._id !== formId) {
+    if (!form || form._id !== formId) {
       dispatch({ type: FORM_DELIVER_RESET });
       dispatch(getFormDetails(formId));
     }
-  }, [dispatch, form, formId, successDeliver, history, userInfo]);
-
-  const deliverHandler = () => {
-    dispatch(deliverForm(form));
-  };
+  }, [dispatch, form, formId, history, userInfo]);
 
   const goBack = () => {
     history.goBack();
@@ -94,7 +87,7 @@ const Form = ({ match: { params }, history }) => {
                   <strong>Exposed to COVID-19 patients: </strong>
                 </Col>
                 <Col xs={6} md={6}>
-                  {form.formFields.exposure ? "yes"  : "no"}
+                  {form.formFields.exposure ? "yes" : "no"}
                 </Col>
               </Row>
               <Row className='mt-2'>
@@ -102,7 +95,7 @@ const Form = ({ match: { params }, history }) => {
                   <strong>Have any COVID-19 symptoms: </strong>
                 </Col>
                 <Col xs={6} md={6}>
-                  {form.formFields.symptoms ? "yes"  : "no"}
+                  {form.formFields.symptoms ? "yes" : "no"}
                 </Col>
               </Row>
               <Row className='mt-2'>
@@ -147,7 +140,7 @@ const Form = ({ match: { params }, history }) => {
               <ListGroup.Item variant='flush'>
                 <Row>
                   <Col>Safe to work:</Col>
-                  {isSafeToWork(form.formFields) ? (
+                  {form.isSafe ? (
                     <Col style={{ color: "green" }}>
                       <strong>Yes</strong>
                     </Col>
@@ -161,7 +154,7 @@ const Form = ({ match: { params }, history }) => {
               <ListGroup.Item variant='flush'>
                 <Row>
                   <Col>
-                    {form.isDelivered && isSafeToWork(form) ? (
+                    {form.isSafe ? (
                       <Message variant='success'>
                         Submitted On :{" "}
                         <strong>{form.createdAt.split("T")[0]}</strong>
@@ -176,18 +169,6 @@ const Form = ({ match: { params }, history }) => {
                 </Row>
               </ListGroup.Item>
             </ListGroup>
-            {loadingDeliver && <Loader />}
-            {userInfo && userInfo.isAdmin && !form.isDelivered && (
-              <ListGroup.Item>
-                <Button
-                  type='button'
-                  className='btn btn-block'
-                  onClick={deliverHandler}
-                >
-                  Mark As Delivered
-                </Button>
-              </ListGroup.Item>
-            )}
           </Card>
         </Col>
       </Row>

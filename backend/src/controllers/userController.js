@@ -5,6 +5,7 @@ import {
   successResponseWithData,
   notFoundResponse,
   validationErrorWithData,
+  successResponse,
 } from "../utils/apiResponse.js";
 
 // @desc    Auth user & get token
@@ -15,13 +16,19 @@ const authUser = asyncHandler(async (apiVersion, req, res) => {
   const user = await User.findOne({ email }).populate("manager", "name email");
 
   if (user && (await user.matchPassword(password))) {
+    const token = generateToken(user._id);
+
+    // user.tokens = user.tokens.concat({ token });
+    // await user.save();
+
     const resData = {
       _id: user._id,
       name: user.name,
       isAdmin: user.isAdmin,
       isManager: user.isManager,
       isOhs: user.isOhs,
-      token: generateToken(user._id),
+      isSysAdmin: user.isSysAdmin,
+      token,
     };
     successResponseWithData(res, "Login succesful", resData);
   } else {
@@ -224,6 +231,31 @@ const updateUser = asyncHandler(async (apiVersion, req, res) => {
   }
 });
 
+// @desc    Logout user
+// @route   POST /api/users/logout
+// @access  Private
+const logoutUser = asyncHandler(async (apiVersion, req, res) => {
+  const user = await User.findById(req.user._id);
+
+  user.tokens = user.tokens.filter((token) => {
+    return token.token != req.token;
+  });
+
+  await user.save();
+  successResponse(res, "success");
+});
+
+// @desc    Logout user of all devices
+// @route   POST /api/users/logoutall
+// @access  Private
+const logoutUserFromAll = asyncHandler(async (apiVersion, req, res) => {
+  const user = await User.findById(req.user._id);
+
+  user.tokens.splice(0, user.tokens.length);
+  await user.save();
+  successResponse(res, "success");
+});
+
 export {
   authUser,
   getUserProfile,
@@ -234,4 +266,6 @@ export {
   getUserById,
   updateUser,
   getUsersByDepartment,
+  logoutUser,
+  logoutUserFromAll,
 };

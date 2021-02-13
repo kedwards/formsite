@@ -8,10 +8,11 @@ import {
   userDeleteReducer,
   userUpdateReducer,
 } from "./user";
+
 import {
   formSubmitReducer,
   formListReducer,
-  formDeliverReducer,
+  // formDeliverReducer,
   formDetailsReducer,
   formListUserReducer,
   formListMyReducer,
@@ -19,7 +20,7 @@ import {
   formAllListReducer,
 } from "../reducers/form";
 
-export default combineReducers({
+const appReducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
@@ -30,9 +31,18 @@ export default combineReducers({
   formDetails: formDetailsReducer,
   formList: formListReducer,
   formAllList: formAllListReducer,
-  formDeliver: formDeliverReducer,
+  // formDeliver: formDeliverReducer,
   formListMy: formListMyReducer,
   formDailyMy: formMyDailyReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === "USER_LOGOUT_SUCCESS") {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
+
+export default rootReducer;

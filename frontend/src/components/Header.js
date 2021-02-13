@@ -63,7 +63,10 @@ const Header = () => {
                 </LinkContainer>
               )}
               {userInfo &&
-                (userInfo.isAdmin || userInfo.isManager || userInfo.isOhs) && (
+                (userInfo.isAdmin ||
+                  userInfo.isManager ||
+                  userInfo.isOhs ||
+                  userInfo.isSysAdmin) && (
                   <NavDropdown
                     title={
                       userInfo.isAdmin
