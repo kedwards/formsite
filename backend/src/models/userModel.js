@@ -6,7 +6,6 @@ export const userSchema = mongoose.Schema(
     manager: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
     name: {
       type: String,
@@ -37,8 +36,9 @@ export const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    manager: {
-      type: String,
+    isSysAdmin: {
+      type: Boolean,
+      default: false,
     },
     isAdmin: {
       type: Boolean,

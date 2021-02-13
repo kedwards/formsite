@@ -12,7 +12,7 @@ const defineAbilitiesFor = (user) => {
     can("login", "User");
   }
 
-  if (user && user.isAdmin) {
+  if (user && (user.isAdmin || user.isManager || user.isOhs)) {
     can("manage", "all");
   }
 

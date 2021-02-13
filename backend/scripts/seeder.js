@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../src/models/userModel.js";
-import users from "./dynalifeUsers.js";
+import Forms from "../src/models/formModel.js";
+import users from "./users.js";
 import connectDB from "../src/config/db.js";
 
 connectDB();
@@ -18,24 +19,55 @@ const importData = async () => {
       title: "Sysyem Administrator",
       department: "System",
       email: "sysyadmin@forms.dynalife.ca",
-      isSysAdmin: "true",
+      isSysAdmin: true,
     };
+    const sysAdminUser = await User.create(sysAdmin);
 
-    const sysAdminUser = await User.insertMany(sysAdmin);
-    sysAdminUser.manager = sysAdminUser._id;
-    await sysAdminUser.save();
+    let userArr = [];
+    let userList = [];
+    const deptGroups = [];
 
-    const dynalifeUsers = [];
+    const admins = users.filter((user) => user.isAdmin);
+    admins.map(async (user) => {
+      user.password = bcrypt.hashSync(user.employeeNumber, 10);
+      user.manager = sysAdminUser._id;
+      userArr.push(user);
+    });
+    const ohsAdmin = await User.insertMany(userArr);
 
-    users.map((user) => {
-      dynalifeUsers.push({
-        ...user,
-        password: bcrypt.hashSync(user.employeeNumber, 10),
-      });
+    userArr = [];
+
+    const managers = users.filter((user) => user.isManager);
+    managers.map(async (user) => {
+      user.password = bcrypt.hashSync(user.employeeNumber, 10);
+      user.manager = ohsAdmin[0]._id;
+      userArr.push(user);
+    });
+    const managerList = await User.insertMany(userArr);
+
+    managerList.map((manager) => {
+      if (!deptGroups.includes(manager.department)) {
+        deptGroups[manager.department] = {
+          id: manager._id,
+        };
+      }
     });
 
-    await User.insertMany(dynalifeUsers);
-    process.exit();
+    userArr = [];
+
+    const employees = users.filter((user) => !(user.isManager || user.isAdmin));
+    employees.map((user) => {
+      userArr.push({
+        ...user,
+        password: bcrypt.hashSync(user.employeeNumber, 10),
+        manager: deptGroups[user.department]
+          ? deptGroups[user.department].id
+          : ohsAdmin[0]._id,
+      });
+    });
+    await User.insertMany(userArr);
+
+    process.exit(0);
   } catch (error) {
     console.error(`${error}`);
     process.exit(1);
@@ -45,6 +77,7 @@ const importData = async () => {
 const destroyData = async () => {
   try {
     await User.deleteMany({});
+    await Form.deleteMany({});
 
     console.log("Data Destroyed.");
     process.exit();

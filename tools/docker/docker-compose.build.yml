@@ -28,11 +28,22 @@ services:
 
   backend_base: &backend_base
     image: node
+    environment:
+      - DB_URI=${DB_URI}
     volumes:
       - ../../backend:/home/node/backend
       - ./node/backend/node_modules:/home/node/backend/node_modules
     working_dir: /home/node/backend/
+    networks:
+      - formsite
+      - admin
 
   backend:
     <<: *backend_base
     command: ${CMD} ${PKG}
+
+networks:
+  formsite:
+    external: true
+  admin:
+    external: true

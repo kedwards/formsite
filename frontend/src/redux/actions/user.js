@@ -77,16 +77,22 @@ export const logout = () => (dispatch) => {
 };
 
 export const register = (name, email, password, department, manager) => async (
-  dispatch
+  dispatch,
+  getState
 ) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST,
     });
 
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
     const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 

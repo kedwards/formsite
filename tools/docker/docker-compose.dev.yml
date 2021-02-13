@@ -25,6 +25,7 @@ services:
     ports:
       - "${NODE_PORT}:${NODE_PORT}"
     environment:
+      - NODE_ENV=${NODE_ENV}
       - PORT=${NODE_PORT}
       - REGISTRATION_ENABLED=${REGISTRATION_ENABLED}
       - LOGIN_ENABLED=${LOGIN_ENABLED}
