@@ -58,6 +58,8 @@ const registerUser = asyncHandler(async (apiVersion, req, res) => {
     manager: managerExists._id,
   });
 
+  console.log(user);
+
   if (user) {
     const resData = {
       _id: user._id,

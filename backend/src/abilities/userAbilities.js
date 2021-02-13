@@ -6,8 +6,9 @@ export const checkRegisterAbility = asyncHandler(async (req, res, next) => {
   const { ability } = req;
   if (ability.can("create", "User")) {
     next();
+  } else {
+    FailureAbility(res, "Registration is restricted, please try again later");
   }
-  FailureAbility(res, "Registration is restricted, please try again later");
 });
 
 export const checkAbility = asyncHandler(async (req, res, next) => {
