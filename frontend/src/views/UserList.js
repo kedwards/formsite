@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { LinkContainer} from "react-router-bootstrap";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +40,18 @@ const UserList = ({ history }) => {
       <Button type='button' className='btn btn-light my-3' onClick={goBack}>
         Go Back
       </Button>
-      <h1>Users</h1>
+      <Row>
+      <Col md={10}>
+      <h1>Users</h1> 
+      </Col>
+      <Col md={2}>
+      <Link to={`/admin/adduser/`}>
+      <Button type='button' className='btn btn-light my-3'>
+        Add a New User
+      </Button>
+      </Link>
+      </Col>
+      </Row>
       {loading ? (
         <Loader />
       ) : error ? (

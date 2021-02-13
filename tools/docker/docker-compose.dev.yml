@@ -36,10 +36,10 @@ services:
     command: npm run watch
     networks:
       - formsite
-      - admin
+      - dev
 
 networks:
   formsite:
     external: true
-  admin:
+  dev:
     external: true

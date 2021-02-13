@@ -32,8 +32,9 @@ const authUser = asyncHandler(async (apiVersion, req, res) => {
 
 // @desc    Register a user
 // @route   POST /api/users
-// @access  Public
+// @access  Private/Admin
 const registerUser = asyncHandler(async (apiVersion, req, res) => {
+  console.log("REGISTER ")
   const { email, password, name, department, manager } = req.body;
 
   const userExists = await User.findOne({ email });
@@ -194,6 +195,7 @@ const getUserById = asyncHandler(async (apiVersion, req, res) => {
     notFoundResponse(res, "User not found", null);
   }
 });
+
 
 // @desc    Update user
 // @route   PUT /api/users/:id

@@ -72,6 +72,7 @@ export const logout = () => (dispatch) => {
   dispatch({
     type: USER_DETAILS_RESET,
   });
+  localStorage.clear();
   document.location.href = "/login";
 };
 

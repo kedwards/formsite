@@ -24,7 +24,7 @@ const userEndpoints = [
   {
     route: "/users",
     method: "POST",
-    middleware: [createAbilities, checkRegisterAbility],
+    middleware: [],
     implementation: registerUser,
   },
   {
