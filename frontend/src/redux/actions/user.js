@@ -220,7 +220,10 @@ const userProfileReset = () => async (dispatch) => {
   });
 };
 
-const listUsers = () => async (dispatch, getState) => {
+const listUsers = (pageNumber = "", recordsPerPage = "20") => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({
       type: USER_LIST_REQUEST,
@@ -236,7 +239,10 @@ const listUsers = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(apiUri.users, config);
+    const { data } = await axios.get(
+      sprintf(apiUri.listUsers, pageNumber, recordsPerPage),
+      config
+    );
 
     dispatch({
       type: USER_LIST_SUCCESS,

@@ -1,13 +1,7 @@
 import React from "react";
 import defineAbilitiesFor from "../utils/can";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Nav,
-  Navbar,
-  Container,
-  NavDropdown,
-  Jumbotron,
-} from "react-bootstrap";
+import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { logout } from "../redux/actions/user";
@@ -24,9 +18,11 @@ const Header = () => {
     dispatch(logout());
   };
 
+  const hrStyle = { border: "10px solid #0099CC" };
+
   return (
     <header>
-      <Navbar bg='light' expand='lg' collapseonselect='true'>
+      <Navbar bg='light' expand='lg' collapseonselect='true' className='mb-1'>
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>
@@ -96,7 +92,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Jumbotron id='banner'></Jumbotron>
+      <hr style={hrStyle} />
     </header>
   );
 };

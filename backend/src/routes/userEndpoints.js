@@ -1,8 +1,4 @@
-import {
-  protect,
-  admin,
-  createAbilities,
-} from "../middleware/authMiddleware.js";
+import { protect, createAbilities } from "../middleware/authMiddleware.js";
 
 import {
   checkRegisterAbility,

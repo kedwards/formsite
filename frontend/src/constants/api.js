@@ -3,6 +3,7 @@ const apiBase = "";
 
 const apiUri = {
   users: `${apiBase}/api/v1/users`,
+  listUsers: `${apiBase}/api/v1/users?pageNumber=%s&recordsPerPage=%s`,
   login: `${apiBase}/api/v1/users/login`,
   logout: `${apiBase}/api/v1/users/me/logout`,
   usersId: `${apiBase}/api/v1/users/%s`,

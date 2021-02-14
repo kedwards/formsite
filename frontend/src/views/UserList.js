@@ -1,18 +1,25 @@
-import React, { useEffect } from "react";
-import { LinkContainer} from "react-router-bootstrap";
+import React, { useEffect, useState } from "react";
+import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
+// import Paginate from "../components/Paginate";
+import Pagination from "react-js-pagination";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listUsers } from "../redux/actions/user";
 
-const UserList = ({ history }) => {
+const UserList = ({ history, match: { params } }) => {
+  // const pageNumber = params.pageNumber || 1;
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 20;
+  const pageRange = 10;
+
   const dispatch = useDispatch();
 
   const userList = useSelector((state) => state.userList);
-  const { users, loading, error } = userList;
+  const { users, count, loading, error } = userList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -20,16 +27,20 @@ const UserList = ({ history }) => {
   const userDelete = useSelector((state) => state.userDelete);
   const { success: successDelete } = userDelete;
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   useEffect(() => {
     if (
       userInfo &&
       (userInfo.isAdmin || userInfo.isManager || userInfo.isOhs)
     ) {
-      dispatch(listUsers(userInfo.department));
+      dispatch(listUsers(currentPage, recordsPerPage));
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo, successDelete]);
+  }, [dispatch, history, userInfo, successDelete, currentPage, recordsPerPage]);
 
   const goBack = () => {
     history.goBack();
@@ -46,62 +57,81 @@ const UserList = ({ history }) => {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <Table striped bordered hover responsive className='table-sm'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>EMAIL</th>
-              <th>ADMIN</th>
-              <th>MANAGER</th>
-              <th>OHS</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => (
-              <tr key={user._id}>
-                <td>{index + 1}</td>
-                <td>
-                <Link to={`/admin/formList/${user._id}`}>
-                  {user.name}
-                </Link>
-                </td>
-                <td>
-                  <a href={`mailto:${user.email}`}>{user.email}</a>
-                </td>
-                <td>
-                  {user.isAdmin ? (
-                    <FontAwesomeIcon icon='check' style={{ color: "green" }} />
-                  ) : (
-                    <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                  )}
-                </td>
-                <td>
-                  {user.isManager ? (
-                    <FontAwesomeIcon icon='check' style={{ color: "green" }} />
-                  ) : (
-                    <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                  )}
-                </td>
-                <td>
-                  {user.isOhs ? (
-                    <FontAwesomeIcon icon='check' style={{ color: "green" }} />
-                  ) : (
-                    <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                  )}
-                </td>
-                <td>
-                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                    <Button variant='light' className='btn-sm'>
-                      <FontAwesomeIcon icon='edit' />
-                    </Button>
-                  </LinkContainer>
-                </td>
+        <>
+          <Table striped bordered hover responsive className='table-sm'>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>EMAIL</th>
+                <th>ADMIN</th>
+                <th>MANAGER</th>
+                <th>OHS</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {users.map((user, index) => (
+                <tr key={user._id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <Link to={`/admin/formList/${user._id}`}>{user.name}</Link>
+                  </td>
+                  <td>
+                    <a href={`mailto:${user.email}`}>{user.email}</a>
+                  </td>
+                  <td>
+                    {user.isAdmin ? (
+                      <FontAwesomeIcon
+                        icon='check'
+                        style={{ color: "green" }}
+                      />
+                    ) : (
+                      <FontAwesomeIcon icon='times' style={{ color: "red" }} />
+                    )}
+                  </td>
+                  <td>
+                    {user.isManager ? (
+                      <FontAwesomeIcon
+                        icon='check'
+                        style={{ color: "green" }}
+                      />
+                    ) : (
+                      <FontAwesomeIcon icon='times' style={{ color: "red" }} />
+                    )}
+                  </td>
+                  <td>
+                    {user.isOhs ? (
+                      <FontAwesomeIcon
+                        icon='check'
+                        style={{ color: "green" }}
+                      />
+                    ) : (
+                      <FontAwesomeIcon icon='times' style={{ color: "red" }} />
+                    )}
+                  </td>
+                  <td>
+                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
+                      <Button variant='light' className='btn-sm'>
+                        <FontAwesomeIcon icon='edit' />
+                      </Button>
+                    </LinkContainer>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          {/* <Paginate pages={pages} page={page} type={"user"} /> */}
+          <Pagination
+            itemClass='page-item'
+            linkClass='page-link'
+            activePage={currentPage}
+            itemsCountPerPage={recordsPerPage}
+            totalItemsCount={count}
+            pageRangeDisplayed={pageRange}
+            onChange={handlePageChange}
+          />
+        </>
       )}
     </>
   );

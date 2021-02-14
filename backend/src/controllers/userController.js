@@ -65,8 +65,6 @@ const registerUser = asyncHandler(async (apiVersion, req, res) => {
     manager: managerExists._id,
   });
 
-  console.log(user);
-
   if (user) {
     const resData = {
       _id: user._id,
@@ -146,20 +144,30 @@ const updateProfile = asyncHandler(async (apiVersion, req, res) => {
 // @route   GET /api/users
 // @access  Private/Admin
 const getUsers = asyncHandler(async (apiVersion, req, res) => {
-  let users = [];
-  const requester = await User.findById(req.user._id);
+  const page = Number(req.query.pageNumber) || 1;
+  const pageSize = Number(req.query.recordsPerPage) || 15;
 
-  if (requester.isAdmin || requester.isOhs) {
-    users = await User.find({
-      $and: [{ isAdmin: { $ne: true } }, { isOhs: { $ne: true } }],
-    }).populate("User", "manager");
-  } else if (requester.isManager) {
-    users = await User.find({
-      $and: [{ department: requester.department }],
-    }).populate("User", "manager");
-  }
+  const count = await User.countDocuments({});
 
-  successResponseWithData(res, "succesful", users);
+  const users = await User.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  // const requester = await User.findById(req.user._id);
+
+  // if (requester.isAdmin || requester.isOhs) {
+  //   users = await User.find({
+  //     $and: [{ isAdmin: { $ne: true } }, { isOhs: { $ne: true } }],
+  //   }).populate("User", "manager");
+  // } else if (requester.isManager) {
+  //   users = await User.find({
+  //     $and: [{ department: requester.department }],
+  //   }).populate("User", "manager");
+  // }
+
+  const resData = { users, page, count, pages: Math.ceil(count / pageSize) };
+
+  successResponseWithData(res, "succesful", resData);
 });
 
 // @desc    Get all users
