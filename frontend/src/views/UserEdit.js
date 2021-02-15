@@ -5,7 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { getUserDetails, updateUser, deleteUser } from "../redux/actions/user";
+import {
+  getUserDetails,
+  updateUser,
+  deleteUser,
+  getUserDepartments,
+} from "../redux/actions/user";
 import { USER_UPDATE_RESET } from "../constants/user";
 
 const UserEdit = ({ match: { params }, history }) => {
@@ -25,6 +30,9 @@ const UserEdit = ({ match: { params }, history }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const userDepartments = useSelector((state) => state.userDepartments);
+  const { departments } = userDepartments;
 
   const userUpdate = useSelector((state) => state.userUpdate);
   const {
@@ -46,6 +54,7 @@ const UserEdit = ({ match: { params }, history }) => {
     } else {
       if (!user.name || user._id !== userId) {
         dispatch(getUserDetails(userId));
+        // dispatch(getUserDepartments());
       } else {
         setName(user.name);
         setEmail(user.email);

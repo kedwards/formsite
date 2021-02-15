@@ -25,6 +25,9 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_DEPARTMENTS_REQUEST,
+  USER_DEPARTMENTS_SUCCESS,
+  USER_DEPARTMENTS_FAIL,
 } from "../../constants/user.js";
 
 const userLoginReducer = (state = {}, action) => {
@@ -141,6 +144,19 @@ const userUpdateReducer = (state = { user: {} }, action) => {
   }
 };
 
+const userDepartmentsReducer = (state = { departments: {} }, action) => {
+  switch (action.type) {
+    case USER_DEPARTMENTS_REQUEST:
+      return { loading: true };
+    case USER_DEPARTMENTS_SUCCESS:
+      return { loading: false, success: true, departments: action.payload };
+    case USER_DEPARTMENTS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export {
   userLoginReducer,
   userRegisterReducer,
@@ -149,4 +165,5 @@ export {
   userListReducer,
   userDeleteReducer,
   userUpdateReducer,
+  userDepartmentsReducer,
 };

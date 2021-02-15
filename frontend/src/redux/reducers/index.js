@@ -7,6 +7,7 @@ import {
   userListReducer,
   userDeleteReducer,
   userUpdateReducer,
+  userDepartmentsReducer,
 } from "./user";
 
 import {
@@ -36,6 +37,7 @@ const appReducer = combineReducers({
   formDailyMy: formMyDailyReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
+  userDepartments: userDepartmentsReducer,
 });
 
 const rootReducer = (state, action) => {

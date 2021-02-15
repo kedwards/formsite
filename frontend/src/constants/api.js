@@ -8,6 +8,7 @@ const apiUri = {
   logout: `${apiBase}/api/v1/users/me/logout`,
   usersId: `${apiBase}/api/v1/users/%s`,
   updateProfile: `${apiBase}/api/v1/users/profile`,
+  usersDepartments: `${apiBase}/api/v1/users/departments`,
 
   forms: `${apiBase}/api/v1/forms`,
   formDetails: `${apiBase}/api/v1/forms/%s`,

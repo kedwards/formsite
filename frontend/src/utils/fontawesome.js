@@ -9,6 +9,8 @@ import {
   faTimes,
   faTrash,
   faUser,
+  faArrowDown,
+  faArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -20,5 +22,7 @@ library.add(
   faPlus,
   faTimes,
   faTrash,
-  faUser
+  faUser,
+  faArrowDown,
+  faArrowUp
 );

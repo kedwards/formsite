@@ -16,6 +16,7 @@ import {
   updateUser,
   logoutUser,
   logoutUserFromAll,
+  getUserDepartments,
 } from "../controllers/userController.js";
 
 const userEndpoints = [
@@ -54,6 +55,12 @@ const userEndpoints = [
     method: "GET",
     middleware: [protect, createAbilities],
     implementation: getUsers,
+  },
+  {
+    route: "/users/departments",
+    method: "GET",
+    middleware: [],
+    implementation: getUserDepartments,
   },
   {
     route: "/users/:id",

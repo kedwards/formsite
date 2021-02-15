@@ -29,6 +29,9 @@ import {
   USER_UPDATE_FAIL,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
+  USER_DEPARTMENTS_REQUEST,
+  USER_DEPARTMENTS_SUCCESS,
+  USER_DEPARTMENTS_FAIL,
 } from "../../constants/user";
 import apiUri from "../../constants/api";
 
@@ -332,6 +335,29 @@ const updateUser = (user) => async (dispatch, getState) => {
   }
 };
 
+const getUserDepartments = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_DEPARTMENTS_REQUEST,
+    });
+
+    const { data } = await axios.get(apiUri.usersDepartments);
+
+    dispatch({
+      type: USER_DEPARTMENTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DEPARTMENTS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export {
   login,
   logout,
@@ -342,4 +368,5 @@ export {
   listUsers,
   deleteUser,
   updateUser,
+  getUserDepartments,
 };

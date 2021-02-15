@@ -57,6 +57,7 @@ const formListReducer = (state = { forms: [] }, action) => {
         forms: action.payload.forms,
         page: action.payload.page,
         pages: action.payload.pages,
+        count: action.payload.count,
       };
     case FORM_LIST_FAIL:
       return { loading: false, error: action.payload };

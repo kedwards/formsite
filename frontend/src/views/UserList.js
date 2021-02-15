@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { LinkContainer } from "react-router-bootstrap";
+import React, { useEffect, useMemo } from "react";
 import { Table, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
+import { useTable, useFilters, usePagination } from "react-table";
+// import Pagination from "react-js-pagination";
 // import Paginate from "../components/Paginate";
-import Pagination from "react-js-pagination";
+import useColumns from "./table/useUserColumns";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listUsers } from "../redux/actions/user";
 
 const UserList = ({ history, match: { params } }) => {
   // const pageNumber = params.pageNumber || 1;
-  const [currentPage, setCurrentPage] = useState(1);
+  const currentPage = 1;
+  // const pageRange = 10;
   const recordsPerPage = 20;
-  const pageRange = 10;
 
   const dispatch = useDispatch();
+  const columns = useColumns();
 
   const userList = useSelector((state) => state.userList);
   const { users, count, loading, error } = userList;
@@ -27,8 +28,23 @@ const UserList = ({ history, match: { params } }) => {
   const userDelete = useSelector((state) => state.userDelete);
   const { success: successDelete } = userDelete;
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
+
+  const TextFilter = ({
+    column: { filterValue, preFilteredRows, setFilter },
+  }) => {
+    const count = preFilteredRows.length;
+    return (
+      <input
+        value={filterValue || ""}
+        onChange={(e) => {
+          setFilter(e.target.value || undefined);
+        }}
+        placeholder={`Search ${count} records...`}
+      />
+    );
   };
 
   useEffect(() => {
@@ -40,97 +56,202 @@ const UserList = ({ history, match: { params } }) => {
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo, successDelete, currentPage, recordsPerPage]);
+  }, [dispatch, history, userInfo, currentPage, recordsPerPage]);
 
   const goBack = () => {
     history.goBack();
   };
 
+  const data = useMemo(() => users, []);
+
+  const defaultColumn = useMemo(
+    () => ({
+      Filter: TextFilter,
+    }),
+    []
+  );
+
+  const tableInstance = useTable(
+    {
+      columns,
+      data,
+      defaultColumn,
+      initialState: { pageIndex: 0, pageSize: 15, pageCount: count },
+    },
+    useFilters,
+    usePagination
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+  } = tableInstance;
+
   return (
     <>
-      <Button type='button' className='btn btn-light my-3' onClick={goBack}>
-        Go Back
-      </Button>
-      <h1>Users</h1>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>EMAIL</th>
-                <th>ADMIN</th>
-                <th>MANAGER</th>
-                <th>OHS</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user, index) => (
-                <tr key={user._id}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <Link to={`/admin/formList/${user._id}`}>{user.name}</Link>
-                  </td>
-                  <td>
-                    <a href={`mailto:${user.email}`}>{user.email}</a>
-                  </td>
-                  <td>
-                    {user.isAdmin ? (
-                      <FontAwesomeIcon
-                        icon='check'
-                        style={{ color: "green" }}
-                      />
-                    ) : (
-                      <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                    )}
-                  </td>
-                  <td>
-                    {user.isManager ? (
-                      <FontAwesomeIcon
-                        icon='check'
-                        style={{ color: "green" }}
-                      />
-                    ) : (
-                      <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                    )}
-                  </td>
-                  <td>
-                    {user.isOhs ? (
-                      <FontAwesomeIcon
-                        icon='check'
-                        style={{ color: "green" }}
-                      />
-                    ) : (
-                      <FontAwesomeIcon icon='times' style={{ color: "red" }} />
-                    )}
-                  </td>
-                  <td>
-                    <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
-                        <FontAwesomeIcon icon='edit' />
-                      </Button>
-                    </LinkContainer>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          {/* <Paginate pages={pages} page={page} type={"user"} /> */}
-          <Pagination
-            itemClass='page-item'
-            linkClass='page-link'
-            activePage={currentPage}
-            itemsCountPerPage={recordsPerPage}
-            totalItemsCount={count}
-            pageRangeDisplayed={pageRange}
-            onChange={handlePageChange}
-          />
+          <Button type='button' className='btn btn-light my-3' onClick={goBack}>
+            Go Back
+          </Button>
+          <h1>Users</h1>
+          <div className={"table-responsive"}>
+            <Table
+              className='table-sm table table-striped table-bordered table-hover'
+              {...getTableProps()}
+            >
+              <thead>
+                {headerGroups.map((headerGroup) => (
+                  <tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column) => (
+                      <th {...column.getHeaderProps()}>
+                        {column.render("Header")}
+                        <span>
+                          {column.isSorted ? (
+                            column.isSortedDesc ? (
+                              <FontAwesomeIcon
+                                icon='arrow-down'
+                                style={{ color: "#05508A", marginLeft: "5px" }}
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon='arrow-up'
+                                style={{ color: "#05508A", marginLeft: "5px" }}
+                              />
+                            )
+                          ) : null}
+                        </span>
+                        <div>
+                          {column.canFilter ? column.render("Filter") : null}
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody {...getTableBodyProps()}>
+                {page.map((row, i) => {
+                  prepareRow(row);
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map((cell) => {
+                        return (
+                          <td {...cell.getCellProps()}>
+                            {cell.render("Cell")}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </div>
+          {pageOptions.length <= 1 ? null : (
+            <>
+              <ul className='pagination'>
+                <li
+                  className='page-item'
+                  onClick={() => gotoPage(0)}
+                  disabled={!canPreviousPage}
+                >
+                  <button
+                    className='page-link'
+                    href='#'
+                    aria-label='Go to first page'
+                  >
+                    First
+                  </button>
+                </li>
+
+                <li
+                  className='page-item'
+                  onClick={() => previousPage()}
+                  disabled={!canPreviousPage}
+                >
+                  <button
+                    className='page-link'
+                    href='#'
+                    aria-label='Go to previous page'
+                  >
+                    {"<"}
+                  </button>
+                </li>
+                <li
+                  className='page-item'
+                  onClick={() => nextPage()}
+                  disabled={!canNextPage}
+                >
+                  <button
+                    className='page-link'
+                    href='#'
+                    aria-label='Go to next page'
+                  >
+                    {">"}
+                  </button>
+                </li>
+                <li
+                  className='page-item'
+                  onClick={() => gotoPage(pageCount - 1)}
+                  disabled={!canNextPage}
+                >
+                  <button
+                    className='page-link'
+                    href='#'
+                    aria-label='Go to last page'
+                  >
+                    Last
+                  </button>
+                </li>
+              </ul>
+              <span>
+                Page{" "}
+                <strong>
+                  {pageIndex + 1} of {pageOptions.length}
+                </strong>{" "}
+                | Go to page:{" "}
+                <input
+                  type='number'
+                  defaultValue={pageIndex + 1}
+                  onChange={(e) => {
+                    const page = e.target.value
+                      ? Number(e.target.value) - 1
+                      : 0;
+                    gotoPage(page);
+                  }}
+                  style={{ width: "100px" }}
+                />
+              </span>{" "}
+              <select
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                }}
+              >
+                {[10, 20, 30, 40, 50].map((pageSize) => (
+                  <option key={pageSize} value={pageSize}>
+                    Show {pageSize}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
         </>
       )}
     </>

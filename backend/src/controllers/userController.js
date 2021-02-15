@@ -146,26 +146,30 @@ const updateProfile = asyncHandler(async (apiVersion, req, res) => {
 const getUsers = asyncHandler(async (apiVersion, req, res) => {
   const page = Number(req.query.pageNumber) || 1;
   const pageSize = Number(req.query.recordsPerPage) || 15;
+  const user = req.user;
+  let and;
 
   const count = await User.countDocuments({});
 
-  const users = await User.find({})
-    .limit(pageSize)
+  if (user.isSysAdmin) {
+    and = {};
+  } else if (user.isAdmin || user.isOhs) {
+    and = { $and: [{ isAdmin: { $ne: true } }, { isOhs: { $ne: true } }] };
+  } else if (user.isManager) {
+    and = { $and: [{ department: user.department }] };
+  }
+
+  const users = await User.find(and)
+    .populate("User", "manager")
+    // .limit(pageSize)
     .skip(pageSize * (page - 1));
 
-  // const requester = await User.findById(req.user._id);
-
-  // if (requester.isAdmin || requester.isOhs) {
-  //   users = await User.find({
-  //     $and: [{ isAdmin: { $ne: true } }, { isOhs: { $ne: true } }],
-  //   }).populate("User", "manager");
-  // } else if (requester.isManager) {
-  //   users = await User.find({
-  //     $and: [{ department: requester.department }],
-  //   }).populate("User", "manager");
-  // }
-
-  const resData = { users, page, count, pages: Math.ceil(count / pageSize) };
+  const resData = {
+    users,
+    page,
+    count,
+    pages: Math.ceil(count / pageSize),
+  };
 
   successResponseWithData(res, "succesful", resData);
 });
@@ -264,6 +268,14 @@ const logoutUserFromAll = asyncHandler(async (apiVersion, req, res) => {
   successResponse(res, "success");
 });
 
+// @desc    Get all user departments
+// @route   GET /api/users/departments
+// @access  Public
+const getUserDepartments = asyncHandler(async (apiVersion, req, res) => {
+  const departments = await User.find({ isManager: true }, "department");
+  successResponseWithData(res, "success", departments);
+});
+
 export {
   authUser,
   getUserProfile,
@@ -276,4 +288,5 @@ export {
   getUsersByDepartment,
   logoutUser,
   logoutUserFromAll,
+  getUserDepartments,
 };

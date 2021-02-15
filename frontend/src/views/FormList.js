@@ -1,31 +1,67 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import Paginate from "../components/Paginate";
+import BootstrapTable from "react-bootstrap-table-next";
+// import Paginate from "../components/Paginate";
+import Pagination from "react-js-pagination";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { localDateTime } from "../utils/index";
 import { listForms } from "../redux/actions/form";
 
 const FormList = ({ history, match: { params } }) => {
-  const pageNumber = params.pageNumber || 1;
+  // const pageNumber = params.pageNumber || 1;
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 20;
+  const pageRange = 10;
   const dispatch = useDispatch();
 
   const formList = useSelector((state) => state.formList);
-  const { forms, pages, page, loading, error } = formList;
+  const { forms, count, loading, error } = formList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const columns = [
+    {
+      dataField: "id",
+      text: "ID",
+    },
+    {
+      dataField: "user",
+      text: "User",
+    },
+    {
+      dataField: "submittDate",
+      text: "Submited",
+    },
+    {
+      dataField: "manager",
+      text: "Manager",
+    },
+    {
+      dataField: "dept",
+      text: "Department",
+    },
+    {
+      dataField: "safeToWork",
+      text: "Safe To Work",
+    },
+  ];
 
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
     } else {
-      dispatch(listForms(pageNumber));
+      dispatch(listForms(currentPage, recordsPerPage));
     }
-  }, [dispatch, history, userInfo, pageNumber]);
+  }, [dispatch, history, userInfo, currentPage, recordsPerPage]);
 
   const goBack = () => {
     history.goBack();
@@ -84,7 +120,26 @@ const FormList = ({ history, match: { params } }) => {
               ))}
             </tbody>
           </Table>
-          <Paginate pages={pages} page={page} />
+          {/* <Paginate pages={pages} page={page} /> */}
+          <Pagination
+            prevPageText='Previous'
+            nextPageText='Next'
+            itemClass='page-item'
+            linkClass='page-link'
+            activePage={currentPage}
+            itemsCountPerPage={recordsPerPage}
+            totalItemsCount={count}
+            pageRangeDisplayed={pageRange}
+            onChange={handlePageChange}
+          />
+          {/* <BootstrapTable
+            keyField='id'
+            data={forms}
+            columns={columns}
+            striped
+            hover
+            condensed
+          /> */}
         </>
       )}
     </>

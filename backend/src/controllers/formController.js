@@ -65,33 +65,32 @@ const getFormById = asyncHandler(async (apiVersion, req, res) => {
 // @route   GET /api/forms
 // @access  Public
 const getForms = asyncHandler(async (apiVersion, req, res) => {
-  let forms = [];
-  const pageSize = 10;
+  let query;
   const page = Number(req.query.pageNumber) || 1;
+  const pageSize = Number(req.query.recordsPerPage) || 15;
+  const user = req.user;
 
-  const requester = await User.findById(req.user._id);
-
-  if (requester.isAdmin || requester.isOhs) {
-    forms = await Form.find({
-      $and: [{ isAdmin: { $ne: true } }, { isOhs: { $ne: true } }],
-    })
-      .populate({ path: "user", populate: { path: "manager" } })
-      .limit(pageSize)
-      .skip(pageSize * (page - 1));
-  } else if (requester.isManager) {
-    forms = await Form.find({
-      $and: [
-        { userDepartment: requester.department },
-        { userId: { $ne: requester._id } },
-      ],
-    })
-      .populate({ path: "user", populate: { path: "manager" } })
-      .limit(pageSize)
-      .skip(pageSize * (page - 1));
+  if (user.isAdmin || user.isOhs) {
+    query = [{ isAdmin: { $ne: true } }, { isOhs: { $ne: true } }];
+  } else if (user.isManager) {
+    query = [
+      { userDepartment: user.department },
+      { userId: { $ne: user._id } },
+    ];
   }
 
+  const forms = await Form.find({ $and: query })
+    .populate({ path: "user", populate: { path: "manager" } })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
   const count = forms.length;
-  const resData = { forms, page, pages: Math.ceil(count / pageSize) };
+  const resData = {
+    forms,
+    page,
+    count: forms.length,
+    pages: Math.ceil(count / pageSize),
+  };
 
   successResponseWithData(res, "success", resData);
 });

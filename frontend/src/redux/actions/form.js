@@ -28,7 +28,10 @@ import {
 } from "../../constants/form.js";
 import apiUri from "../../constants/api";
 
-const listForms = (pageNumber = "") => async (dispatch, getState) => {
+const listForms = (pageNumber = "", recordsPerPage = "20") => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({
       type: FORM_LIST_REQUEST,
@@ -45,7 +48,7 @@ const listForms = (pageNumber = "") => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      sprintf(apiUri.listForms, pageNumber),
+      sprintf(apiUri.listForms, pageNumber, recordsPerPage),
       config
     );
 
