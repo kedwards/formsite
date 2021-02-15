@@ -76,7 +76,7 @@ export const logout = () => (dispatch) => {
   document.location.href = "/login";
 };
 
-export const register = (name, email, password, department, manager) => async (
+export const register = (name, email, employeeNumber, department, title, badgeId, isAdmin, isOhs, isManager) => async (
   dispatch,
   getState
 ) => {
@@ -98,25 +98,15 @@ export const register = (name, email, password, department, manager) => async (
 
     const { data } = await axios.post(
       apiUri.users,
-      { name, email, password, department, manager },
+      { name, email, employeeNumber, department, title, badgeId, isAdmin, isOhs, isManager },
       config
     );
 
-    if (data.status) {
       dispatch({
         type: USER_REGISTER_SUCCESS,
         payload: data,
       });
 
-      dispatch({
-        type: USER_LOGIN_SUCCESS,
-        payload: data,
-      });
-
-      localStorage.setItem("userInfo", JSON.stringify(data));
-    }
-
-    throw new Error(data.message);
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,

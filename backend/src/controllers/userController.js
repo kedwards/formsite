@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
 import { generateToken } from "../utils/index.js";
 import {
@@ -34,8 +35,7 @@ const authUser = asyncHandler(async (apiVersion, req, res) => {
 // @route   POST /api/users
 // @access  Private/Admin
 const registerUser = asyncHandler(async (apiVersion, req, res) => {
-  console.log("REGISTER ")
-  const { email, password, name, department, manager } = req.body;
+  const { email, name, employeeNumber, department, badgeId, title , isAdmin, isOhs, isManager} = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -54,25 +54,33 @@ const registerUser = asyncHandler(async (apiVersion, req, res) => {
   const user = await User.create({
     name,
     email,
-    password,
+    password : bcrypt.hashSync(employeeNumber, 10),
+    badgeId,
+    title,
     department,
+    employeeNumber,
     manager: managerExists._id,
+    isAdmin, 
+    isOhs, 
+    isManager
   });
-
-  console.log(user);
-
+  
   if (user) {
     const resData = {
       _id: user._id,
       name: user.name,
       email: user.email,
+      employeeNumber: user.employeeNumber,
+      badgeId: user.badgeId,
       isAdmin: user.isAdmin,
+      isOhs: user.isOhs,
+      isManager: user.isManager,
       department: user.department,
       manager: user.manager,
       token: generateToken(user._id),
     };
 
-    successResponseWithData(res, "success", resData);
+    successResponseWithData(res, "Registration success", resData);
   } else {
     validationErrorWithData(res, "Invalid user data", null);
   }

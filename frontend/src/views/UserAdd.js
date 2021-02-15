@@ -6,7 +6,6 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 import { register } from "../redux/actions/user";
-import { USER_UPDATE_RESET } from "../constants/user";
 
 const UserAdd = ({ history }) => {
   const userId = "";
@@ -15,9 +14,12 @@ const UserAdd = ({ history }) => {
   const [employeeNumber, setEmployeeNumber] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
+  const [badgeId, setBadgeId] = useState("");
+  const [title, setTitle] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [isManager, setIsManager] = useState(false);
   const [isOhs, setIsOhs] = useState(false);
+  const [show, setShow] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -28,32 +30,30 @@ const UserAdd = ({ history }) => {
   const { userInfo } = userLogin;
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { successUpdate, loadingUpdate, errorUpdate } = userRegister;;
-
+  const { successRegister, loadingRegister, errorRegister } = userRegister;
 
   useEffect(() => {
-    if (successUpdate) {
-      // dispatch({ type: USER_UPDATE_RESET });
-      history.push("/admin/userlist");
+    if (successRegister) {
+      setName("");
+      setEmail("");
+      setEmployeeNumber("");
+      setBadgeId("");
+      setDepartment("");
+      setTitle("");
+      setIsAdmin("");
+      setIsManager("");
+      setIsOhs("");
     } else {
-      // if (!user.name || user._id !== userId) {
-      //   dispatch(getUserDetails(userId));
-      // } else {
-      //   setName(user.name);
-      //   setEmail(user.email);
-      //   setIsAdmin(user.isAdmin);
-      //   setIsManager(user.isManager);
-      //   setIsOhs(user.isOhs);
-      // }
     }
-  }, [dispatch, history, user, successUpdate]);
+  }, [dispatch, history, user, successRegister, errorRegister]);
+
+  const setShowMessage = (value) => {
+    setShow(value);
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // dispatch(
-    //   register({ employeeNumber, name, email, isAdmin, isManager, isOhs })
-    // );
-    dispatch(register(name, email, employeeNumber, department));
+    dispatch(register(name, email, employeeNumber, department, title, badgeId, isAdmin, isOhs, isManager));
   };
 
   return (
@@ -63,8 +63,17 @@ const UserAdd = ({ history }) => {
       </Link>
       <FormContainer>
         <h1>Add new user</h1>
-        {loadingUpdate && <Loader />}
-        {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
+        {loadingRegister && <Loader />}
+        {errorRegister && show && (
+          <Message variant="danger">
+            Error in user creation!
+          </Message>
+        )}
+        {successRegister && show && (
+          <Message variant="success" setShowMessage={setShowMessage}>
+            User Created
+          </Message>
+        )}
         {loading ? (
           <Loader />
         ) : error ? (
@@ -78,6 +87,7 @@ const UserAdd = ({ history }) => {
                 placeholder="Enter name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="employeeNumber">
@@ -87,6 +97,17 @@ const UserAdd = ({ history }) => {
                 placeholder="Enter Employee Number"
                 value={employeeNumber}
                 onChange={(e) => setEmployeeNumber(e.target.value)}
+                required
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="badgeId">
+              <Form.Label>Badge Id</Form.Label>
+              <Form.Control
+                type="badgeId"
+                placeholder="Enter Badge Number"
+                value={badgeId}
+                onChange={(e) => setBadgeId(e.target.value)}
+                required
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="email">
@@ -96,20 +117,32 @@ const UserAdd = ({ history }) => {
                 placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="department">
               <Form.Label>Department</Form.Label>
               <Form.Control
-                as="Select"
+                as="select"
                 placeholder="Enter employee department"
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
+                required
               >
                 <option>Accounting</option>
                 <option>Business</option>
               </Form.Control>
             </Form.Group>{" "}
+            <Form.Group controlId="title">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="title"
+                placeholder="Enter Employee Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              ></Form.Control>
+            </Form.Group>
             <Form.Group controlId="isadmin">
               <Form.Check
                 type="checkbox"
