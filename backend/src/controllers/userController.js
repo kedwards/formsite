@@ -160,7 +160,10 @@ const getUsers = asyncHandler(async (apiVersion, req, res) => {
   }
 
   const users = await User.find(and)
-    .populate("User", "manager")
+    .populate({
+      path: "user",
+      populate: { path: "user.manager" },
+    })
     // .limit(pageSize)
     .skip(pageSize * (page - 1));
 

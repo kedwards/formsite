@@ -1,23 +1,21 @@
 import React, { useEffect, useMemo } from "react";
 import { Table, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { useTable, useFilters, usePagination } from "react-table";
 // import Pagination from "react-js-pagination";
 // import Paginate from "../components/Paginate";
-import useColumns from "./table/useUserColumns";
+import { useUserColumns } from "./table/columns";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listUsers } from "../redux/actions/user";
 
 const UserList = ({ history, match: { params } }) => {
-  // const pageNumber = params.pageNumber || 1;
   const currentPage = 1;
-  // const pageRange = 10;
   const recordsPerPage = 20;
 
   const dispatch = useDispatch();
-  const columns = useColumns();
+  const columns = useUserColumns();
 
   const userList = useSelector((state) => state.userList);
   const { users, count, loading, error } = userList;
@@ -25,27 +23,24 @@ const UserList = ({ history, match: { params } }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userDelete = useSelector((state) => state.userDelete);
-  const { success: successDelete } = userDelete;
-
   // const handlePageChange = (pageNumber) => {
   //   setCurrentPage(pageNumber);
   // };
 
-  const TextFilter = ({
-    column: { filterValue, preFilteredRows, setFilter },
-  }) => {
-    const count = preFilteredRows.length;
-    return (
-      <input
-        value={filterValue || ""}
-        onChange={(e) => {
-          setFilter(e.target.value || undefined);
-        }}
-        placeholder={`Search ${count} records...`}
-      />
-    );
-  };
+  // const TextFilter = ({
+  //   column: { filterValue, preFilteredRows, setFilter },
+  // }) => {
+  //   const count = preFilteredRows.length;
+  //   return (
+  //     <input
+  //       value={filterValue || ""}
+  //       onChange={(e) => {
+  //         setFilter(e.target.value || undefined);
+  //       }}
+  //       placeholder={`Search ${count} records...`}
+  //     />
+  //   );
+  // };
 
   useEffect(() => {
     if (
@@ -64,23 +59,12 @@ const UserList = ({ history, match: { params } }) => {
 
   const data = useMemo(() => users, []);
 
-  const defaultColumn = useMemo(
-    () => ({
-      Filter: TextFilter,
-    }),
-    []
-  );
-
-  const tableInstance = useTable(
-    {
-      columns,
-      data,
-      defaultColumn,
-      initialState: { pageIndex: 0, pageSize: 15, pageCount: count },
-    },
-    useFilters,
-    usePagination
-  );
+  // const defaultColumn = useMemo(
+  //   () => ({
+  //     Filter: TextFilter,
+  //   }),
+  //   []
+  // );
 
   const {
     getTableProps,
@@ -97,7 +81,15 @@ const UserList = ({ history, match: { params } }) => {
     previousPage,
     setPageSize,
     state: { pageIndex, pageSize },
-  } = tableInstance;
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageIndex: 0, pageSize: 15, pageCount: count },
+    },
+    useFilters,
+    usePagination
+  );
 
   return (
     <>
@@ -122,24 +114,6 @@ const UserList = ({ history, match: { params } }) => {
                     {headerGroup.headers.map((column) => (
                       <th {...column.getHeaderProps()}>
                         {column.render("Header")}
-                        <span>
-                          {column.isSorted ? (
-                            column.isSortedDesc ? (
-                              <FontAwesomeIcon
-                                icon='arrow-down'
-                                style={{ color: "#05508A", marginLeft: "5px" }}
-                              />
-                            ) : (
-                              <FontAwesomeIcon
-                                icon='arrow-up'
-                                style={{ color: "#05508A", marginLeft: "5px" }}
-                              />
-                            )
-                          ) : null}
-                        </span>
-                        <div>
-                          {column.canFilter ? column.render("Filter") : null}
-                        </div>
                       </th>
                     ))}
                   </tr>

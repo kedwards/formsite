@@ -9,7 +9,7 @@ import {
   getUserDetails,
   updateUser,
   deleteUser,
-  getUserDepartments,
+  // getUserDepartments,
 } from "../redux/actions/user";
 import { USER_UPDATE_RESET } from "../constants/user";
 
@@ -31,8 +31,8 @@ const UserEdit = ({ match: { params }, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userDepartments = useSelector((state) => state.userDepartments);
-  const { departments } = userDepartments;
+  // const userDepartments = useSelector((state) => state.userDepartments);
+  // const { departments } = userDepartments;
 
   const userUpdate = useSelector((state) => state.userUpdate);
   const {

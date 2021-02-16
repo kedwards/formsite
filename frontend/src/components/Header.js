@@ -76,7 +76,7 @@ const Header = () => {
                     id='adminmenu'
                   >
                     <LinkContainer to='/admin/userlist'>
-                      <NavDropdown.Item>My Team</NavDropdown.Item>
+                      <NavDropdown.Item>Users</NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to='/admin/formlist'>
                       <NavDropdown.Item>Forms</NavDropdown.Item>
