@@ -112,9 +112,9 @@ const getAllForms = asyncHandler(async (apiVersion, req, res) => {
 });
 
 // @desc    Get user forms with user ID
-// @route   GET /api/forms/userforms
+// @route   GET /api/forms/user/:id
 // @access  Private
-const getUserForms = asyncHandler(async (req, res) => {
+const getUserForms = asyncHandler(async (apiVersion, req, res) => {
   const forms = await Form.find({ user: req.params.id }).populate({
     path: "user",
     populate: { path: "manager" },

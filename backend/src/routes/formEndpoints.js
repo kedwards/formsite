@@ -24,6 +24,12 @@ const formEndpoints = [
     implementation: getAllForms,
   },
   {
+    route: "/forms/user/:id",
+    method: "GET",
+    middleware: [],
+    implementation: getUserForms,
+  },
+  {
     route: "/forms/myforms",
     method: "GET",
     middleware: [protect, createAbilities],

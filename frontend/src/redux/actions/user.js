@@ -264,6 +264,47 @@ const listUsers = (pageNumber = "", recordsPerPage = "20") => async (
   }
 };
 
+const listUsersForms = (pageNumber = "", recordsPerPage = "20") => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      sprintf(apiUri.listUsers, pageNumber, recordsPerPage),
+      config
+    );
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+
+    await localforage.setItem("userList", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 const deleteUser = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -369,4 +410,5 @@ export {
   deleteUser,
   updateUser,
   getUserDepartments,
+  listUsersForms,
 };
