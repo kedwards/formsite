@@ -1,16 +1,14 @@
 import React, { useEffect, useMemo } from "react";
-import { Table, Button } from "react-bootstrap";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Table, Button, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useTable, useFilters, usePagination } from "react-table";
-// import Pagination from "react-js-pagination";
-// import Paginate from "../components/Paginate";
 import { useUserColumns } from "./table/columns";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listUsers } from "../redux/actions/user";
 
-const UserList = ({ history, match: { params } }) => {
+const UserList = ({ history }) => {
   const currentPage = 1;
   const recordsPerPage = 20;
 
@@ -22,25 +20,6 @@ const UserList = ({ history, match: { params } }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
-
-  // const TextFilter = ({
-  //   column: { filterValue, preFilteredRows, setFilter },
-  // }) => {
-  //   const count = preFilteredRows.length;
-  //   return (
-  //     <input
-  //       value={filterValue || ""}
-  //       onChange={(e) => {
-  //         setFilter(e.target.value || undefined);
-  //       }}
-  //       placeholder={`Search ${count} records...`}
-  //     />
-  //   );
-  // };
 
   useEffect(() => {
     if (
@@ -58,13 +37,6 @@ const UserList = ({ history, match: { params } }) => {
   };
 
   const data = useMemo(() => users, []);
-
-  // const defaultColumn = useMemo(
-  //   () => ({
-  //     Filter: TextFilter,
-  //   }),
-  //   []
-  // );
 
   const {
     getTableProps,
@@ -102,7 +74,18 @@ const UserList = ({ history, match: { params } }) => {
           <Button type='button' className='btn btn-light my-3' onClick={goBack}>
             Go Back
           </Button>
-          <h1>Users</h1>
+          <Row>
+            <Col md={10}>
+              <h1>Users</h1>
+            </Col>
+            <Col md={2}>
+              <Link to={`/admin/adduser/`}>
+                <Button type='button' className='btn btn-light my-3'>
+                  Add a New User
+                </Button>
+              </Link>
+            </Col>
+          </Row>
           <div className={"table-responsive"}>
             <Table
               className='table-sm table table-striped table-bordered table-hover'

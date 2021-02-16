@@ -1,7 +1,6 @@
 import axios from "axios";
 import localforage from "localforage";
 import { sprintf } from "sprintf-js";
-// import yn from "yn";
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -80,9 +79,6 @@ const logout = () => async (dispatch) => {
       type: USER_LOGOUT_SUCCESS,
     });
 
-    // failing request to remove JWT token
-    // await axios.post("/api/v1/users/me/logout", config);
-
     await localforage.clear();
     document.location.href = "/";
   } catch (error) {
@@ -96,9 +92,17 @@ const logout = () => async (dispatch) => {
   }
 };
 
-const register = (name, email, password, department, manager) => async (
-  dispatch
-) => {
+const register = (
+  name,
+  email,
+  employeeNumber,
+  department,
+  title,
+  badgeId,
+  isAdmin,
+  isOhs,
+  isManager
+) => async (dispatch) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST,
@@ -112,25 +116,24 @@ const register = (name, email, password, department, manager) => async (
 
     const { data } = await axios.post(
       apiUri.users,
-      { name, email, password, department, manager },
+      {
+        name,
+        email,
+        employeeNumber,
+        department,
+        title,
+        badgeId,
+        isAdmin,
+        isOhs,
+        isManager,
+      },
       config
     );
 
-    if (data.status) {
-      dispatch({
-        type: USER_REGISTER_SUCCESS,
-        payload: data,
-      });
-
-      dispatch({
-        type: USER_LOGIN_SUCCESS,
-        payload: data,
-      });
-
-      await localforage.setItem("userInfo", JSON.stringify(data));
-    }
-
-    throw new Error(data.message);
+    dispatch({
+      type: USER_REGISTER_SUCCESS,
+      payload: data,
+    });
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,

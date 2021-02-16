@@ -7,9 +7,9 @@ const defineAbilitiesFor = (userInfo) => {
     can("read", "Dashboard");
   }
 
-  // if (userInfo && userInfo.isSysAdmin) {
-  //   can("manage", "all");
-  // }
+  if (userInfo && userInfo.isSysAdmin) {
+    can("manage", "all");
+  }
 
   return build();
 };

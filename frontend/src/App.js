@@ -9,6 +9,7 @@ import Register from "./views/Register";
 import Profile from "./views/Profile";
 import UserList from "./views/UserList";
 import UserEdit from "./views/UserEdit";
+import UserAdd from "./views/UserAdd";
 import AttestationForm from "./views/AttestationForm";
 import Form from "./views/Form";
 import FormList from "./views/FormList";
@@ -44,12 +45,12 @@ const App = () => {
               component={UserList}
               exact
             />
-            {ability.can("read", "Dashboard") ||
-              (userInfo && userInfo.isSysAdmin && (
-                <Route exact path='/admin/dashboard' component={Dashboard} />
-              ))}
+            {ability.can("read", "Dashboard") && (
+              <Route exact path='/admin/dashboard' component={Dashboard} />
+            )}
             <Route path='/admin/formList/user/:id' component={FormList} />
             <Route path='/admin/user/:id/edit' component={UserEdit} />
+            <Route path='/admin/adduser/' component={UserAdd} />
             <Route path='/' component={Home} exact />
           </Container>
           <Footer />

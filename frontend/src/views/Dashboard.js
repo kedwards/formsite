@@ -253,8 +253,6 @@ const Dashboard = ({ history, match: { params } }) => {
   const setActiveFilterElement = (e) => {
     const selection = e.currentTarget.id;
     setIsActive(selection);
-
-    console.log(selection);
     switch (selection) {
       case "isSafe":
         setActiveFilterText("Safe To Work");

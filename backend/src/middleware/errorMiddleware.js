@@ -25,7 +25,7 @@ const errorHandler = (err, req, res, next) => {
     default:
       errorResponse(res, err.message);
       if (process.env.NODE_ENV !== "production") {
-        console.log(JSON.stringify(err));
+        console.log("Middleware ENV :" ,JSON.stringify(err));
       }
   }
 };
