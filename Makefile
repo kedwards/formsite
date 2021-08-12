@@ -4,19 +4,11 @@ else
   DOCKER_COMPOSE_PATH=docker-compose.yml
 endif
 
-DOCKER_COMPOSE_DIR=./tools/docker
+DOCKER_COMPOSE_DIR=./tools
 DOCKER_COMPOSE_FILE=$(DOCKER_COMPOSE_DIR)/$(DOCKER_COMPOSE_PATH)
 DOCKER_COMPOSE=docker-compose -f $(DOCKER_COMPOSE_FILE) --project-directory $(DOCKER_COMPOSE_DIR)
 
 NETWORK=formsite
-
-FLY_CI_PASS=admin
-FLY_CI_DIR=./tools/ci
-FLY_TASKS=e -c ${FLY_DIR}/tasks
-FLY_PIPELINES=sp -c ${FLY_DIR}/pipelines
-FLY_SCRIPTS=${FLY_DIR}/scripts
-FLY_TARGET=gfatha
-FLY=fly -t $(FLY_TARGET)
 
 DEFAULT_GOAL := help
 help:
@@ -25,15 +17,20 @@ help:
 ##@ [Targets]
 .PHONY: clean_all
 clean_all: clean ## Removes all build files
-	@sudo rm -rf $(DOCKER_COMPOSE_DIR)/node
+	@sudo rm -rf $(DOCKER_COMPOSE_DIR)/data
 
 .PHONY: clean
 clean: ## Removes the environment file and network
 	@rm -rf $(DOCKER_COMPOSE_DIR)/.env
 
+.PHONY: cmd
+cmd: # Run command in container. SVC=<service_name>, CMD="<cmd>"
+	@$(DOCKER_COMPOSE) run --rm $(SVC) $(CMD)
+
 .PHONY: init
-init: clean ## Init the projects
-	@cp $(DOCKER_COMPOSE_DIR)/sys/env/.env $(DOCKER_COMPOSE_DIR)/.env 
+init: # Init
+	@mkdir -p $(DOCKER_COMPOSE_DIR)/data/ && \
+	cp $(DOCKER_COMPOSE_DIR)/src/env/.env $(DOCKER_COMPOSE_DIR)/.env 
 	
 .PHONY: build
 build: ## Build all docker images. Build a specific image by providing the service name via: make build CONTAINER=<service>
@@ -42,9 +39,9 @@ build: ## Build all docker images. Build a specific image by providing the servi
 
 .PHONY: up
 up: init ## Rebuild images (no-cache). Build a specific image via: make build-clean SERVICE=<service>
-	@$(DOCKER_COMPOSE) rm -fs $(SERVICE) && \
-	$(DOCKER_COMPOSE) build --pull --no-cache --parallel $(SERVICE) && \
-	$(DOCKER_COMPOSE) up -d --force-recreate $(SERVICE)
+	@$(DOCKER_COMPOSE) rm -fs $(SVC) && \
+	$(DOCKER_COMPOSE) build --pull --no-cache $(SVC) && \
+	$(DOCKER_COMPOSE) up -d --force-recreate $(SVC)
 
 .PHONY: down
 down:
@@ -53,7 +50,3 @@ down:
 .PHONY: remove
 remove: ## Stop and remove a service, remove a specific service: SERVICE=<service> make remove
 	@$(DOCKER_COMPOSE) rm -fs $(SERVICE)
-
-.PHONY: service
-service: ## install into container. install a specific package: PKG=<package> make install 
-	@$(DOCKER_COMPOSE) run --rm $(SERVICE)

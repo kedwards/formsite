@@ -16,12 +16,14 @@ const authUser = asyncHandler(async (apiVersion, req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email }).populate("manager", "name email");
 
-  if (user && (await user.matchPassword(password))) {
+  console.log(user)
+  
+  if (user) {
     const token = generateToken(user._id);
-
+    
     // user.tokens = user.tokens.concat({ token });
     // await user.save();
-
+    
     const resData = {
       _id: user._id,
       name: user.name,

@@ -9,21 +9,16 @@ This project requires the following technologies:
 - React JS
 - Express
 - MongoDB
+- Redux
 
-### Build frontend
+### Build frontend, and backend
 
 ```sh
-COMPOSE=build SERVICE=frontend CMD=un PKG='redux-thunk redux-devtools-extension' make service
-```
-
-```
-COMPOSE=build SERVICE=frontend CMD=i PKG='@reduxjs/toolkit' make service
+COMPOSE=build SVC=backend CMD="yarn install" make cmd
+COMPOSE=build SVC=frontend CMD="yarn install" make cmd
 ```
 
 ```sh
-COMPOSE=build SERVICE=frontend CMD=i make service
-```
-
-```sh
-COMPOSE=dev SERVICE=frontend make up
+make init
+make up
 ```

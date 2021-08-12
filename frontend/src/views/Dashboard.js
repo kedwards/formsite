@@ -175,9 +175,9 @@ const Dashboard = ({ history, match: { params } }) => {
   }, [forms, weeklySafeCheck]);
 
   useEffect(() => {
-    if (!userInfo || !userInfo.isOhs || !userInfo.isAdmin) {
-      history.push("/login");
-    }
+    // if (!userInfo || !userInfo.isOhs || !userInfo.isAdmin) {
+    //   history.push("/login");
+    // }
 
     dispatch(listAllForms());
     setAllForms(forms);
