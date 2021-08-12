@@ -18,7 +18,7 @@ COMPOSE=build SVC=backend CMD="yarn install" make cmd
 COMPOSE=build SVC=frontend CMD="yarn install" make cmd
 ```
 
+### bring up system
 ```sh
-make init
 make up
 ```
