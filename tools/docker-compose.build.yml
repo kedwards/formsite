@@ -35,12 +35,20 @@ services:
 
   backend-base: &backend-base
     image: node
+    environment:
+      - DB_URI=$DB_URI
     volumes:
       - ../backend:/home/node/backend
       - ./data/yarn/backend:/home/node/backend/.yarn
       - ./data/node/backend/node_modules:/home/node/backend/node_modules
     working_dir: /home/node/backend/
+    networks:
+      - formsite
 
   backend:
     <<: *backend-base
     command: ${CMD}
+
+networks:
+  formsite:
+    external: true

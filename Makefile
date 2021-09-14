@@ -30,8 +30,8 @@ cmd: # Run command in container. SVC=<service_name>, CMD="<cmd>"
 .PHONY: init
 init: # Init
 	@mkdir -p $(DOCKER_COMPOSE_DIR)/data/ && \
-	cp $(DOCKER_COMPOSE_DIR)/src/env/.env $(DOCKER_COMPOSE_DIR)/.env 
-	
+	cp $(DOCKER_COMPOSE_DIR)/src/env/.env.sample $(DOCKER_COMPOSE_DIR)/.env
+
 .PHONY: build
 build: ## Build all docker images. Build a specific image by providing the service name via: make build CONTAINER=<service>
 	@cd $(SERVICE)/ && \

@@ -1,5 +1,5 @@
-// const apiBase = `${process.env.REACT_APP_API_BASE_URL}:${process.env.REACT_APP_API_PORT}`;
-const apiBase = "";
+const apiBase = `${process.env.REACT_APP_API_BASE_URL}:${process.env.REACT_APP_API_PORT}`;
+// const apiBase = "";
 
 const apiUri = {
   users: `${apiBase}/api/v1/users`,
