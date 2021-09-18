@@ -12,16 +12,16 @@ FROM nginx:stable
 
 ARG GIT_COMMIT=
 ARG BUILD_DATE=
-ARG SOURCE=https://github.com/connectusglobal/formsite-web
+ARG SOURCE=https://github.com/kedwards/formsite-web
 ARG VERSION=0.0.1
 ARG NODE_ENV=production
 
-LABEL com.connectusglobal.formsite-web.revision=$GIT_COMMIT
-LABEL com.connectusglobal.formsite-web.created=$BUILD_DATE
-LABEL com.connectusglobal.formsite-web.source=$SOURCE
-LABEL com.connectusglobal.formsite-web.version=$VERSION
-LABEL com.connectusglobal.formsite-web.vendor="Connectus Global"
-LABEL com.connectusglobal.formsite-web.authors="Connectus IT <it@connectusglobal.com"
+LABEL com.kedwards.formsite-web.revision=$GIT_COMMIT
+LABEL com.kedwards.formsite-web.created=$BUILD_DATE
+LABEL com.kedwards.formsite-web.source=$SOURCE
+LABEL com.kedwards.formsite-web.version=$VERSION
+LABEL com.kedwards.formsite-web.vendor="LivITy"
+LABEL com.kedwards.formsite-web.authors="kedwards@kevinedwards.ca"
 
 COPY --from=build /app/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf

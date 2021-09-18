@@ -6,7 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { logout } from "../redux/actions/user";
 
-import logo from "../images/DLLogo450.png";
+// import logo from "../images/headerImage.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -26,13 +26,13 @@ const Header = () => {
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>
-              <img
+              {/* <img
                 src={logo}
                 width='113'
                 height='30'
                 className='d-inline-block align-top'
-                alt='Dynalife Medical Labs'
-              />
+                alt='Formsite'
+              /> */}
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
