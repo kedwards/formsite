@@ -18,7 +18,7 @@ const importData = async () => {
       badgeId: "000000000000",
       title: "System Administrator",
       department: "System",
-      email: "sysadmin@forms.dynalife.ca",
+      email: "sysadmin@formsite.ca",
       isSysAdmin: true,
     };
     const sysAdminUser = await User.create(sysAdmin);
