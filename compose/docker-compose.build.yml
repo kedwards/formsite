@@ -4,7 +4,7 @@ services:
   frontend_base: &frontend_base
     image: node
     volumes:
-      - ./frontend:/home/node/frontend
+      - ../frontend:/home/node/frontend
     working_dir: /home/node/frontend/
 
   frontend:
