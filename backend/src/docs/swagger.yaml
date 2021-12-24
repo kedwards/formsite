@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Dynalife API Documentation
-  description: Dynalife API docuentation
+  title: Formite API Documentation
+  description: Formite API docuentation
   version: 1.0.0
 servers:
   - url: http://localhost:3002
@@ -34,7 +34,7 @@ paths:
                   example: "Mr"
                 email:
                   type: string
-                  example: "kedwards@dynalife.com"
+                  example: "kedwards@formite.com"
                 department:
                   type: string
                   example: "Accounting"
@@ -65,7 +65,7 @@ paths:
                     example: "Mr"
                   email:
                     type: string
-                    example: "kedwards@dynalife.com"
+                    example: "kedwards@formite.com"
                   created:
                     type: string
                     example: "2020-05-05T09:12:57.848Z"
@@ -78,7 +78,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Email 'kedwards@dynalife.com' is already registered"
+                    example: "Email 'kedwards@formite.com' is already registered"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 components:

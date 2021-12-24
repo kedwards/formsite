@@ -19,9 +19,13 @@ help:
 cmd: # Run command in container. SVC=<service_name>, CMD="<cmd>"
 	@$(DOCKER_COMPOSE) run --rm $(SVC) $(CMD)
 
+.PHONY: clean
+clean:  down ## clean all services
+	@$(DOCKER_COMPOSE_DIR)/run.sh -c
+
 .PHONY: init
 init:  ## initialize services
-	@$(DOCKER_COMPOSE_DIR)/run.sh
+	@$(DOCKER_COMPOSE_DIR)/run.sh -i
 	
 .PHONY: up
 up: init ## Rebuild images (no-cache). Build a specific image via: make build-clean SERVICE=<service>

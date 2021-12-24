@@ -93,7 +93,7 @@ const AttestationForm = () => {
               <p>
                 <b>
                   If your answer is YES to any of the following questions, you
-                  may not enter DynaLIFE’s workplace.
+                  may not enter Formsite's workplace.
                 </b>
               </p>
               <p>

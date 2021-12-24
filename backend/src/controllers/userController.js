@@ -15,8 +15,6 @@ import {
 const authUser = asyncHandler(async (apiVersion, req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email }).populate("manager", "name email");
-
-  console.log(user)
   
   if (user) {
     const token = generateToken(user._id);

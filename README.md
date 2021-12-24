@@ -13,33 +13,48 @@ This project requires the following technologies:
 
 ### Build frontend, and backend
 
-```sh
-COMPOSE=build SVC=backend CMD="yarn install" make cmd
-COMPOSE=build SVC=frontend CMD="yarn install" make cmd
-```
+Makefile can be used to build using the following:
+
+    COMPOSE=build SVC=backend CMD="yarn install" make cmd
+
+    COMPOSE=build SVC=frontend CMD="yarn install" make cmd
+
+The equivalent docker run commands:
+
     docker run -it --rm -v $(pwd):/home/node/backend -w /home/node/backend node:17 yarn install
+
     docker run -it --rm -v $(pwd):/home/node/frontend -w /home/node/frontend node:17 yarn install
 
 ### bring up system
-```sh
-make up
-```
+
+    make up
 
 ### seed user data
-```sh
-COMPOSE=build SVC=backend CMD="yarn run data:import" make cmd
-```
+
+The build command will initalize the database with three users, the below command can be used to seed more users:
+
+    COMPOSE=build SVC=backend CMD="yarn run data:import" make cmd
+
+The equivalent docker commands:
+
+    docker run -it \
+        --rm \
+        --net formsite \
+        -v $(pwd)/mongo:/dbstuff \
+        mongo mongorestore \
+        -h mongodb \
+        -u localAdmin \
+        -p localAdminPassword \
+        --authenticationDatabase admin \
+        --gzip \
+        --archive=/dbstuff/formsite.init.archive
 
 ### Add a theme
-```sh
-cp frontend/src/themes/bootstrap.min.css-superhero frontend/src/bootstrap.min.css
-```
+
+    cp frontend/src/themes/bootstrap.min.css-superhero frontend/src/bootstrap.min.css
 
 ### Login
 
-```sh
-http://localhost:3000
-
-user: sysadmin@formsite.ca
-pass: Password123?
-```
+    http://localhost:3000
+    user: sysadmin@formsite.ca
+    pass: Password123?

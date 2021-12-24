@@ -1,6 +1,6 @@
 db.createUser({
-  user: "formsiteAdmin2",
-  pwd: "formsiteAdmin2Pass",
+  user: "formsiteAdmin",
+  pwd: "formsiteAdminPass",
   roles: [
     {
       role: "readWrite",

@@ -29,6 +29,8 @@ services:
       - '8081:8081'
     networks:
       - formsite
+    depends_on:
+      - mongodb
 
   frontend:
     image: node

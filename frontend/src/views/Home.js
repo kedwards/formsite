@@ -1,14 +1,14 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Meta from "../components/Meta";
-import banner from "../images/dynalife_edmonton.png";
-import footer from "../images/footer.png";
+// import banner from "../images/formsite_banner.png";
+// import footer from "../images/footer.png";
 
 const Home = () => {
   return (
     <>
       <Meta />
-      {/* <img fluid={"true"} src={banner} alt='Dynalife Edmonton map'></img> */}
+      {/* <img fluid={"true"} src={banner} alt='Formsite Map'></img> */}
       <h1>Formsite</h1>
       <p>Attestation form website</p>
       <p>&nbsp;</p>
@@ -19,7 +19,7 @@ const Home = () => {
               {/* <img
                 fluid={"true"}
                 src={footer}
-                alt='Dynalife Edmonton map'
+                alt='Formsite map'
               ></img> */}
             </Col>
           </Row>

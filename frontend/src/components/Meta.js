@@ -12,9 +12,9 @@ const Meta = ({ title, description, keywords }) => {
 };
 
 Meta.defaultProps = {
-  title: "DynaLife",
+  title: "Formsite",
   description: "Your health is our focus",
-  keywords: "Diagnostic, Laboratory, Services, Western Canada",
+  keywords: "Diagnostic, Laboratory, Services",
 };
 
 export default Meta;

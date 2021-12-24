@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-opts=':hm:n:'
+opts=':chim:n:'
 
 script_name=${0##*/}
 script_dir="$( cd "$( dirname "$0" )" && pwd )"
@@ -19,7 +19,9 @@ usage() {
   echo "Usage: ${script_name} options"
   echo ""
   echo "options:"
+  echo "  -c | clean up resources"
   echo "  -h | print this help menu"
+  echo "  -i | initialize resources"
   echo "  -m | mongo_container name"
   echo "  -n | network name"
   echo ""
@@ -29,7 +31,15 @@ usage() {
 while getopts ${opts} opt
 do
   case "$opt" in
+    c)  action=clean
+        ;;
     h)  usage
+        ;;
+    i)  action=init
+        ;;
+    m)  mongo_container=${OPTARG}
+        ;;
+    n)  network_name=${OPTARG}
         ;;
     \?)
         usage
@@ -38,34 +48,27 @@ do
 done
 shift $(($OPTIND - 1))
 
-function createNetwork {
-  if [ -z $(docker network ls --filter name=^${1}$ --format="{{ .Name }}") ] ; then 
-    docker network create ${1} >/dev/null 2>&1
-  fi
-}
+if [ ${action} == "init" ] ; then
+  function createNetwork {
+    if [ -z $(docker network ls --filter name=^${1}$ --format="{{ .Name }}") ] ; then 
+      docker network create ${1} >/dev/null 2>&1
+    fi
+  }
 
-createNetwork ${network}
+  createNetwork ${network}
 
-for component in backend frontend ; do
-  docker run -it \
-    --rm \
-    -v ${!component}:/home/node/${component} \
-    -w /home/node/${component} \
-    node:17 yarn install >/dev/null 2>&1
-done
+  for component in backend frontend ; do
+    docker run -it \
+      --rm \
+      -v ${!component}:/home/node/${component} \
+      -w /home/node/${component} \
+      node:17 yarn install >/dev/null 2>&1
+  done
+elif [ ${action} == "clean" ] ; then
+  function deleteNetwork {
+    docker network rm ${1} >/dev/null 2>&1  
+  }
 
-# docker container exec -it ${mongo_container} mongorestore --drop --gzip --archive=/data/seed/rtls.init.archive >/dev/null 2>&1
-
-# if [ ! -d ${script_dir}/data/mongodb/data ] ; then
-#   docker run -it \
-#     --rm \
-#     --net formsite \
-#     -v $(pwd)/mongo:/dbstuff \
-#     mongo mongorestore \
-#       -h mongodb \
-#       -u localAdmin \
-#       -p localAdminPassword \
-#       --authenticationDatabase admin \
-#       --gzip \
-#       --archive=/dbstuff/formsite.init.archive
-# fi
+  deleteNetwork ${network}
+  sudo rm -r ${script_dir}/data/
+fi
