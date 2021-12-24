@@ -6,7 +6,7 @@ services:
     container_name: mongodb
     volumes:
       - ./data/mongodb/data:/data/db
-      - ./src/scripts/mongo:/docker-entrypoint-initdb.d
+      - ./mongo:/docker-entrypoint-initdb.d
     ports:
       - '27017:27017'
     environment:
@@ -42,8 +42,6 @@ services:
       - REACT_APP_API_PORT=$API_PORT
     volumes:
       - ../frontend:/home/node/frontend
-      - ./data/yarn/frontend:/home/node/frontend/.yarn
-      - ./data/node/frontend/node_modules:/home/node/frontend/node_modules
     command: yarn run start
     networks:
       - formsite
@@ -63,8 +61,6 @@ services:
       - JWT_SECRET=${JWT_SECRET}
     volumes:
       - ../backend:/home/node/backend
-      - ./data/yarn/backend:/home/node/backend/.yarn
-      - ./data/node/backend/node_modules:/home/node/backend/node_modules
     command: yarn run watch
     networks:
       - formsite

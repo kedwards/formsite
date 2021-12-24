@@ -24,5 +24,5 @@ frontend/.eslintcache
 .env.production.local
 
 #
-tools/data
+**/data
 frontend/src/bootstrap.min.css

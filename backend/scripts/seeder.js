@@ -24,7 +24,6 @@ const importData = async () => {
     const sysAdminUser = await User.create(sysAdmin);
 
     let userArr = [];
-    let userList = [];
     const deptGroups = [];
 
     const admins = users.filter((user) => user.isAdmin);

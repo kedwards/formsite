@@ -17,6 +17,9 @@ This project requires the following technologies:
 COMPOSE=build SVC=backend CMD="yarn install" make cmd
 COMPOSE=build SVC=frontend CMD="yarn install" make cmd
 ```
+    docker run -it --rm -v $(pwd):/home/node/backend -w /home/node/backend node:17 yarn install
+    docker run -it --rm -v $(pwd):/home/node/frontend -w /home/node/frontend node:17 yarn install
+
 ### bring up system
 ```sh
 make up

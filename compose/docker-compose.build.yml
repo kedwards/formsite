@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  frontend_base: &frontend_base
+    image: node
+    volumes:
+      - ./frontend:/home/node/frontend
+    working_dir: /home/node/frontend/
+
+  frontend:
+    <<: *frontend_base
+    command: ${CMD}
+
+  backend-base: &backend-base
+    image: node
+    environment:
+      - DB_URI=$DB_URI
+    volumes:
+      - ../backend:/home/node/backend
+    working_dir: /home/node/backend/
+    networks:
+      - formsite
+
+  backend:
+    <<: *backend-base
+    command: ${CMD}
+
+networks:
+  formsite:
+    external: true

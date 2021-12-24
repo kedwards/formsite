@@ -75,26 +75,13 @@ const Register = ({ history, location }) => {
             onChange={(e) => setDepartment(e.target.value)}
           >
             <option>Select A Department</option>
-            <option>Alberta Recovery Team</option>
-            <option>Anatomic Pathology</option>
-            <option>Clinical Support</option>
-            <option>Core Lab</option>
-            <option>Finance</option>
-            <option>Financial Analytics and Reporting</option>
-            <option>Hospital Laboratory Operations</option>
+            <option>Recovery</option>
+            <option>Pathology</option>
+            <option>Laboratory</option>
             <option>Human Resources</option>
             <option>IT Applications</option>
-            <option>Materials Management &amp; Facilities</option>
-            <option>Medical Affairs</option>
             <option>Microbiology</option>
-            <option>
-              OccupationalHealth and Safety &amp; eLearning Administrator
-            </option>
-            <option>Patient Care Services</option>
-            <option>Quality</option>
-            <option>Quality, Privacy &amp; Client Relations</option>
-            <option>Science and Technology</option>
-            <option>Specimen Processing</option>
+            <option>Processing</option>
           </Form.Control>
         </Form.Group>{" "}
         <Form.Group controlId='password'>
