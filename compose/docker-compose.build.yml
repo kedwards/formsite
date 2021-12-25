@@ -5,6 +5,7 @@ services:
     image: node
     volumes:
       - ../frontend:/home/node/frontend
+      - frontend_modules:/home/node/frontend/node_modules
     working_dir: /home/node/frontend/
 
   frontend:
@@ -17,6 +18,7 @@ services:
       - DB_URI=$DB_URI
     volumes:
       - ../backend:/home/node/backend
+      - backend_modules:/home/node/backend/node_modules
     working_dir: /home/node/backend/
     networks:
       - formsite
@@ -24,6 +26,10 @@ services:
   backend:
     <<: *backend-base
     command: ${CMD}
+
+volumes:
+  backend_modules:
+  frontend_modules:
 
 networks:
   formsite:

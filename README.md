@@ -21,13 +21,47 @@ Makefile can be used to build using the following:
 
 The equivalent docker run commands:
 
-    docker run -it --rm -v $(pwd):/home/node/backend -w /home/node/backend node:17 yarn install
+    docker volume create backend_modules
+    
+    docker run -it \
+        --rm \
+        -v $(pwd)/backend:/home/node/backend \
+        -v backend_modules:/home/node/backend/node_modules \
+        -w /home/node/backend \
+        node:17 yarn install
 
-    docker run -it --rm -v $(pwd):/home/node/frontend -w /home/node/frontend node:17 yarn install
+
+    docker volume create frontend_modules
+
+    docker run -it \
+        --rm \
+        -v $(pwd)/frontend:/home/node/frontend \
+        -v frontend_modules:/home/node/frontend/node_modules \
+        -w /home/node/frontend \
+        node:17 yarn install
 
 ### bring up system
 
     make up
+
+### Add a theme
+
+The awesome themes from [bootswatch](https://bootswatch.com/) can be used, there are some themes included in this download:
+
+    materia
+    sandstone
+    sketchy
+    slate
+    superhero
+    yeti
+
+    cp frontend/src/themes/bootstrap.min.css-[theme name] frontend/src/bootstrap.min.css
+
+### Login
+
+    http://localhost:3000
+    user: sysadmin@formsite.ca
+    pass: Password123?
 
 ### seed user data
 
@@ -48,13 +82,3 @@ The equivalent docker commands:
         --authenticationDatabase admin \
         --gzip \
         --archive=/dbstuff/formsite.init.archive
-
-### Add a theme
-
-    cp frontend/src/themes/bootstrap.min.css-superhero frontend/src/bootstrap.min.css
-
-### Login
-
-    http://localhost:3000
-    user: sysadmin@formsite.ca
-    pass: Password123?
