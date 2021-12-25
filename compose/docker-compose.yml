@@ -5,7 +5,7 @@ services:
     image: mongo
     container_name: mongodb
     volumes:
-      - ./data/mongodb/data:/data/db
+      - formsite_db:/data/db
       - ./mongo:/docker-entrypoint-initdb.d
     ports:
       - '27017:27017'
@@ -67,6 +67,9 @@ services:
     networks:
       - formsite
 
+volumes:
+  formsite_db:
+    external: true
 networks:
   formsite:
     external: true

@@ -40,6 +40,9 @@ The equivalent docker run commands:
         -w /home/node/frontend \
         node:17 yarn install
 
+### Create volume for dtabase
+
+    docker volume create formsite_db
 ### bring up system
 
     make up
@@ -65,16 +68,12 @@ The awesome themes from [bootswatch](https://bootswatch.com/) can be used, there
 
 ### seed user data
 
-The build command will initalize the database with three users, the below command can be used to seed more users:
-
-    COMPOSE=build SVC=backend CMD="yarn run data:import" make cmd
-
-The equivalent docker commands:
+The build command will initalize the database with three users, The equivalent docker commands:
 
     docker run -it \
         --rm \
         --net formsite \
-        -v $(pwd)/mongo:/dbstuff \
+        -v $(pwd)/compose/mongo:/dbstuff \
         mongo mongorestore \
         -h mongodb \
         -u localAdmin \
@@ -82,3 +81,7 @@ The equivalent docker commands:
         --authenticationDatabase admin \
         --gzip \
         --archive=/dbstuff/formsite.init.archive
+
+The below command can be used to seed more users:
+
+    COMPOSE=build SVC=backend CMD="yarn run data:import" make cmd
