@@ -13,7 +13,7 @@
   "author": "Kevin Edwards",
   "license": "ISC",
   "dependencies": {
-    "@casl/ability": "^5.2.2",
+    "@casl/ability": "^5.4.4",
     "@casl/mongoose": "^3.2.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
