@@ -10,7 +10,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.13",
-    "@reduxjs/toolkit": "^1.6.1",
+    "@reduxjs/toolkit": "^1.9.7",
     "axios": "^0.21.0",
     "chart.js": "^2.9.4",
     "chartjs-plugin-labels": "^1.1.0",
