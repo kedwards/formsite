@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 
 # production environment
-FROM nginx:stable
+FROM nginx:1.26.1-bookworm
 
 ARG GIT_COMMIT=
 ARG BUILD_DATE=
