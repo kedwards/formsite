@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 
 # production environment
-FROM nginx:stable
+FROM nginx:1.29.3
 
 ARG GIT_COMMIT=
 ARG BUILD_DATE=
